@@ -191,6 +191,8 @@ fun SongMenu(
             bottom = 8.dp + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
         )
     ) {
+        rymMenuItems(context, song.artists.map { it.name }, song.song.albumName, song.song.title, onDismiss = onDismiss)
+
         if (!song.song.isLocal)
             GridMenuItem(
                 icon = Icons.Rounded.Radio,

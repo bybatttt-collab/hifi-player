@@ -59,8 +59,8 @@
     <string name="scanner_online_artist_linking">Essayer de lier les artistes des fichiers locaux avec ceux de YouTube Music</string>
     <string name="import_failed_songs">Impossible d\'importer :</string>
     <string name="dev_settings_title">Activer les paramètres du développeur</string>
-    <string name="oobe_welcome_message">Bienvenue sur InterTune</string>
-    <string name="oobe_complete">InterTune est configuré et prêt à l\'emploi. Explorez votre musique, découvrez de nouveaux morceaux et profitez pleinement de l\'expérience !</string>
+    <string name="oobe_welcome_message">Bienvenue sur HiFi Player</string>
+    <string name="oobe_complete">HiFi Player est configuré et prêt à l\'emploi. Explorez votre musique, découvrez de nouveaux morceaux et profitez pleinement de l\'expérience !</string>
     <string name="action_next">Suivant</string>
     <string name="action_skip">Passer</string>
     <string name="folders">Dossiers</string>
@@ -83,7 +83,7 @@
     <string name="persistent_queue_desc_ot">Restaurer les précédentes files d\'attente ouvertes au démarrage de l\'application</string>
     <string name="lyrics_multiline_title">Lire les paroles sur plusieurs lignes</string>
     <string name="m3u_import_playlist">Importer une playlist (m3u)</string>
-    <string name="keep_alive_description">Utilisez un service de premier plan persistant pour empêcher la fermeture d\'InterTune en arrière-plan</string>
+    <string name="keep_alive_description">Utilisez un service de premier plan persistant pour empêcher la fermeture d\'HiFi Player en arrière-plan</string>
     <string name="lyrics_multiline_description">Traitez toutes les lignes entre les points de synchronisation comme un seul texte lyrique</string>
     <string name="lyrics_trim_title">Supprimer les espaces autour des paroles</string>
     <string name="local_library_enable_description">La désactivation masquera la bibliothèque locale de l\'application</string>
@@ -183,7 +183,7 @@
     <string name="clear_image_cache_confirm">Voulez-vous vraiment vider le cache des images ? Toutes les vignettes d\'albums existantes seront supprimées.</string>
     <string name="clear_song_cache_confirm">Êtes-vous sûr de vouloir vider le cache des chansons ?</string>
     <string name="dl_extra_path_title">Configurer des emplacements d’importation supplémentaires…</string>
-    <string name="dl_main_path_description">Choisissez un dossier vide : InterTune peut y modifier ou supprimer des fichiers.</string>
+    <string name="dl_main_path_description">Choisissez un dossier vide : HiFi Player peut y modifier ou supprimer des fichiers.</string>
     <string name="dl_rescan_confirm">Souhaitez-vous réanalyser tous les dossiers de téléchargement maintenant ? Cela peut prendre quelques minutes selon la taille de votre bibliothèque.</string>
     <string name="oobe_ytm_integration">Intégration de YouTube Music</string>
     <string name="oobe_ytm_integration_description">Accédez à vos morceaux préférés en toute transparence</string>
@@ -199,7 +199,7 @@
     <string name="oobe_downloads_subtitle">Choisissez un dossier dans lequel les titres téléchargés seront enregistrés.</string>
     <string name="oobe_complete_title">Vous êtes prêt !</string>
     <string name="scan_paths_description">Sélectionnez les dossiers sur votre stockage local pour rechercher des titres</string>
-    <string name="oobe_interface_subtitle">Personnalisez l\'apparence d\'InterTune et le contenu qu\'il vous montre.</string>
+    <string name="oobe_interface_subtitle">Personnalisez l\'apparence d\'HiFi Player et le contenu qu\'il vous montre.</string>
     <string name="scanner_rejected_dir">Sélection non valide. Un dossier d\'analyse ne peut pas être un sous-dossier du dossier de téléchargement, ni le dossier de téléchargement lui-même.</string>
     <string name="scanner_holds_download_dir">Ce dossier contient votre dossier de téléchargement (%s), il ne peut donc pas être un dossier d\'analyse</string>
     <string name="scanner_overlap_kept">Chevauche votre dossier de téléchargement ; conservé tel quel car il était déjà enregistré</string>
@@ -218,7 +218,7 @@
     <string name="dl_size_used_cache">Interne : %s utilisés</string>
     <string name="dl_size_used_main">Externe : %s utilisés</string>
     <string name="dl_size_used_extra">Importations supplémentaires : %s utilisés</string>
-    <string name="dl_storage_tooltip">Les téléchargements internes sont dans le stockage privé de l\'application. Les téléchargements externes vont dans un dossier que vous choisissez ; prenez-en un vide, car InterTune peut y modifier ou supprimer des fichiers. Les dossiers d\'importation supplémentaires sont seulement lus, jamais modifiés.</string>
+    <string name="dl_storage_tooltip">Les téléchargements internes sont dans le stockage privé de l\'application. Les téléchargements externes vont dans un dossier que vous choisissez ; prenez-en un vide, car HiFi Player peut y modifier ou supprimer des fichiers. Les dossiers d\'importation supplémentaires sont seulement lus, jamais modifiés.</string>
     <string name="scanner_sensitivity_L0">Prendre le premier résultat fourni par YouTube lorsque la recherche sur YouTube est activée ; sinon, rechercher une correspondance avec le titre.</string>
     <string name="app_info_title">Informations sur l\'application</string>
     <string name="device_info_title">Informations sur l\'appareil</string>
@@ -326,7 +326,7 @@
     <string name="quick_picks_source_description">D\'où viennent les titres de la rangée « Sélection Rapide ». « YouTube Music » prend l\'étagère que YouTube construit pour votre compte, « Votre bibliothèque » des titres liés à ce que vous écoutez, et « Meilleures recommandations » construit la rangée d\'après votre façon d\'écouter. « Essayer les deux » alterne « Meilleures recommandations » avec une autre source.</string>
     <string name="oobe_update_auto_description">Télécharge la mise à jour en arrière-plan pour qu\'elle soit prête quand vous en aurez envie. Android vous demandera quand même de confirmer.</string>
     <string name="oobe_polls_answered">Vous pouvez changer cela à tout moment dans Paramètres, sous Questions et nouvelles.</string>
-    <string name="poll_title">Une question d\'InterTune</string>
+    <string name="poll_title">Une question d\'HiFi Player</string>
     <string name="poll_banner_hint">Touchez pour répondre, ou fermez avec la croix</string>
     <string name="poll_dismiss">Ignorer cette question</string>
     <string name="poll_close">Fermer</string>
@@ -336,7 +336,7 @@
     <string name="poll_not_now">Pas maintenant</string>
     <string name="announcement_banner_hint">Touchez pour lire</string>
     <string name="announcement_dismiss">Ignorer cette annonce</string>
-    <string name="announcement_title">Des nouvelles d\'InterTune</string>
+    <string name="announcement_title">Des nouvelles d\'HiFi Player</string>
     <string name="shortcut_play_liked">Lire les titres aimés</string>
     <string name="shortcut_no_liked_songs">Aucun titre aimé pour l\'instant</string>
     <string name="announcement_done">Compris</string>
@@ -348,7 +348,7 @@
     <string name="grp_polls">Questions et nouvelles</string>
     <string name="polls_enabled">Me poser une question de temps en temps</string>
     <string name="polls_enabled_description">Une courte question sur l\'accueil de temps en temps, sur ce qu\'il faudrait créer. Désactivé par défaut.</string>
-    <string name="polls_enabled_info">De temps en temps, InterTune télécharge depuis GitHub une courte liste de questions et en affiche une en haut de l\'accueil. Répondre envoie la question, votre choix et la version de l\'application ; ouvrir une question pour la première fois envoie son titre et la version. Jamais votre compte, votre appareil ni votre bibliothèque.</string>
+    <string name="polls_enabled_info">De temps en temps, HiFi Player télécharge depuis GitHub une courte liste de questions et en affiche une en haut de l\'accueil. Répondre envoie la question, votre choix et la version de l\'application ; ouvrir une question pour la première fois envoie son titre et la version. Jamais votre compte, votre appareil ni votre bibliothèque.</string>
     <string name="polls_none">Aucune question pour le moment</string>
     <string name="polls_one_waiting">Une question vous attend</string>
     <string name="news_one_waiting">Il y a une nouvelle en attente</string>
@@ -360,19 +360,19 @@
     <string name="catch_up_done">Terminé</string>
     <string name="catch_up_all_answered">C\'est tout. Touchez « %1$s » pour finir.</string>
     <string name="polls_opt_in_title">Vous poser une question de temps en temps ?</string>
-    <string name="polls_opt_in_body">De temps en temps, InterTune peut afficher une courte question en haut de l\'accueil, sur ce qu\'il faudrait créer ou changer. Les réponses, et la première ouverture de chacune, sont comptées anonymement. Vous pouvez désactiver cela à tout moment dans les paramètres.</string>
+    <string name="polls_opt_in_body">De temps en temps, HiFi Player peut afficher une courte question en haut de l\'accueil, sur ce qu\'il faudrait créer ou changer. Les réponses, et la première ouverture de chacune, sont comptées anonymement. Vous pouvez désactiver cela à tout moment dans les paramètres.</string>
     <string name="polls_opt_in_yes">Oui, posez-moi des questions</string>
     <string name="polls_opt_in_no">Non merci</string>
-    <string name="news_enabled">Des nouvelles d\'InterTune</string>
+    <string name="news_enabled">Des nouvelles d\'HiFi Player</string>
     <string name="news_enabled_description">Une annonce sur l\'accueil de temps en temps, comme une nouveauté. Désactivé par défaut.</string>
-    <string name="news_enabled_info">De temps en temps, InterTune télécharge depuis GitHub une courte liste d\'annonces et affiche la plus récente en haut de l\'accueil. Ouvrir une annonce pour la première fois envoie son titre et la version de l\'application, pour compter les lecteurs. Jamais votre compte, votre appareil ni votre bibliothèque.</string>
-    <string name="news_opt_in_title">Recevoir des nouvelles d\'InterTune ?</string>
-    <string name="news_opt_in_body">De temps en temps, InterTune peut afficher une courte annonce en haut de l\'accueil, comme une nouveauté ou son serveur Discord. La première ouverture de chacune est comptée anonymement. Vous pouvez désactiver cela à tout moment dans les paramètres.</string>
+    <string name="news_enabled_info">De temps en temps, HiFi Player télécharge depuis GitHub une courte liste d\'annonces et affiche la plus récente en haut de l\'accueil. Ouvrir une annonce pour la première fois envoie son titre et la version de l\'application, pour compter les lecteurs. Jamais votre compte, votre appareil ni votre bibliothèque.</string>
+    <string name="news_opt_in_title">Recevoir des nouvelles d\'HiFi Player ?</string>
+    <string name="news_opt_in_body">De temps en temps, HiFi Player peut afficher une courte annonce en haut de l\'accueil, comme une nouveauté ou son serveur Discord. La première ouverture de chacune est comptée anonymement. Vous pouvez désactiver cela à tout moment dans les paramètres.</string>
     <string name="news_opt_in_yes">Oui, montrez-moi</string>
     <string name="oobe_news_answered">Vous pouvez changer cela à tout moment dans Paramètres, sous Questions et nouvelles.</string>
     <string name="update_available_description">Ouvre la page de la version pour que vous puissiez lire les nouveautés et la télécharger vous-même. Utile si l\'installation depuis l\'application ne fonctionne pas sur cet appareil.</string>
     <string name="update_install">Télécharger et installer</string>
-    <string name="update_prompt_title">InterTune %1$s est disponible</string>
+    <string name="update_prompt_title">HiFi Player %1$s est disponible</string>
     <string name="update_prompt_ready">Déjà téléchargée et prête à être installée.</string>
     <string name="update_prompt_needs_permission">Téléchargée et prête. Android a d\'abord besoin de votre autorisation : elle ne doit être donnée qu\'une seule fois.</string>
     <string name="update_prompt_allow">Continuer</string>
@@ -381,19 +381,19 @@
     <string name="update_prompt_install">Installer</string>
     <string name="update_auto">Télécharger les mises à jour automatiquement</string>
     <string name="update_auto_description">Récupère la nouvelle version en arrière-plan pour qu\'elle soit prête dès que vous le souhaitez. Elle ne peut toujours pas s\'installer toute seule : Android vous demande toujours de confirmer, donc la demande d\'installation apparaîtra de toute façon.</string>
-    <string name="update_install_description">Télécharge la nouvelle version et demande à Android de l\'installer. La première fois, Android vous demandera d\'autoriser InterTune à installer des applications. Rien n\'est jamais installé sans votre confirmation.</string>
+    <string name="update_install_description">Télécharge la nouvelle version et demande à Android de l\'installer. La première fois, Android vous demandera d\'autoriser HiFi Player à installer des applications. Rien n\'est jamais installé sans votre confirmation.</string>
     <string name="update_downloading">Téléchargement, %1$d%%. Touchez pour arrêter.</string>
     <string name="update_downloading_indeterminate">Téléchargement. Touchez pour arrêter.</string>
     <string name="update_awaiting_confirmation">Prête. Android va vous demander de confirmer l\'installation.</string>
-    <string name="update_needs_permission">Android a besoin de votre autorisation pour qu\'InterTune installe des applications. Touchez pour ouvrir ce paramètre, puis revenez et réessayez.</string>
+    <string name="update_needs_permission">Android a besoin de votre autorisation pour qu\'HiFi Player installe des applications. Touchez pour ouvrir ce paramètre, puis revenez et réessayez.</string>
     <string name="update_install_failed">Installation impossible : %1$s. Vous pouvez toujours la télécharger vous-même depuis la page de la version.</string>
     <string name="update_blocked_samsung">L\'installation n\'a pas abouti. Le Bloqueur automatique de Samsung l\'a sans doute empêchée : désactivez-le le temps d\'installer, puis réactivez-le si vous voulez.</string>
     <string name="update_blocked">L\'installation n\'a pas abouti. Réessayez, ou téléchargez la mise à jour depuis la page de la version.</string>
     <string name="update_open_auto_blocker">Ouvrir le Bloqueur automatique</string>
     <string name="update_try_again">Réessayer</string>
     <string name="update_open_page">Ouvrir plutôt la page de la version</string>
-    <string name="update_check_description">Vérifie sur GitHub s\'il existe une version plus récente d\'InterTune à chaque ouverture de l\'application. Désactivé par défaut. Rien n\'est jamais installé sans votre confirmation.</string>
-    <string name="oobe_update_check_description">InterTune n\'est pas sur une boutique d\'applications : elle consulte donc GitHub à son ouverture et vous prévient quand une nouvelle version existe. Elle peut la télécharger et l\'installer pour vous, et Android vous demande toujours de confirmer d\'abord. Vous pourrez changer cela plus tard dans les paramètres.</string>
+    <string name="update_check_description">Vérifie sur GitHub s\'il existe une version plus récente d\'HiFi Player à chaque ouverture de l\'application. Désactivé par défaut. Rien n\'est jamais installé sans votre confirmation.</string>
+    <string name="oobe_update_check_description">HiFi Player n\'est pas sur une boutique d\'applications : elle consulte donc GitHub à son ouverture et vous prévient quand une nouvelle version existe. Elle peut la télécharger et l\'installer pour vous, et Android vous demande toujours de confirmer d\'abord. Vous pourrez changer cela plus tard dans les paramètres.</string>
     <string name="look_and_feel">Apparence</string>
     <string name="grp_privacy_and_history">Confidentialité et historique</string>
     <string name="grp_storage_and_downloads">Stockage et téléchargements</string>
@@ -540,7 +540,7 @@
     <string name="adaptive_pick_mark">Nouvelle suggestion</string>
     <!-- End of Keep radios up to date, 0.12. -->
     <string name="playback_auth_mode">Utiliser mon compte pour lire</string>
-    <string name="playback_auth_mode_description">Si InterTune peut demander les titres à YouTube avec votre compte. YouTube refuse certains titres aux demandes anonymes.</string>
+    <string name="playback_auth_mode_description">Si HiFi Player peut demander les titres à YouTube avec votre compte. YouTube refuse certains titres aux demandes anonymes.</string>
     <string name="playback_auth_never">Jamais</string>
     <string name="playback_auth_when_refused">Seulement quand un titre est refusé</string>
     <string name="playback_auth_always">Toujours</string>
@@ -556,7 +556,7 @@
     <string name="proxy_examples">Le format est hôte:port, par exemple 127.0.0.1:8118. Tor via Orbot donne 127.0.0.1:8118 pour HTTP ou 127.0.0.1:9050 pour SOCKS. Évitez les listes de proxys publics : celui qui en gère un voit tout ce que vous récupérez.</string>
     <!-- About settings -->
     <string name="help_discord">Discussion de la communauté (via Discord)</string>
-    <string name="help_translate">Aider à traduire InterTune (via Weblate)</string>
+    <string name="help_translate">Aider à traduire HiFi Player (via Weblate)</string>
     <!-- Player settings -->
     <string name="player_buttons_style">Boutons du lecteur</string>
     <string name="player_buttons_style_description">L\'option Connectés regroupe partager et j\'aime près du titre, avec les paroles, la minuterie de sommeil et le menu sur une rangée sous les commandes.</string>
@@ -573,11 +573,11 @@
     <string name="oobe_usage_count_answered">Vous pouvez changer cela à tout moment dans Paramètres, sous Comptage anonyme.</string>
     <string name="grp_usage_count">Comptage anonyme</string>
     <string name="usage_count_enabled">Compter cette installation une fois par jour</string>
-    <string name="usage_count_enabled_description">Envoie un court message par jour : un nom aléatoire remplacé chaque mois par un autre sans lien, si vous avez installé depuis F-Droid ou ailleurs, et les versions de l\'application et d\'Android. Jamais ce que vous écoutez, jamais un compte, jamais rien de lié à votre appareil. Désactivé par défaut. F-Droid ne publie aucun chiffre de téléchargement, c\'est donc le seul moyen de savoir combien de personnes utilisent InterTune.</string>
+    <string name="usage_count_enabled_description">Envoie un court message par jour : un nom aléatoire remplacé chaque mois par un autre sans lien, si vous avez installé depuis F-Droid ou ailleurs, et les versions de l\'application et d\'Android. Jamais ce que vous écoutez, jamais un compte, jamais rien de lié à votre appareil. Désactivé par défaut. F-Droid ne publie aucun chiffre de téléchargement, c\'est donc le seul moyen de savoir combien de personnes utilisent HiFi Player.</string>
     <string name="usage_count_forget">Oublier mon nom actuel</string>
     <string name="usage_count_forget_description">Abandonne le nom aléatoire sous lequel cette installation est comptée. Le prochain comptage en crée un nouveau, sans lien avec l\'ancien.</string>
     <string name="usage_count_opt_in_title">Compter cette installation ?</string>
-    <string name="usage_count_opt_in_body">Une fois par jour, InterTune peut envoyer un court message pour dire qu\'elle est toujours utilisée : un nom aléatoire qui change chaque mois, si vous avez installé depuis F-Droid ou ailleurs, et les versions de l\'application et d\'Android. Jamais ce que vous écoutez, jamais un compte, jamais rien de lié à votre appareil. C\'est le seul moyen de savoir combien de personnes utilisent InterTune, car F-Droid ne donne aucun chiffre de téléchargement aux développeurs. Vous pouvez désactiver cela quand vous voulez.</string>
+    <string name="usage_count_opt_in_body">Une fois par jour, HiFi Player peut envoyer un court message pour dire qu\'elle est toujours utilisée : un nom aléatoire qui change chaque mois, si vous avez installé depuis F-Droid ou ailleurs, et les versions de l\'application et d\'Android. Jamais ce que vous écoutez, jamais un compte, jamais rien de lié à votre appareil. C\'est le seul moyen de savoir combien de personnes utilisent HiFi Player, car F-Droid ne donne aucun chiffre de téléchargement aux développeurs. Vous pouvez désactiver cela quand vous voulez.</string>
     <string name="usage_count_opt_in_yes">Oui, comptez-moi</string>
     <string name="update_prompt_fdroid">Mettre à jour dans F-Droid</string>
     <string name="update_fdroid_note">Cette copie vient de F-Droid, les mises à jour viennent donc de là. F-Droid compile lui-même chaque version, si bien qu\'une nouvelle version peut mettre un peu de temps à apparaître.</string>
@@ -600,7 +600,7 @@
     <string name="liked_autodownload_finished_failed">%1$d sur %2$d titres aimés téléchargés. %3$d en échec.</string>
     <string name="liked_autodownload_stopped_failed">Arrêté. %1$d téléchargés et %2$d en échec, le reste a été annulé.</string>
     <!-- Setup wizard -->
-    <string name="oobe_update_check_description_fdroid">Votre copie vient de F-Droid : F-Droid la tient à jour et vous n\'avez pas besoin de ceci. InterTune peut quand même consulter GitHub et vous prévenir quand une version sort, en général un peu avant que F-Droid l\'ait compilée. Rien n\'est installé sans votre confirmation, et vous pourrez changer cela plus tard dans les paramètres.</string>
+    <string name="oobe_update_check_description_fdroid">Votre copie vient de F-Droid : F-Droid la tient à jour et vous n\'avez pas besoin de ceci. HiFi Player peut quand même consulter GitHub et vous prévenir quand une version sort, en général un peu avant que F-Droid l\'ait compilée. Rien n\'est installé sans votre confirmation, et vous pourrez changer cela plus tard dans les paramètres.</string>
     <!-- M3U -->
     <string name="export_playlists_m3u">Exporter les playlists en M3U</string>
     <string name="export_playlists_m3u_description">Chaque playlist de votre bibliothèque dans un fichier lisible partout.</string>
@@ -620,7 +620,7 @@
     </plurals>
     <string name="share_audio_focus">Laisser d\'autres applications jouer en même temps</string>
     <string name="share_audio_focus_description">Lire la musique par-dessus le son d\'une autre application au lieu de l\'arrêter.</string>
-    <string name="share_audio_focus_explain">Avec ceci activé, InterTune et une autre application jouent en même temps.\n\nInterTune cesse aussi de baisser son volume pour la navigation et les alarmes. Les appels coupent le son dans tous les cas.</string>
+    <string name="share_audio_focus_explain">Avec ceci activé, HiFi Player et une autre application jouent en même temps.\n\nHiFi Player cesse aussi de baisser son volume pour la navigation et les alarmes. Les appels coupent le son dans tous les cas.</string>
     <string name="resume_on_bluetooth">Reprendre à la connexion Bluetooth</string>
     <string name="resume_on_bluetooth_description">La musique arrêtée par la déconnexion de votre casque, de votre voiture ou de votre enceinte reprend si l\'audio Bluetooth se connecte dans les 30 minutes. Celle que vous mettez en pause reste en pause.</string>
     <string name="sleep_timer_notif_end_of_song">La musique s\'arrête à la fin de ce titre</string>
@@ -645,7 +645,7 @@
     <string name="recognise_clear_history">Effacer</string>
     <string name="recognise_settings">Reconnaissance musicale</string>
     <!-- Walkthrough -->
-    <string name="walkthrough_title_first">Bienvenue sur InterTune</string>
+    <string name="walkthrough_title_first">Bienvenue sur HiFi Player</string>
     <string name="walkthrough_description">Un rapide tour de l\'application, et de tout ce qui a été ajouté depuis votre dernière visite.</string>
     <string name="walkthrough_progress">%1$d sur %2$d</string>
     <string name="walkthrough_skip">Passer</string>
@@ -657,13 +657,13 @@
     <string name="tour_search_body">Cherchez dans votre bibliothèque et sur YouTube Music depuis le même champ.</string>
     <string name="tour_quickpicks_title">Sélection Rapide</string>
     <string name="tour_quickpicks_body">Changez le mélange : Auto suit votre écoute, Découverte va chercher plus loin.</string>
-    <string name="tour_recognise_body">Appuyez ici et levez le téléphone. InterTune écoute quelques secondes avec le micro et vous dit quel titre passe autour de vous.</string>
+    <string name="tour_recognise_body">Appuyez ici et levez le téléphone. HiFi Player écoute quelques secondes avec le micro et vous dit quel titre passe autour de vous.</string>
     <string name="tour_library_title">Votre bibliothèque est ici</string>
     <string name="tour_library_body">Playlists, albums, artistes et tout ce qui est enregistré sur cet appareil.</string>
     <string name="tour_settings_body">Rien n\'est obligatoire ici. Tout peut être désactivé dans ces paramètres.</string>
     <string name="walkthrough_recognition_title">Identifier un titre qui passe près de vous</string>
     <string name="walkthrough_settings_title">Tout est réglable</string>
-    <string name="recognise_settings_description">Ce qui arrive quand vous demandez à InterTune d\'identifier la musique qui passe.</string>
+    <string name="recognise_settings_description">Ce qui arrive quand vous demandez à HiFi Player d\'identifier la musique qui passe.</string>
     <string name="recognise_keep_listening_desc">Le grand bouton continue jusqu\'à ce que vous l\'arrêtiez, au lieu d\'identifier un titre et de s\'arrêter. Les cartes à l\'écran choisissent le mode pour une seule écoute.</string>
     <string name="recognise_keep_listening_explain">Le mode « Écoute continue » ne s\'arrête pas au premier titre et ajoute chaque nouveau titre entendu, même écran éteint. Il utilise le micro et le réseau tout du long, donc il consomme de la batterie.</string>
     <string name="recognise_pause_title">Mettre ma musique en pause pendant l\'écoute</string>
@@ -682,16 +682,16 @@
     <string name="recognise_playlist_name">Entendu le %1$s</string>
     <string name="recognise_save_failed">Impossible d\'enregistrer la playlist</string>
     <string name="lastfm_connect">Connecter un compte Last.fm</string>
-    <string name="lastfm_connect_description">Connectez-vous à Last.fm et autorisez InterTune. La page est celle de Last.fm, donc votre mot de passe n\'est jamais saisi dans cette application ni vu par elle.</string>
+    <string name="lastfm_connect_description">Connectez-vous à Last.fm et autorisez HiFi Player. La page est celle de Last.fm, donc votre mot de passe n\'est jamais saisi dans cette application ni vu par elle.</string>
     <string name="lastfm_connected_as">Connecté en tant que %1$s</string>
     <string name="lastfm_disconnect_description">Appuyez pour vous déconnecter. Rien de ce qui a déjà été scrobblé n\'est supprimé.</string>
     <string name="lastfm_scrobble">Scrobbler ce que j\'écoute</string>
     <string name="lastfm_scrobble_description">Envoie les titres terminés dans votre historique Last.fm. Last.fm compte un titre après la moitié de sa durée ou quatre minutes d\'écoute. Désactivez ceci pour rester connecté sans rien enregistrer.</string>
     <string name="lastfm_unavailable">Indisponible dans cette version</string>
-    <string name="lastfm_unavailable_description">Le scrobbling nécessite une clé d\'API Last.fm, et cette copie d\'InterTune a été compilée sans. Les versions officielles l\'incluent.</string>
+    <string name="lastfm_unavailable_description">Le scrobbling nécessite une clé d\'API Last.fm, et cette copie d\'HiFi Player a été compilée sans. Les versions officielles l\'incluent.</string>
     <string name="lastfm_login_failed">Last.fm n\'a pas voulu lancer la connexion : %1$s</string>
     <string name="polls_unavailable">Indisponible dans cette version</string>
-    <string name="polls_unavailable_description">Les questions ont besoin d\'une source d\'où les récupérer, et cette copie d\'InterTune a été compilée sans.</string>
+    <string name="polls_unavailable_description">Les questions ont besoin d\'une source d\'où les récupérer, et cette copie d\'HiFi Player a été compilée sans.</string>
     <string name="playlist_empty_title">Trouvons quelque chose pour cette playlist</string>
     <string name="playlist_empty_search_hint">Rechercher des titres</string>
     <string name="playlist_empty_hint">Cherchez ci-dessus pour ajouter votre premier titre.</string>
@@ -773,7 +773,7 @@
     <string name="recognition_msg_secret">Quelque part là-dedans, une transformée de Fourier s\'amuse comme jamais</string>
     <string name="background_channel">Vérifications en arrière-plan</string>
     <string name="background_update_title">Une nouvelle version est disponible</string>
-    <string name="background_update_text">Vous pouvez installer InterTune %1$s.</string>
+    <string name="background_update_text">Vous pouvez installer HiFi Player %1$s.</string>
     <string name="background_poll_title">Une nouvelle question</string>
     <string name="background_check_interval">Vérifier en arrière-plan</string>
     <string name="background_check_interval_desc">À quelle fréquence chercher les mises à jour et les questions quand l\'application est fermée. Chacune n\'est vérifiée que si vous l\'avez activée, et vous êtes prévenu une seule fois quand il y a du nouveau.</string>
@@ -844,7 +844,7 @@
     <string name="spatial_audio_status_platform_off">Le téléphone a son propre audio spatial, désactivé.</string>
     <string name="spatial_audio_status_platform_on">Le téléphone a son propre audio spatial, activé.</string>
     <string name="spatial_audio_status_unreadable">Lecture impossible : %1$s</string>
-    <string name="spatial_audio_status_explain">Indique d\'abord si InterTune peut suivre votre tête sur ce téléphone, puis si le téléphone a son propre audio spatial. « Conversion surround » s\'appuie sur celui du téléphone. Le suivi de la tête n\'en a pas besoin.</string>
+    <string name="spatial_audio_status_explain">Indique d\'abord si HiFi Player peut suivre votre tête sur ce téléphone, puis si le téléphone a son propre audio spatial. « Conversion surround » s\'appuie sur celui du téléphone. Le suivi de la tête n\'en a pas besoin.</string>
     <string name="spatial_audio_needs_13">Nécessite Android 13 ou plus récent.</string>
     <string name="recommendations">Recommandations</string>
     <string name="queue_learn_off">Ne pas apprendre de cette file</string>
@@ -923,7 +923,7 @@
     <string name="new_songs_only">Nouveaux titres uniquement</string>
     <string name="new_songs_only_description">Chaque carte de la rangée Meilleures recommandations est un titre nouveau pour vous.</string>
     <string name="similar_source">Source des titres similaires</string>
-    <string name="login_reassurance">C\'est la page de connexion de Google elle-même. InterTune ne voit jamais votre mot de passe et ne garde que la connexion renvoyée par YouTube Music.</string>
+    <string name="login_reassurance">C\'est la page de connexion de Google elle-même. HiFi Player ne voit jamais votre mot de passe et ne garde que la connexion renvoyée par YouTube Music.</string>
     <string name="login_secure">Connexion sécurisée</string>
     <string name="login_signing_in_as">Connexion en tant que %1$s</string>
     <string name="login_no_account_picked">Aucun compte de ce téléphone</string>
@@ -931,7 +931,7 @@
     <string name="login_pick_account">En choisir un</string>
     <string name="login_another_account">Autre compte</string>
     <string name="login_not_secure">Connexion non sécurisée</string>
-    <string name="login_reassurance_other_page">InterTune ne voit jamais votre mot de passe et ne garde que la connexion renvoyée par YouTube Music.</string>
+    <string name="login_reassurance_other_page">HiFi Player ne voit jamais votre mot de passe et ne garde que la connexion renvoyée par YouTube Music.</string>
     <string name="login_no_page_yet">Pas encore de page</string>
     <string name="lastfm_opt_in_title">Des titres similaires via Last.fm aussi ?</string>
     <string name="lastfm_opt_in_body">La source Meilleures recommandations trouve des titres proches de ceux que vous écoutez. Elle peut interroger Last.fm en plus de YouTube, puis privilégier celui qui vous trouve le plus de titres que vous gardez. Pour cela, elle envoie à Last.fm le nom et l\'artiste de chaque titre que vous écoutez, et une fois, ceux des titres écoutés le mois dernier et de ceux que vous avez aimés. Rien d\'autre, et aucun compte. Vous pourrez changer cela plus tard dans Paramètres, sous Recommandations.</string>
@@ -1556,7 +1556,7 @@
     <string name="share_link_page">Une page pour toutes les applis de musique</string>
     <string name="share_link_ask">Demander à chaque fois</string>
     <string name="share_link_choice_title">Quel lien ?</string>
-    <string name="share_link_youtube_music_description">S\'ouvre dans YouTube Music ou dans InterTune</string>
+    <string name="share_link_youtube_music_description">S\'ouvre dans YouTube Music ou dans HiFi Player</string>
     <string name="share_link_page_description">La personne choisit son appli : Spotify, Apple Music, Deezer et d\'autres</string>
     <string name="share_link_choice_kept">Votre choix est gardé pour les prochains partages. Vous pouvez le changer à tout moment dans Paramètres, sous %1$s.</string>
     <string name="share_link_not_chosen">Pas encore choisi</string>
@@ -1600,9 +1600,9 @@
     <string name="setup_updates_line">Regarde sur GitHub s\'il y a une nouvelle version à l\'ouverture de l\'application.</string>
     <string name="setup_updates_line_fdroid">F-Droid tient votre copie à jour. Ceci regarde sur GitHub, où une version paraît un peu plus tôt.</string>
     <string name="setup_updates_short">Nouvelles versions</string>
-    <string name="setup_word_question">Un mot d\'InterTune de temps en temps ?</string>
+    <string name="setup_word_question">Un mot d\'HiFi Player de temps en temps ?</string>
     <string name="setup_word_line">Une nouveauté ou une courte question sur l\'accueil, quelques fois par an.</string>
-    <string name="setup_word_short">Un mot d\'InterTune</string>
+    <string name="setup_word_short">Un mot d\'HiFi Player</string>
     <string name="setup_count_question">Compter cette installation ?</string>
     <string name="setup_count_line">Un court message par jour pour dire que cette installation sert. Jamais ce que vous écoutez.</string>
     <string name="setup_count_short">Compter l\'installation</string>
@@ -1619,7 +1619,7 @@
     <string name="login_signed_in">Compte connecté</string>
     <string name="login_going_back">Retour à l\'écran précédent.</string>
     <string name="android_auto_missing">Absent de votre voiture ?</string>
-    <string name="android_auto_missing_body">Android Auto n\'affiche que les applications installées par Google Play, il masque donc InterTune. Pour l\'ajouter : ouvrez les paramètres d\'Android Auto sur votre téléphone et touchez dix fois la ligne Version. Ouvrez ensuite les paramètres pour les développeurs depuis le menu en haut et activez Sources inconnues.</string>
+    <string name="android_auto_missing_body">Android Auto n\'affiche que les applications installées par Google Play, il masque donc HiFi Player. Pour l\'ajouter : ouvrez les paramètres d\'Android Auto sur votre téléphone et touchez dix fois la ligne Version. Ouvrez ensuite les paramètres pour les développeurs depuis le menu en haut et activez Sources inconnues.</string>
     <string name="problem_report_title">Signaler un problème</string>
     <string name="problem_report_found">Voici la dernière chose qui a mal tourné, telle que l\'application l\'a notée, avec ce qui l\'a précédée. Les titres en cours de lecture y figurent. Rien ne quitte le téléphone sauf si vous l\'envoyez.</string>
     <string name="problem_report_none">Aucune erreur n\'a été notée depuis l\'ouverture de l\'application. Voici ses dernières lignes.</string>
@@ -1670,7 +1670,7 @@
     <string name="tour_settings_look_title">L\'apparence et le son</string>
     <string name="tour_settings_look_body">Le thème et le fond du lecteur, la qualité du son et l\'audio spatial, la reconnaissance musicale, les paroles.</string>
     <string name="tour_settings_kept_title">Ce qui est conservé</string>
-    <string name="tour_settings_kept_body">Les téléchargements et la place qu\'ils prennent, les sauvegardes, votre historique d\'écoute, et si InterTune peut vous poser une question ou compter cette installation.</string>
+    <string name="tour_settings_kept_body">Les téléchargements et la place qu\'ils prennent, les sauvegardes, votre historique d\'écoute, et si HiFi Player peut vous poser une question ou compter cette installation.</string>
     <string name="tour_settings_rest_title">Mises à jour et le reste</string>
     <string name="tour_settings_rest_body">Les nouvelles versions, la façon dont la Sélection Rapide choisit, les réglages dont la plupart des gens n\'ont jamais besoin, et cette visite à nouveau sous À propos.</string>
     <string name="tour_closer_question_title">Regarder les réglages de plus près ?</string>
@@ -1881,8 +1881,8 @@
     <string name="equalizer_headphones_offline">AutoEq est injoignable. Réessayez avec une connexion.</string>
     <string name="equalizer_headphones_no_curve">Ce modèle n\'a pas de courbe à dix bandes. Essayez une autre de ses mesures.</string>
     <string name="equalizer_headphones_none_found">Aucun modèle de ce nom.</string>
-    <string name="support_title">Soutenir InterTune</string>
-    <string name="support_text">InterTune est gratuit et sans publicité. Pour faire un don, envoyez un message privé au développeur sur le serveur Discord d\'InterTune.</string>
+    <string name="support_title">Soutenir HiFi Player</string>
+    <string name="support_text">HiFi Player est gratuit et sans publicité. Pour faire un don, envoyez un message privé au développeur sur le serveur Discord d\'HiFi Player.</string>
     <string name="support_thanks">Merci à ceux qui ont déjà donné :</string>
     <string name="support_discord">Ouvrir Discord</string>
     <plurals name="list_queued_here">
@@ -1901,13 +1901,13 @@
         <item quantity="other">Nouvelle file d\'attente «\u00A0%2$s\u00A0», %1$d titres, en lecture</item>
     </plurals>
     <!-- The update dialog from the tap on Install until Android has installed it (UpdatePrompt, UpdateWaitPhase), and the Install row of Settings > Updates. -->
-    <string name="update_wait_title">Installation d\'InterTune %1$s</string>
+    <string name="update_wait_title">Installation d\'HiFi Player %1$s</string>
     <string name="update_wait_preparing">La mise à jour est transmise à Android. Sa fenêtre s\'ouvre dans un instant.</string>
     <string name="update_wait_waiting">Android attend votre réponse. Touchez «\u00A0%1$s\u00A0» dans sa fenêtre pour installer.</string>
     <!-- The words on Android's own install button for an update, as the phone shows them in this language: "Update" from Android 12, "Install" before. -->
     <string name="update_wait_android_update">Mettre à jour</string>
     <string name="update_wait_android_install">Installer</string>
-    <string name="update_wait_installing">Android l\'installe, ce qui peut prendre une minute. InterTune se ferme ensuite toute seule et la musique s\'arrête. Rouvrez-la pour utiliser la nouvelle version.</string>
+    <string name="update_wait_installing">Android l\'installe, ce qui peut prendre une minute. HiFi Player se ferme ensuite toute seule et la musique s\'arrête. Rouvrez-la pour utiliser la nouvelle version.</string>
     <string name="update_wait_show_window">Rouvrir la fenêtre d\'Android</string>
     <string name="update_wait_stop">Arrêter</string>
     <string name="queue_back_closes_player">Le retour depuis la file d\'attente ferme le lecteur</string>

@@ -41,19 +41,20 @@ val localProperties = Properties()
 if (localPropertiesFile.exists()) {
     localProperties.load(FileInputStream(localPropertiesFile))
 }
-fun service(key: String): String =
-    servicesProperties.getProperty(key)?.takeIf { it.isNotBlank() } ?: localProperties.getProperty(key, "")
+fun service(key: String): String = "" // No upstream account/API credentials in this personal fork.
 
 android {
     namespace = "com.dd3boh.outertune"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "dev.skye.intertune"
-        minSdk = 24
+        applicationId = "local.hifi.player"
+        minSdk = 26
+        ndk { abiFilters += listOf("arm64-v8a") }
         targetSdk = 36
-        versionCode = 96
-        versionName = "0.12.1"
+        versionCode = 5
+        versionName = "0.4.1"
+        buildConfigField("String", "HIFI_UPDATE_REPOSITORY", "\"bybatttt-collab/hifi-player\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // Obfuscated, not encrypted, and the difference matters. Anything the app can read, so
@@ -111,7 +112,15 @@ android {
     }
 
     signingConfigs {
-        if (!keystoreProperties.isEmpty) {
+        val hifiKeyFile = System.getenv("HIFI_KEYSTORE_FILE")
+        if (!hifiKeyFile.isNullOrBlank()) {
+            create("ot_release") {
+                storeFile = rootProject.file(hifiKeyFile)
+                keyAlias = "hifi-player"
+                storePassword = System.getenv("HIFI_STORE_PASSWORD")
+                keyPassword = System.getenv("HIFI_KEY_PASSWORD")
+            }
+        } else if (!keystoreProperties.isEmpty) {
             create("ot_release") {
                 storeFile = file(keystoreProperties["storeFile"] as String)
                 (keystoreProperties["keyAlias"] as? String)?.let {
@@ -217,7 +226,7 @@ android {
         variant.outputs
             .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
             .forEach { output ->
-                var outputFileName = "InterTune-${variant.versionName}-${output.baseName}-${output.versionCode}.apk"
+                var outputFileName = "HiFiPlayer-${variant.versionName}-${output.baseName}-${output.versionCode}.apk"
                 output.outputFileName = outputFileName
             }
     }
@@ -309,6 +318,8 @@ dependencies {
     implementation(libs.coroutines.guava)
     implementation(libs.concurrent.futures)
 
+    implementation("org.jsoup:jsoup:1.22.2")
+    implementation(libs.work)
     implementation(libs.activity)
     implementation(libs.hilt.navigation)
     implementation(libs.datastore)

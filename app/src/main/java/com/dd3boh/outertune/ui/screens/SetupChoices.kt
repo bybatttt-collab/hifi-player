@@ -66,7 +66,8 @@ data class SetupChoices(
          * new version. Whoever sets it to true should decide whether that holds for a copy from
          * F-Droid too, which F-Droid keeps up to date by itself.
          */
-        const val UPDATES_DEFAULT = false
+        val UPDATES_DEFAULT = !com.dd3boh.outertune.BuildConfig.DEBUG &&
+            com.dd3boh.outertune.BuildConfig.APPLICATION_ID.startsWith("local.hifi.player")
 
         /**
          * The five as they are stored: an answer given before, when setup is run again from

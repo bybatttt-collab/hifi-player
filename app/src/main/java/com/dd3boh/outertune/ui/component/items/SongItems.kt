@@ -122,13 +122,9 @@ fun SongListItem(
                 caption ?: makeTimeString(song.song.duration * 1000L)
             ),
             badges = {
-                if (showLikedIcon && song.song.liked) {
-                    Icon.Favorite()
-                }
+                
                 if (showInLibraryIcon && song.song.isLocal) {
                     Icon.FolderCopy()
-                } else if (showInLibraryIcon && song.song.inLibrary != null) {
-                    Icon.Library()
                 }
                 if (showDownloadIcon && !song.song.isLocal) {
                     val download by LocalDownloadUtil.current.getDownload(song.id).collectAsState(initial = null)
@@ -337,25 +333,8 @@ fun SongGridItem(
     showInLibraryIcon: Boolean = false,
     showDownloadIcon: Boolean = true,
     badges: @Composable RowScope.() -> Unit = {
-        if (showLikedIcon && song.song.liked) {
-            Icon(
-                painter = painterResource(R.drawable.favorite),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.error,
-                modifier = Modifier
-                    .size(18.dp)
-                    .padding(end = 2.dp)
-            )
-        }
-        if (showInLibraryIcon && song.song.inLibrary != null) {
-            Icon(
-                painter = painterResource(R.drawable.library_add_check),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(18.dp)
-                    .padding(end = 2.dp)
-            )
-        }
+        
+        
         if (showDownloadIcon) {
             val download by LocalDownloadUtil.current.getDownload(song.id).collectAsState(initial = null)
             Icon.Download(download)

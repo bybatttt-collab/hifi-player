@@ -118,120 +118,30 @@ fun LibraryAlbumsScreen(
     val oneHeaderLine = LocalLandscape.current.active
     // The list view runs two rows abreast there, as Songs does.
     val columns = rememberListColumns()
-    val filterContent = @Composable {
-        var showStoragePerm by remember {
-            mutableStateOf(context.checkSelfPermission(MEDIA_PERMISSION_LEVEL) != PackageManager.PERMISSION_GRANTED)
-        }
-        Column {
-            if (localLibEnable && showStoragePerm) {
-                StoragePermissionBanner(
-                    onClick = {
-                        showStoragePerm =
-                            false // allow user to hide error when clicked. This also makes the code a lot nicer too...
-                        (context as MainActivity).permissionLauncher.launch(MEDIA_PERMISSION_LEVEL)
-                    }
-                )
-            }
-            Row {
-                ChipsRow(
-                    chips = listOf(
-                        AlbumFilter.LIKED to stringResource(R.string.filter_liked),
-                        AlbumFilter.LIBRARY to stringResource(R.string.filter_library),
-                        AlbumFilter.DOWNLOADED to stringResource(R.string.filter_downloaded)
-                    ),
-                    currentValue = filter,
-                    onValueUpdate = {
-                        filter = it
-                        if (it == AlbumFilter.LIBRARY) viewModel.syncAlbums()
-                    },
-                    modifier = Modifier.weight(1f),
-                    isLoading = { filter -> filter == AlbumFilter.LIBRARY && isSyncingLibraryAlbums }
-                )
-
-                IconButton(
-                    onClick = {
-                        albumViewType = albumViewType.toggle()
-                    },
-                    modifier = Modifier.padding(end = 6.dp)
-                ) {
-                    Icon(
-                        imageVector =
-                            when (albumViewType) {
-                                LibraryViewType.LIST -> Icons.AutoMirrored.Rounded.List
-                                LibraryViewType.GRID -> Icons.Rounded.GridView
-                            },
-                        contentDescription = stringResource(if (albumViewType == LibraryViewType.LIST) R.string.view_as_list else R.string.view_as_grid)
-                    )
-                }
-            }
-        }
-    }
-
+    val filterContent = @Composable { }
     val headerContent = @Composable {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 16.dp)) {
             SortHeader(
                 sortType = sortType,
                 sortDescending = sortDescending,
                 onSortTypeChange = onSortTypeChange,
                 onSortDescendingChange = onSortDescendingChange,
-                sortTypeText = { sortType ->
-                    when (sortType) {
-                        AlbumSortType.CREATE_DATE -> R.string.sort_by_create_date
-                        AlbumSortType.NAME -> R.string.sort_by_name
-                        AlbumSortType.ARTIST -> R.string.sort_by_artist
-                        AlbumSortType.YEAR -> R.string.sort_by_year
-                        AlbumSortType.SONG_COUNT -> R.string.sort_by_song_count
-                        AlbumSortType.LENGTH -> R.string.sort_by_length
-                    }
-                },
-                modifier = Modifier.weight(1f)
+                sortTypeText = { type -> when (type) {
+                    AlbumSortType.CREATE_DATE -> R.string.sort_by_create_date
+                    AlbumSortType.NAME -> R.string.sort_by_name
+                    AlbumSortType.ARTIST -> R.string.sort_by_artist
+                    AlbumSortType.YEAR -> R.string.sort_by_year
+                    AlbumSortType.SONG_COUNT -> R.string.sort_by_song_count
+                    AlbumSortType.LENGTH -> R.string.sort_by_length
+                } },
+                modifier = Modifier.weight(1f),
             )
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                albums?.let { albums ->
-                    Text(
-                        text = pluralStringResource(R.plurals.n_album, albums.size, albums.size),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.secondary,
-                        maxLines = 1
-                    )
-                }
-                ActionDropdown(
-                    actions = listOf(
-                        DropdownItem(
-                            title = stringResource(R.string.library_filter),
-                            leadingIcon = { Icon(Icons.Rounded.FilterAlt, null) },
-                            action = {},
-                            secondaryDropdown =
-                                listOf(
-                                    DropdownItem(
-                                        title = stringResource(R.string.filter_liked),
-                                        leadingIcon = null,
-                                        action = { filter = AlbumFilter.LIKED }
-                                    ),
-                                    DropdownItem(
-                                        title = stringResource(R.string.filter_library),
-                                        leadingIcon = null,
-                                        action = { filter = AlbumFilter.LIBRARY }
-                                    ),
-                                    DropdownItem(
-                                        title = stringResource(R.string.filter_downloaded),
-                                        leadingIcon = null,
-                                        action = { filter = AlbumFilter.DOWNLOADED }
-                                    ),
-                                ),
-                        ),
-                    )
-                )
+            IconButton(onClick = { albumViewType = albumViewType.toggle() }) {
+                Icon(if (albumViewType == LibraryViewType.LIST) Icons.Rounded.GridView else Icons.AutoMirrored.Rounded.List,
+                    stringResource(if (albumViewType == LibraryViewType.LIST) R.string.view_as_grid else R.string.view_as_list))
             }
         }
     }
-
     Box(
         modifier = Modifier
             .fillMaxSize()

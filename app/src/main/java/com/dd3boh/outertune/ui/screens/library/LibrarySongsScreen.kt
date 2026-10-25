@@ -109,7 +109,7 @@ fun LibrarySongsScreen(
     val playerConnection = LocalPlayerConnection.current ?: return
     val snackbarHostState = LocalSnackbarHostState.current
 
-    var filter by rememberEnumPreference(SongFilterKey, SongFilter.LIKED)
+    val filter = SongFilter.LIKED
     val localLibEnable by rememberPreference(LocalLibraryEnableKey, defaultValue = true)
     val (sortType, onSortTypeChange) = rememberEnumPreference(SongSortTypeKey, SongSortType.CREATE_DATE)
     val (sortDescending, onSortDescendingChange) = rememberPreference(SongSortDescendingKey, true)
@@ -158,24 +158,7 @@ fun LibrarySongsScreen(
 
     // On a phone on its side the chips and the sort row share a line, a half each (Landscape.kt).
     val oneHeaderLine = LocalLandscape.current.active
-    val filterContent = @Composable {
-        ChipsRow(
-            chips = listOf(
-                SongFilter.LIKED to stringResource(R.string.filter_liked),
-                SongFilter.LIBRARY to stringResource(R.string.filter_library),
-                SongFilter.DOWNLOADED to stringResource(R.string.filter_downloaded)
-            ),
-            currentValue = filter,
-            onValueUpdate = {
-                filter = it
-                if (it == SongFilter.LIKED) viewModel.syncLikedSongs()
-                else if (it == SongFilter.LIBRARY) viewModel.syncLibrarySongs()
-            },
-            isLoading = { filter ->
-                (filter == SongFilter.LIKED && isSyncingRemoteLikedSongs) || (filter == SongFilter.LIBRARY && isSyncingRemoteSongs)
-            }
-        )
-    }
+    val filterContent = @Composable { }
 
     val headerContent = @Composable {
         Row(
@@ -213,29 +196,6 @@ fun LibrarySongsScreen(
                     Spacer(Modifier.width(4.dp))
                     ActionDropdown(
                         actions = listOf(
-                            DropdownItem(
-                                title = stringResource(R.string.library_filter),
-                                leadingIcon = { Icon(Icons.Rounded.FilterAlt, null) },
-                                action = {},
-                                secondaryDropdown =
-                                    listOf(
-                                        DropdownItem(
-                                            title = stringResource(R.string.filter_liked),
-                                            leadingIcon = null,
-                                            action = { filter = SongFilter.LIKED }
-                                        ),
-                                        DropdownItem(
-                                            title = stringResource(R.string.filter_library),
-                                            leadingIcon = null,
-                                            action = { filter = SongFilter.LIBRARY }
-                                        ),
-                                        DropdownItem(
-                                            title = stringResource(R.string.filter_downloaded),
-                                            leadingIcon = null,
-                                            action = { filter = SongFilter.DOWNLOADED }
-                                        ),
-                                    )
-                            ),
                             DropdownItem(
                                 title = stringResource(R.string.queue_all_songs),
                                 leadingIcon = { Icon(Icons.Rounded.PlayArrow, null) },
@@ -301,18 +261,6 @@ fun LibrarySongsScreen(
                 Column(
                     modifier = Modifier.background(MaterialTheme.colorScheme.background)
                 ) {
-                    var showStoragePerm by remember {
-                        mutableStateOf(context.checkSelfPermission(MEDIA_PERMISSION_LEVEL) != PackageManager.PERMISSION_GRANTED)
-                    }
-                    if (localLibEnable && showStoragePerm) {
-                        StoragePermissionBanner(
-                            onClick = {
-                                showStoragePerm =
-                                    false // allow user to hide error when clicked. This also makes the code a lot nicer too...
-                                (context as MainActivity).permissionLauncher.launch(MEDIA_PERMISSION_LEVEL)
-                            }
-                        )
-                    }
                     if (oneHeaderLine) {
                         SideBySide({ libraryFilterContent?.let { it() } ?: filterContent() }, { headerContent() })
                     } else {

@@ -18,6 +18,7 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.LibraryMusic
 import androidx.compose.material.icons.rounded.MusicNote
 import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.TravelExplore
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.dd3boh.outertune.R
@@ -34,7 +35,8 @@ sealed class Screens(
     data object Artists : Screens(R.string.artists, Icons.Rounded.Person, "artists")
     data object Albums : Screens(R.string.albums, Icons.Rounded.Album, "albums")
     data object Playlists : Screens(R.string.playlists, Icons.AutoMirrored.Rounded.QueueMusic, "playlists")
-    data object Library : Screens(R.string.library, Icons.Rounded.LibraryMusic, "library")
+    data object Library : Screens(R.string.playlists, Icons.AutoMirrored.Rounded.QueueMusic, "library")
+    data object Rym : Screens(R.string.hifi_rym_tab, com.dd3boh.outertune.ui.theme.RymIcon, "rym")
 
     enum class LibraryFilter {
         ALL, ALBUMS, ARTISTS, PLAYLISTS, SONGS, FOLDERS, CACHED
@@ -66,7 +68,8 @@ sealed class Screens(
             Artists to 'A',
             Albums to 'B',
             Playlists to 'L',
-            Library to 'M'
+            Library to 'M',
+            Rym to 'R'
         )
 
         fun getAllScreens() = screenPairs.map { it.first }

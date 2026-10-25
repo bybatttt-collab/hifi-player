@@ -436,7 +436,7 @@ fun AlbumScreen(
             ) { index, song ->
                 SongListItem(
                     song = song,
-                    albumIndex = index + 1,
+                    albumIndex = null,
 
                     navController = navController,
                     snackbarHostState = snackbarHostState,

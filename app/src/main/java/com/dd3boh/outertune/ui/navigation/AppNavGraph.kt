@@ -115,6 +115,7 @@ fun NavGraphBuilder.appDestinations(
     /** Outlives every destination, for work a destination starts and then pops itself before. */
     appScope: CoroutineScope,
 ) {
+        screen("rym", floating = false) { com.dd3boh.outertune.ui.screens.RymBrowserScreen() }
         screen(Screens.Home.route) {
             HomeScreen(
                 navController,
@@ -149,7 +150,7 @@ fun NavGraphBuilder.appDestinations(
             LibraryPlaylistsScreen(navController)
         }
         screen(Screens.Library.route) {
-            LibraryScreen(navController, scrollBehavior)
+            LibraryPlaylistsScreen(navController)
         }
         screen("history") {
             HistoryScreen(navController)

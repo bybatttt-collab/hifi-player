@@ -666,12 +666,16 @@ class DownloadUtil @Inject constructor(
         DownloadService.sendRemoveAllDownloads(context, ExoDownloadService::class.java, false)
     }
 
+    private val startupDownloadService = DeferredServiceStart {
+        DownloadService.sendResumeDownloads(context, ExoDownloadService::class.java, false)
+    }
+
     fun resumeDownloadsOnStart() {
-        DownloadService.sendResumeDownloads(
-            context,
-            ExoDownloadService::class.java,
-            false
-        )
+        if (!startupDownloadService.request()) Log.i(TAG, "Download service deferred until the Activity resumes")
+    }
+
+    fun retryDeferredDownloadsOnResume() {
+        startupDownloadService.retryPending()
     }
 
 

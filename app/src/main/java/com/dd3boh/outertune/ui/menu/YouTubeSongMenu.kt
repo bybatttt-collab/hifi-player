@@ -159,6 +159,8 @@ fun YouTubeSongMenu(
             bottom = 8.dp + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
         )
     ) {
+        rymMenuItems(context, song.artists.map { it.name }, song.album?.name, song.title, onDismiss = onDismiss)
+
         GridMenuItem(
             icon = Icons.Rounded.Radio,
             title = R.string.start_radio

@@ -44,6 +44,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.dd3boh.outertune.ui.theme.hifiPanel
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -267,7 +268,7 @@ fun SearchBar(
                 .size(width = width, height = height)
                 .then(if (glass != null && animationProgress < 1f) Modifier.floatingGlass(glass, animatedShape) else Modifier)
         ) {
-            Column {
+            Column(Modifier.then(if (animationProgress == 0f) Modifier.hifiPanel(header = true) else Modifier)) {
                 SearchBarInputField(
                     query = query,
                     onQueryChange = onQueryChange,
@@ -429,7 +430,7 @@ private fun SearchBarInputField(
 
 // Measurement specs
 val InputFieldHeight = 48.dp
-private val SearchBarCornerRadius: Dp = InputFieldHeight / 2
+private val SearchBarCornerRadius: Dp = 6.dp
 internal val SearchBarMinWidth: Dp = 360.dp
 private val SearchBarMaxWidth: Dp = 720.dp
 internal val SearchBarVerticalPadding: Dp = 8.dp

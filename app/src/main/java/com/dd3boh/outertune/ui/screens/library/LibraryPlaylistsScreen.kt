@@ -122,7 +122,7 @@ fun LibraryPlaylistsScreen(
 
     val (sortType, onSortTypeChange) = rememberEnumPreference(PlaylistSortTypeKey, PlaylistSortType.CREATE_DATE)
     val (sortDescending, onSortDescendingChange) = rememberPreference(PlaylistSortDescendingKey, true)
-    val (showLikedAndDownloadedPlaylist) = rememberPreference(ShowLikedAndDownloadedPlaylist, true)
+    val showLikedAndDownloadedPlaylist = true
 
     val playlists by viewModel.allPlaylists.collectAsState()
     val isSyncingRemotePlaylists by viewModel.isSyncingRemotePlaylists.collectAsState()
@@ -134,7 +134,7 @@ fun LibraryPlaylistsScreen(
     // One size for the names on their three tiles, side by side in the grid.
     val autoPlaylistTitles = remember { SameTextSize() }
     // The three in the order they are listed, and the picture of each, for the list view on its side.
-    val autoPlaylists = listOf(likedPlaylist, downloadedPlaylist, favouritesPlaylist)
+    val autoPlaylists = listOf(downloadedPlaylist)
     val autoPlaylistIcons = mapOf(
         likedPlaylist.id to Icons.Rounded.Favorite,
         downloadedPlaylist.id to Icons.Rounded.CloudDownload,
@@ -159,39 +159,7 @@ fun LibraryPlaylistsScreen(
     val oneHeaderLine = LocalLandscape.current.active
     // The list view runs two rows abreast there, as Songs does.
     val columns = rememberListColumns()
-    val filterContent = @Composable {
-        var showStoragePerm by remember {
-            mutableStateOf(context.checkSelfPermission(MEDIA_PERMISSION_LEVEL) != PackageManager.PERMISSION_GRANTED)
-        }
-        Column {
-            if (localLibEnable && showStoragePerm) {
-                StoragePermissionBanner(
-                    onClick = {
-                        showStoragePerm =
-                            false // allow user to hide error when clicked. This also makes the code a lot nicer too...
-                        (context as MainActivity).permissionLauncher.launch(MEDIA_PERMISSION_LEVEL)
-                    }
-                )
-            }
-
-            Row {
-                ChipsRow(
-                    chips = listOf(
-                        PlaylistFilter.LIBRARY to stringResource(R.string.filter_library),
-                        PlaylistFilter.DOWNLOADED to stringResource(R.string.filter_downloaded)
-                    ),
-                    currentValue = filter,
-                    onValueUpdate = {
-                        filter = it
-                        if (it == PlaylistFilter.LIBRARY) viewModel.syncPlaylists()
-                    },
-                    isLoading = { filter ->
-                        filter == PlaylistFilter.LIBRARY && isSyncingRemotePlaylists
-                    }
-                )
-            }
-        }
-    }
+    val filterContent = @Composable { }
 
     // TODO: full migration to flow row?
     val headerContent = @Composable {
@@ -229,24 +197,6 @@ fun LibraryPlaylistsScreen(
                 Spacer(Modifier.width(4.dp))
                 ActionDropdown(
                     actions = listOf(
-                        DropdownItem(
-                            title = stringResource(R.string.library_filter),
-                            leadingIcon = { Icon(Icons.Rounded.FilterAlt, null) },
-                            action = {},
-                            secondaryDropdown =
-                                listOf(
-                                    DropdownItem(
-                                        title = stringResource(R.string.filter_library),
-                                        leadingIcon = null,
-                                        action = { filter = PlaylistFilter.LIBRARY }
-                                    ),
-                                    DropdownItem(
-                                        title = stringResource(R.string.filter_downloaded),
-                                        leadingIcon = null,
-                                        action = { filter = PlaylistFilter.DOWNLOADED }
-                                    ),
-                                )
-                        ),
                         DropdownItem(
                             title = stringResource(R.string.create_playlist),
                             leadingIcon = { Icon(Icons.Rounded.Add, null) },
@@ -305,21 +255,7 @@ fun LibraryPlaylistsScreen(
                     // On its side these three are gathered into the list below, so that they run
                     // two abreast with the playlists and not one to a line above them.
                     if (showLikedAndDownloadedPlaylist && columns == 1) {
-                        item(
-                            key = likedPlaylist.id,
-                            contentType = { CONTENT_TYPE_PLAYLIST }
-                        ) {
-                            AutoPlaylistListItem(
-                                playlist = likedPlaylist,
-                                thumbnail = Icons.Rounded.Favorite,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate("auto_playlist/${likedPlaylist.id}")
-                                    }
-                                    .animateItem()
-                            )
-                        }
+
 
                         item(
                             key = downloadedPlaylist.id,
@@ -337,21 +273,7 @@ fun LibraryPlaylistsScreen(
                             )
                         }
 
-                        item(
-                            key = favouritesPlaylist.id,
-                            contentType = { CONTENT_TYPE_PLAYLIST }
-                        ) {
-                            AutoPlaylistListItem(
-                                playlist = favouritesPlaylist,
-                                thumbnail = Icons.Rounded.Shuffle,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate("auto_playlist/${favouritesPlaylist.id}")
-                                    }
-                                    .animateItem()
-                            )
-                        }
+
                     }
 
                     playlists?.let { playlists ->
@@ -427,23 +349,7 @@ fun LibraryPlaylistsScreen(
                     }
 
                     if (showLikedAndDownloadedPlaylist) {
-                        item(
-                            key = likedPlaylist.id,
-                            contentType = { CONTENT_TYPE_PLAYLIST }
-                        ) {
-                            AutoPlaylistGridItem(
-                                playlist = likedPlaylist,
-                                thumbnail = Icons.Rounded.Favorite,
-                                fillMaxWidth = true,
-                                titleSize = autoPlaylistTitles,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate("auto_playlist/${likedPlaylist.id}")
-                                    }
-                                    .animateItem()
-                            )
-                        }
+
 
                         item(
                             key = downloadedPlaylist.id,
@@ -463,23 +369,7 @@ fun LibraryPlaylistsScreen(
                             )
                         }
 
-                        item(
-                            key = favouritesPlaylist.id,
-                            contentType = { CONTENT_TYPE_PLAYLIST }
-                        ) {
-                            AutoPlaylistGridItem(
-                                playlist = favouritesPlaylist,
-                                thumbnail = Icons.Rounded.Shuffle,
-                                fillMaxWidth = true,
-                                titleSize = autoPlaylistTitles,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate("auto_playlist/${favouritesPlaylist.id}")
-                                    }
-                                    .animateItem()
-                            )
-                        }
+
                     }
 
                     playlists?.let { playlists ->

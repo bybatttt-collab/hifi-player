@@ -8,6 +8,8 @@
  */
 package com.dd3boh.outertune.ui.theme
 
+import androidx.compose.runtime.getValue
+import com.dd3boh.outertune.utils.rememberPreference
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material3.RippleConfiguration
@@ -47,37 +49,12 @@ fun OuterTuneTheme(
     themeColor: Color = DefaultThemeColor,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = remember(darkTheme, pureBlack, themeColor) {
-       if (themeColor == DefaultThemeColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val systemTheme = if (darkTheme) {
-                dynamicDarkColorScheme(context).pureBlack(pureBlack)
-            } else {
-                dynamicLightColorScheme(context)
-            }
-
-
-            // when high contrast mode Android collapses all accent colours into (more or less) one shade. We use
-            // secondaryContainer and onSecondaryContainer weirdly in several places in terms of theming so just replace
-            // those with shades that make sense
-            if (highContrastCompat) {
-                systemTheme.copy(
-                    secondaryContainer = systemTheme.surfaceContainerHigh,
-                    onSecondaryContainer = systemTheme.secondary,
-                )
-            } else {
-                systemTheme
-            }
-        } else {
-            val source = Hct.fromInt(themeColor.toArgb())
-            (if (Unreleased.COVER_ACCENT) CoverAccent.scheme(source, darkTheme) else SchemeTonalSpot(source, darkTheme, 0.0))
-                .toColorScheme()
-                .pureBlack(darkTheme && pureBlack)
-        }
-    }
-
+    val hifiHex by rememberPreference(HifiAccentKey, "E8B45C")
+    val baseTypography = MaterialTheme.typography
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = MaterialTheme.typography,
+        colorScheme = remember(hifiHex) { hifiColors(hifiAccent(hifiHex)) },
+        shapes = HifiShapes,
+        typography = androidx.compose.material3.Typography(),
     ) {
         // Material's focus highlight is a 10% wash, which on a small keypad phone's screen is
         // hard to find. Only focus is made stronger: a press looks as it always has, and touch

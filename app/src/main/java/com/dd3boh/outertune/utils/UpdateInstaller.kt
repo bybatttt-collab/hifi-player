@@ -416,6 +416,9 @@ class UpdateInstaller @Inject constructor(
                 _state.value = if (installWhenDone) State.Failed(reason) else State.Idle
             }
             try {
+                if (BuildConfig.APPLICATION_ID.startsWith("local.hifi.player")) {
+                    require(ReleaseSourcePolicy.trustedDownload(url, BuildConfig.HIFI_UPDATE_REPOSITORY)) { "Sorgente aggiornamento non valida" }
+                }
                 apk.delete()
                 _state.value = State.Downloading(0, expectedBytes)
 
@@ -482,6 +485,7 @@ class UpdateInstaller @Inject constructor(
 
     /** Streams the apk into a session and commits it. Android then asks for the confirmation. */
     private suspend fun commit(apk: File) = withContext(Dispatchers.IO) {
+        if (BuildConfig.APPLICATION_ID.startsWith("local.hifi.player")) UpdateApkVerifier.verify(context, apk)
         val installer = context.packageManager.packageInstaller
         // One install at a time. installOrDownload never comes here while Android may still act on
         // the session in hand, so this only clears one that ended, or whose window never came.

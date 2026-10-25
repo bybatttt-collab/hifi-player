@@ -174,7 +174,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="adaptive_pick_mark">New pick</string>
     <!-- End of Keep radios up to date, 0.12. -->
     <string name="playback_auth_mode">Use my account to play</string>
-    <string name="playback_auth_mode_description">Whether InterTune may ask YouTube for songs as your account. YouTube refuses some songs to anonymous requests.</string>
+    <string name="playback_auth_mode_description">Whether HiFi Player may ask YouTube for songs as your account. YouTube refuses some songs to anonymous requests.</string>
     <string name="playback_auth_never">Never</string>
     <string name="playback_auth_when_refused">Only when a song is refused</string>
     <string name="playback_auth_always">Always</string>
@@ -238,7 +238,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="help_contact_email_inquiries">Other inquiries (Tap to copy email)</string>
     <string name="help_support_forum">Help and support (Via GitHub)</string>
     <string name="help_discord">Community chat (Via Discord)</string>
-    <string name="help_translate">Help translate InterTune (Via Weblate)</string>
+    <string name="help_translate">Help translate HiFi Player (Via Weblate)</string>
     <string name="no_updates_available">No updates available</string>
     <string name="update_check_failed">Could not check for updates</string>
     <string name="oss_licenses_title">Open source licenses</string>
@@ -317,7 +317,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="queue_button_description">Opens the queue from a button next to the other player buttons, instead of pulling it up from the bottom of the player.</string>
     <string name="media_control_buttons">Media control buttons</string>
     <string name="android_auto_missing">Not showing in your car?</string>
-    <string name="android_auto_missing_body">Android Auto only lists apps that Google Play installed, so it hides InterTune. To bring it in: open Android Auto\'s settings on your phone and tap the Version line ten times. Then open Developer settings from the menu at the top and turn on Unknown sources.</string>
+    <string name="android_auto_missing_body">Android Auto only lists apps that Google Play installed, so it hides HiFi Player. To bring it in: open Android Auto\'s settings on your phone and tap the Version line ten times. Then open Developer settings from the menu at the top and turn on Unknown sources.</string>
     <string name="media_control_buttons_explain">Your phone shows two buttons next to previous, play and next: in the notification, on the lock screen and in the media panel. Tap two, in the order you want them.</string>
     <string name="media_control_repeat">Repeat</string>
     <string name="loudness_repair">Fix song volumes</string>
@@ -339,7 +339,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="oobe_update_auto_description">Fetch it in the background so it is ready when you want it. Android still asks you to confirm.</string>
     <string name="oobe_polls_answered">You can change this any time in Settings, under Questions and news.</string>
     <string name="oobe_usage_count_answered">You can change this any time in Settings, under Anonymous count.</string>
-    <string name="poll_title">A question from InterTune</string>
+    <string name="poll_title">A question from HiFi Player</string>
     <string name="poll_banner_hint">Tap to answer, or dismiss with the cross</string>
     <string name="poll_dismiss">Dismiss this question</string>
     <string name="poll_close">Close</string>
@@ -351,7 +351,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="grp_polls">Questions and news</string>
     <string name="polls_enabled">Ask me the occasional question</string>
     <string name="polls_enabled_description">A short question on Home now and then, about what to build. Off by default.</string>
-    <string name="polls_enabled_info">Now and then InterTune downloads a short list of questions from GitHub and shows one at the top of Home. Answering sends the question, your choice and the app version; opening one for the first time sends its title and the app version. Never your account, your device or your library.</string>
+    <string name="polls_enabled_info">Now and then HiFi Player downloads a short list of questions from GitHub and shows one at the top of Home. Answering sends the question, your choice and the app version; opening one for the first time sends its title and the app version. Never your account, your device or your library.</string>
     <string name="polls_none">No question right now</string>
     <string name="polls_one_waiting">There is a question waiting</string>
     <string name="news_one_waiting">There is news waiting</string>
@@ -359,7 +359,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="polls_forget">Let me be asked again</string>
     <string name="announcement_banner_hint">Tap to read</string>
     <string name="announcement_dismiss">Dismiss this announcement</string>
-    <string name="announcement_title">News from InterTune</string>
+    <string name="announcement_title">News from HiFi Player</string>
     <string name="shortcut_play_liked">Play liked songs</string>
     <string name="shortcut_no_liked_songs">No liked songs yet</string>
     <string name="announcement_done">Got it</string>
@@ -372,29 +372,29 @@ while also allowing users to translate our app as well. New, specific strings to
     <!-- Under the questions of that screen once every one has its answer. %1$s is its button, catch_up_done. -->
     <string name="catch_up_all_answered">That is all. Tap \"%1$s\" to finish.</string>
     <string name="polls_opt_in_title">Ask you the occasional question?</string>
-    <string name="polls_opt_in_body">Now and then InterTune can show a short question at the top of Home, about what to build or change. Answers, and the first time you open one, are counted anonymously. You can turn this off in Settings at any time.</string>
+    <string name="polls_opt_in_body">Now and then HiFi Player can show a short question at the top of Home, about what to build or change. Answers, and the first time you open one, are counted anonymously. You can turn this off in Settings at any time.</string>
     <string name="polls_opt_in_yes">Yes, ask me</string>
     <string name="polls_opt_in_no">No thanks</string>
-    <string name="news_enabled">News from InterTune</string>
+    <string name="news_enabled">News from HiFi Player</string>
     <string name="news_enabled_description">An announcement on Home now and then, like a new feature. Off by default.</string>
-    <string name="news_enabled_info">Now and then InterTune downloads a short list of announcements from GitHub and shows the newest at the top of Home. Opening one for the first time sends its title and the app version, to count readers. Never your account, your device or your library.</string>
-    <string name="news_opt_in_title">Get news from InterTune?</string>
-    <string name="news_opt_in_body">Now and then InterTune can show a short announcement at the top of Home, like a new feature or its Discord server. The first time you open one is counted anonymously. You can turn this off in Settings at any time.</string>
+    <string name="news_enabled_info">Now and then HiFi Player downloads a short list of announcements from GitHub and shows the newest at the top of Home. Opening one for the first time sends its title and the app version, to count readers. Never your account, your device or your library.</string>
+    <string name="news_opt_in_title">Get news from HiFi Player?</string>
+    <string name="news_opt_in_body">Now and then HiFi Player can show a short announcement at the top of Home, like a new feature or its Discord server. The first time you open one is counted anonymously. You can turn this off in Settings at any time.</string>
     <string name="news_opt_in_yes">Yes, show me</string>
     <string name="oobe_news_answered">You can change this any time in Settings, under Questions and news.</string>
     <string name="grp_usage_count">Anonymous count</string>
     <string name="usage_count_enabled">Count this install once a day</string>
-    <string name="usage_count_enabled_description">Sends one short message a day: a random name that is replaced with an unrelated one every month, whether you installed from F-Droid or somewhere else, and the app and Android versions. Never what you play, never an account, never anything tied to your device. Off by default. F-Droid publishes no download figures to anyone, so this is the only way to know how many people use InterTune.</string>
+    <string name="usage_count_enabled_description">Sends one short message a day: a random name that is replaced with an unrelated one every month, whether you installed from F-Droid or somewhere else, and the app and Android versions. Never what you play, never an account, never anything tied to your device. Off by default. F-Droid publishes no download figures to anyone, so this is the only way to know how many people use HiFi Player.</string>
     <string name="usage_count_forget">Forget my current name</string>
     <string name="usage_count_forget_description">Drops the random name this install is counted under. The next count starts a new one, unconnected to the old.</string>
     <string name="usage_count_opt_in_title">Count this install?</string>
-    <string name="usage_count_opt_in_body">Once a day InterTune can send one short message saying it is still in use: a random name that changes every month, whether you installed from F-Droid or somewhere else, and the app and Android versions. Never what you play, never an account, never anything tied to your device. It is the only way to know how many people use InterTune, because F-Droid gives developers no download figures at all. You can turn it off whenever you like.</string>
+    <string name="usage_count_opt_in_body">Once a day HiFi Player can send one short message saying it is still in use: a random name that changes every month, whether you installed from F-Droid or somewhere else, and the app and Android versions. Never what you play, never an account, never anything tied to your device. It is the only way to know how many people use HiFi Player, because F-Droid gives developers no download figures at all. You can turn it off whenever you like.</string>
     <string name="usage_count_opt_in_yes">Yes, count me</string>
     <string name="grp_updates">Updates</string>
     <string name="update_available_title">Available</string>
     <string name="update_available_description">Opens the release page so you can read what changed and download it yourself. Useful if the in-app install will not work on this device.</string>
     <string name="update_install">Download and install</string>
-    <string name="update_prompt_title">InterTune %1$s is available</string>
+    <string name="update_prompt_title">HiFi Player %1$s is available</string>
     <string name="update_prompt_ready">Already downloaded and ready to install.</string>
     <string name="update_prompt_needs_permission">Downloaded and ready. Android needs your permission first: it only has to be given once.</string>
     <string name="update_prompt_allow">Continue</string>
@@ -407,11 +407,11 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="update_check_description_fdroid">Checks GitHub so you know when a release exists. Your copy came from F-Droid, so that is where it gets installed from, and F-Droid may not have built it yet.</string>
     <string name="update_auto">Download updates automatically</string>
     <string name="update_auto_description">Fetches the new version in the background so it is ready the moment you want it. It still cannot install on its own: Android always asks you to confirm, so you will still see the install prompt either way.</string>
-    <string name="update_install_description">Downloads the new version and asks Android to install it. The first time, Android will ask you to allow InterTune to install apps. It never installs anything without you confirming.</string>
+    <string name="update_install_description">Downloads the new version and asks Android to install it. The first time, Android will ask you to allow HiFi Player to install apps. It never installs anything without you confirming.</string>
     <string name="update_downloading">Downloading, %1$d%%. Tap to stop.</string>
     <string name="update_downloading_indeterminate">Downloading. Tap to stop.</string>
     <string name="update_awaiting_confirmation">Ready. Android will ask you to confirm the install.</string>
-    <string name="update_needs_permission">Android needs your permission for InterTune to install apps. Tap to open that setting, then come back and try again.</string>
+    <string name="update_needs_permission">Android needs your permission for HiFi Player to install apps. Tap to open that setting, then come back and try again.</string>
     <string name="update_install_failed">Could not install: %1$s. You can still download it yourself from the release page.</string>
     <string name="update_blocked_samsung">The install did not go through. Samsung\'s Auto Blocker probably stopped it: turn it off for a moment, install, then turn it back on if you like.</string>
     <string name="update_blocked">The install did not go through. Try again, or download the update from the release page.</string>
@@ -421,12 +421,12 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="update_skip">Skip this version</string>
     <string name="update_installed_version">Installed version</string>
     <string name="update_check">Tell me about updates</string>
-    <string name="update_check_description">Checks GitHub for a newer version of InterTune each time you open the app. Off by default. Nothing is ever installed without you confirming it.</string>
+    <string name="update_check_description">Checks GitHub for a newer version of HiFi Player each time you open the app. Off by default. Nothing is ever installed without you confirming it.</string>
     <string name="update_available">Version %1$s is available</string>
     <string name="audio_offload">Enable offload</string>
     <string name="audio_offload_description">Use the offload audio path for audio playback. Enabling this may reduce power usage but can cause problems with audio playback or post processing. This preference has no effect for unsupported codecs or devices</string>
     <string name="keep_alive_title">Prevent system killing app</string>
-    <string name="keep_alive_description">Use a persistent foreground service to prevent InterTune from being closed in the background</string>
+    <string name="keep_alive_description">Use a persistent foreground service to prevent HiFi Player from being closed in the background</string>
     <string name="persistent_queue_desc_ot">Restore previous open queue(s) when the app starts</string>
     <string name="min_playback_duration">Minimum playback duration</string>
     <string name="min_playback_duration_description">How much of a song has to play before it counts as a play. This decides play counts, \"Most played\" and what reaches your YouTube history. The \"History\" screen lists every song heard for 2 seconds or more, whatever this is set to.</string>
@@ -571,7 +571,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="dl_migrate_description">Move downloads from the app\'s internal storage to the device\'s external storage</string>
     <string name="dl_migrate_confirm">This will migrate ALL internal downloads to \"%s\", and this action cannot be undone. Continue?</string>
     <string name="dl_main_path_title">Set external download folder…</string>
-    <string name="dl_main_path_description">Pick an empty folder: InterTune may change or delete files in it.</string>
+    <string name="dl_main_path_description">Pick an empty folder: HiFi Player may change or delete files in it.</string>
     <string name="dl_oobe_tooltip">Songs are downloaded to the app\'s private storage. To download to a folder you can reach, choose one here; you can change it later in Settings.</string>
     <string name="dl_rescan_title">Rescan download folders…</string>
     <string name="dl_rescan_description">Update the database and refresh the download registry if any files or folders have changed</string>
@@ -579,7 +579,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="dl_size_used_cache">Internal: %s used</string>
     <string name="dl_size_used_main">External: %s used</string>
     <string name="dl_size_used_extra">Extra imports: %s used</string>
-    <string name="dl_storage_tooltip">Internal downloads live in the app\'s private storage. External downloads go to a folder you choose; pick an empty one, since InterTune may change or delete files in it. Extra import folders are only read, never changed.</string>
+    <string name="dl_storage_tooltip">Internal downloads live in the app\'s private storage. External downloads go to a folder you choose; pick an empty one, since HiFi Player may change or delete files in it. Extra import folders are only read, never changed.</string>
     <string name="restart_to_apply_changes">An app restart is required for changes to take effect</string>
 
 <!-- Privacy settings -->
@@ -600,7 +600,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="max_queues_title">Maximum number of queues</string>
 
 <!-- Setup wizard -->
-    <string name="oobe_welcome_message">Welcome to InterTune</string>
+    <string name="oobe_welcome_message">Welcome to HiFi Player</string>
     <string name="oobe_welcome_tip">For the best experience, we recommend completing a quick setup to personalize key settings like theme, YouTube account, local media, and downloads.</string>
 
     <!-- Landing -->
@@ -613,8 +613,8 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="oobe_cross_platform_sync">Cross-Platform Sync</string>
     <string name="oobe_cross_platform_sync_description">Keep your music in harmony across devices</string>
     <string name="oobe_update_check_title">Tell you about updates?</string>
-    <string name="oobe_update_check_description">InterTune is not on an app store, so it checks GitHub when you open the app and tells you when there is a new version. It can download and install one for you, and Android always asks you to confirm first. You can change this later in Settings.</string>
-    <string name="oobe_update_check_description_fdroid">Your copy came from F-Droid, so F-Droid keeps it up to date and you do not need this. InterTune can still check GitHub and tell you when a release exists, which is usually a little before F-Droid has built it. Nothing is installed without you confirming it, and you can change this later in Settings.</string>
+    <string name="oobe_update_check_description">HiFi Player is not on an app store, so it checks GitHub when you open the app and tells you when there is a new version. It can download and install one for you, and Android always asks you to confirm first. You can change this later in Settings.</string>
+    <string name="oobe_update_check_description_fdroid">Your copy came from F-Droid, so F-Droid keeps it up to date and you do not need this. HiFi Player can still check GitHub and tell you when a release exists, which is usually a little before F-Droid has built it. Nothing is installed without you confirming it, and you can change this later in Settings.</string>
     <string name="oobe_update_check_yes">Yes, check</string>
     <string name="oobe_update_check_no">No thanks</string>
     <string name="oobe_update_check_answered">You can change this any time in Settings, under Updates.</string>
@@ -622,7 +622,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="oobe_use_backup">I have a backup</string>
 
     <!-- Interface setup page -->
-    <string name="oobe_interface_subtitle">Customize how InterTune looks and what content it shows you.</string>
+    <string name="oobe_interface_subtitle">Customize how HiFi Player looks and what content it shows you.</string>
 
     <!-- Account setup page -->
     <string name="oobe_ytm_logon_title">Account</string>
@@ -639,7 +639,7 @@ while also allowing users to translate our app as well. New, specific strings to
 
     <!-- Setup complete -->
     <string name="oobe_complete_title">You\'re All Set!</string>
-    <string name="oobe_complete">InterTune is set up and ready to use. Explore your music, discover new tracks, and enjoy the experience!</string>
+    <string name="oobe_complete">HiFi Player is set up and ready to use. Explore your music, discover new tracks, and enjoy the experience!</string>
 
     <!-- The short setup (ShortSetup.kt), on in every build from 0.11.5 (Unreleased.SHORT_SETUP). -->
     <string name="setup_welcome_body">Good to have you here. This is what you get.</string>
@@ -672,9 +672,9 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="setup_updates_line">Looks on GitHub for a new version when you open the app.</string>
     <string name="setup_updates_line_fdroid">F-Droid keeps your copy up to date. This looks on GitHub, where a release appears a little earlier.</string>
     <string name="setup_updates_short">New versions</string>
-    <string name="setup_word_question">A word from InterTune now and then?</string>
+    <string name="setup_word_question">A word from HiFi Player now and then?</string>
     <string name="setup_word_line">A piece of news or a short question on Home, a few times a year.</string>
-    <string name="setup_word_short">A word from InterTune</string>
+    <string name="setup_word_short">A word from HiFi Player</string>
     <string name="setup_count_question">Count this install?</string>
     <string name="setup_count_line">One short message a day that says this install is in use. Never what you play.</string>
     <string name="setup_count_short">Count this install</string>
@@ -782,7 +782,7 @@ while also allowing users to translate our app as well. New, specific strings to
     </plurals>
     <string name="share_audio_focus">Let other apps play at the same time</string>
     <string name="share_audio_focus_description">Play music over another app\'s sound instead of stopping it.</string>
-    <string name="share_audio_focus_explain">With this on, InterTune and another app play at once.\n\nInterTune also stops lowering itself for navigation and alarms. Calls mute it either way.</string>
+    <string name="share_audio_focus_explain">With this on, HiFi Player and another app play at once.\n\nHiFi Player also stops lowering itself for navigation and alarms. Calls mute it either way.</string>
     <string name="resume_on_bluetooth">Resume when Bluetooth connects</string>
     <string name="resume_on_bluetooth_description">Music that stopped when your headphones, car or speaker disconnected plays again if Bluetooth audio connects within 30 minutes. Music you paused stays paused.</string>
     <string name="sleep_timer_notif_end_of_song">The music stops at the end of this song</string>
@@ -814,7 +814,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="recognise_settings">Song recognition</string>
 
     <!-- Walkthrough -->
-    <string name="walkthrough_title_first">Welcome to InterTune</string>
+    <string name="walkthrough_title_first">Welcome to HiFi Player</string>
     <string name="walkthrough_description">A quick run through the app, and through anything added since you last opened it.</string>
     <string name="walkthrough_progress">%1$d of %2$d</string>
     <string name="walkthrough_skip">Skip</string>
@@ -826,7 +826,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="tour_search_body">Search your library and YouTube Music from the same box.</string>
     <string name="tour_quickpicks_title">Quick picks</string>
     <string name="tour_quickpicks_body">Change the mix: Auto follows your listening, Discover reaches further out.</string>
-    <string name="tour_recognise_body">Tap this and hold the phone up. InterTune listens through the microphone for a few seconds and names the song playing around you.</string>
+    <string name="tour_recognise_body">Tap this and hold the phone up. HiFi Player listens through the microphone for a few seconds and names the song playing around you.</string>
     <string name="tour_library_title">Your library lives here</string>
     <string name="tour_library_body">Playlists, albums, artists and everything saved to this device.</string>
     <string name="tour_settings_body">Nothing here is compulsory. All of it can be turned off in these settings.</string>
@@ -921,7 +921,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="tour_settings_look_title">How it looks and sounds</string>
     <string name="tour_settings_look_body">Theme and the player\'s background, sound quality and spatial audio, naming a song, lyrics.</string>
     <string name="tour_settings_kept_title">What is kept</string>
-    <string name="tour_settings_kept_body">Downloads and the space they take, backups, your listening history, and whether InterTune may ask you a question or count this install.</string>
+    <string name="tour_settings_kept_body">Downloads and the space they take, backups, your listening history, and whether HiFi Player may ask you a question or count this install.</string>
     <string name="tour_settings_rest_title">Updates and the rest</string>
     <string name="tour_settings_rest_body">New versions, how Quick picks chooses, the switches most people never need, and this walk again under About.</string>
 
@@ -979,7 +979,7 @@ while also allowing users to translate our app as well. New, specific strings to
 
     <string name="walkthrough_recognition_title">Name a song playing near you</string>
     <string name="walkthrough_settings_title">All of it is a setting</string>
-    <string name="recognise_settings_description">What happens when you ask InterTune to name what is playing.</string>
+    <string name="recognise_settings_description">What happens when you ask HiFi Player to name what is playing.</string>
     <string name="recognise_keep_listening_desc">The big button keeps going until you stop it, instead of naming one song and finishing. The cards on the screen pick for one run.</string>
     <string name="recognise_keep_listening_explain">\"Keep listening\" carries on after the first song, adding each new one it hears, even with the screen off. It uses the microphone and the network the whole time, so it costs battery.</string>
     <string name="recognise_pause_title">Pause my music while listening</string>
@@ -1004,16 +1004,16 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="recognise_playlist_name">Heard on %1$s</string>
     <string name="recognise_save_failed">Could not save the playlist</string>
     <string name="lastfm_connect">Connect a Last.fm account</string>
-    <string name="lastfm_connect_description">Sign in to Last.fm and approve InterTune. The page is Last.fm&#8217;s own, so your password is never typed into this app or seen by it.</string>
+    <string name="lastfm_connect_description">Sign in to Last.fm and approve HiFi Player. The page is Last.fm&#8217;s own, so your password is never typed into this app or seen by it.</string>
     <string name="lastfm_connected_as">Connected as %1$s</string>
     <string name="lastfm_disconnect_description">Tap to disconnect. Nothing already scrobbled is removed.</string>
     <string name="lastfm_scrobble">Scrobble what I play</string>
     <string name="lastfm_scrobble_description">Sends finished songs to your Last.fm history. Last.fm counts a song once half of it, or four minutes, has played. Turn this off to stay connected without recording anything.</string>
     <string name="lastfm_unavailable">Not available in this build</string>
-    <string name="lastfm_unavailable_description">Scrobbling needs a Last.fm API key, and this copy of InterTune was built without one. Official releases include it.</string>
+    <string name="lastfm_unavailable_description">Scrobbling needs a Last.fm API key, and this copy of HiFi Player was built without one. Official releases include it.</string>
     <string name="lastfm_login_failed">Last.fm would not start the login: %1$s</string>
     <string name="polls_unavailable">Not available in this build</string>
-    <string name="polls_unavailable_description">Questions need a source to fetch them from, and this copy of InterTune was built without one.</string>
+    <string name="polls_unavailable_description">Questions need a source to fetch them from, and this copy of HiFi Player was built without one.</string>
     <string name="playlist_empty_title">Let\'s find something for this playlist</string>
     <string name="playlist_empty_search_hint">Search for songs</string>
     <string name="playlist_empty_hint">Search above to add your first song.</string>
@@ -1093,7 +1093,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="recognition_msg_secret">Somewhere in here a Fourier transform is having the time of its life</string>
     <string name="background_channel">Background checks</string>
     <string name="background_update_title">A new version is available</string>
-    <string name="background_update_text">InterTune %1$s is ready to install.</string>
+    <string name="background_update_text">HiFi Player %1$s is ready to install.</string>
     <string name="background_poll_title">A new question</string>
     <string name="background_check_interval">Check in the background</string>
     <string name="background_check_interval_desc">How often to look for updates and questions while the app is closed. Each is only checked if you have it turned on, and you are told once when there is something.</string>
@@ -1163,7 +1163,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="spatial_audio_status_platform_off">The phone has its own spatial audio, switched off.</string>
     <string name="spatial_audio_status_platform_on">The phone has its own spatial audio, switched on.</string>
     <string name="spatial_audio_status_unreadable">Could not read: %1$s</string>
-    <string name="spatial_audio_status_explain">It says first whether InterTune can track your head on this phone, then whether the phone has spatial audio of its own. The phone\'s own is what \"Surround upmix\" relies on. Head tracking does not need it.</string>
+    <string name="spatial_audio_status_explain">It says first whether HiFi Player can track your head on this phone, then whether the phone has spatial audio of its own. The phone\'s own is what \"Surround upmix\" relies on. Head tracking does not need it.</string>
     <string name="spatial_audio_needs_13">Needs Android 13 or later.</string>
     <string name="recommendations">Recommendations</string>
     <string name="queue_learn_off">Don\'t learn from this</string>
@@ -1236,7 +1236,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="new_songs_only">New songs only</string>
     <string name="new_songs_only_description">Every card in the Best recommendations row is a song new to you.</string>
     <string name="similar_source">Similar songs from</string>
-    <string name="login_reassurance">This is Google\'s own sign-in page. InterTune never sees your password. It keeps only the sign-in YouTube Music hands back.</string>
+    <string name="login_reassurance">This is Google\'s own sign-in page. HiFi Player never sees your password. It keeps only the sign-in YouTube Music hands back.</string>
     <string name="login_secure">Secure connection</string>
     <string name="login_signing_in_as">Signing in as %1$s</string>
     <string name="login_no_account_picked">No account from this phone</string>
@@ -1244,7 +1244,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="login_pick_account">Pick one</string>
     <string name="login_another_account">Another account</string>
     <string name="login_not_secure">Not a secure connection</string>
-    <string name="login_reassurance_other_page">InterTune never sees your password. It keeps only the sign-in YouTube Music hands back.</string>
+    <string name="login_reassurance_other_page">HiFi Player never sees your password. It keeps only the sign-in YouTube Music hands back.</string>
     <string name="login_no_page_yet">No page yet</string>
     <!-- The sign-in page once the sign-in is made, on in every build from 0.11.5 (Unreleased.LOGIN_RETURNS). -->
     <string name="login_signed_in_as">Signed in as %1$s</string>
@@ -1889,7 +1889,7 @@ while also allowing users to translate our app as well. New, specific strings to
     <string name="share_link_page">A page for any music app</string>
     <string name="share_link_ask">Ask each time</string>
     <string name="share_link_choice_title">Which link?</string>
-    <string name="share_link_youtube_music_description">Opens in YouTube Music or in InterTune</string>
+    <string name="share_link_youtube_music_description">Opens in YouTube Music or in HiFi Player</string>
     <string name="share_link_page_description">They pick their own app: Spotify, Apple Music, Deezer and others</string>
     <!-- Links you share from 0.12.5: the line under the question the first share asks (%1$s is the Settings screen, Library and content), and the row's value before anything is picked. -->
     <string name="share_link_choice_kept">Your pick is kept for later shares. You can change it any time in Settings, under %1$s.</string>
@@ -2047,8 +2047,8 @@ while also allowing users to translate our app as well. New, specific strings to
         <item quantity="other">A picture takes up to %1$d lines, a video a minute of the song</item>
     </plurals>
     <string name="queue_from_search">“%1$s”</string>
-    <string name="support_title">Support InterTune</string>
-    <string name="support_text">InterTune is free and has no ads. If you would like to donate, send the developer a direct message on the InterTune Discord server.</string>
+    <string name="support_title">Support HiFi Player</string>
+    <string name="support_text">HiFi Player is free and has no ads. If you would like to donate, send the developer a direct message on the HiFi Player Discord server.</string>
     <string name="support_thanks">Thanks to those who already gave:</string>
     <string name="support_discord">Open Discord</string>
     <plurals name="list_queued_here">
@@ -2064,13 +2064,13 @@ while also allowing users to translate our app as well. New, specific strings to
         <item quantity="other">New queue \"%2$s\", %1$d songs, now playing</item>
     </plurals>
     <!-- The update dialog from the tap on Install until Android has installed it (UpdatePrompt, UpdateWaitPhase), and the Install row of Settings > Updates. -->
-    <string name="update_wait_title">Installing InterTune %1$s</string>
+    <string name="update_wait_title">Installing HiFi Player %1$s</string>
     <string name="update_wait_preparing">Handing the update to Android. Its window opens in a moment.</string>
     <string name="update_wait_waiting">Android is waiting for your answer. Tap \"%1$s\" in its window to install.</string>
     <!-- The words on Android's own install button for an update, as the phone shows them in this language: "Update" from Android 12, "Install" before. -->
     <string name="update_wait_android_update">Update</string>
     <string name="update_wait_android_install">Install</string>
-    <string name="update_wait_installing">Android is installing it, which can take a minute. InterTune then closes by itself and the music stops. Open it again to use the new version.</string>
+    <string name="update_wait_installing">Android is installing it, which can take a minute. HiFi Player then closes by itself and the music stops. Open it again to use the new version.</string>
     <string name="update_wait_show_window">Show Android\'s window again</string>
     <string name="update_wait_stop">Stop</string>
     <string name="queue_back_closes_player">Back from the queue closes the player</string>

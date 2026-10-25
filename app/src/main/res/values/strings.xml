@@ -326,7 +326,7 @@ We recycle translations from upstream, they are pulled periodically. -->
     <string name="restore_failed">Failed to restore backup</string>
 
     <string name="discord_integration">Discord Integration</string>
-    <string name="discord_information">InterTune uses the KizzyRPC library to set your Discord account\'s status. This involves using the Discord Gateway connection, which may be considered a violation of Discord\'s TOS. However, there are no known cases of user accounts being suspended for this reason. Use at your own risk.\n\nInterTune will only extract your token, and everything else is stored locally.</string>
+    <string name="discord_information">HiFi Player uses the KizzyRPC library to set your Discord account\'s status. This involves using the Discord Gateway connection, which may be considered a violation of Discord\'s TOS. However, there are no known cases of user accounts being suspended for this reason. Use at your own risk.\n\nHiFi Player will only extract your token, and everything else is stored locally.</string>
     <string name="dismiss">Dismiss</string>
     <string name="options">Options</string>
     <string name="preview">Preview</string>
@@ -340,7 +340,7 @@ We recycle translations from upstream, they are pulled periodically. -->
     <string name="clear_translation_models">Clear translation models</string>
 
     <!-- Crash report, shown on the launch after a crash (CrashLog) -->
-    <string name="crash_report_title">InterTune crashed last time</string>
+    <string name="crash_report_title">HiFi Player crashed last time</string>
     <string name="crash_report_text">Sorry about that. The error below stayed on this phone and nothing was sent anywhere. Reporting it helps get it fixed on your device.</string>
     <string name="crash_report_github">Report on GitHub</string>
     <string name="crash_report_copy">Copy</string>

@@ -71,6 +71,14 @@ import com.dd3boh.outertune.ui.screens.walkthrough.tourTarget
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColumnScope.SyncAutoFrag() {
+    val (includeUploads, changeIncludeUploads) = rememberPreference(com.dd3boh.outertune.utils.SyncUploadsKey, false)
+    SwitchPreference(
+        title = { Text(stringResource(R.string.hifi_sync_uploads)) },
+        description = stringResource(R.string.hifi_sync_uploads_description),
+        checked = includeUploads,
+        onCheckedChange = changeIncludeUploads,
+    )
+
     val (innerTubeCookie, onInnerTubeCookieChange) = rememberPreference(InnerTubeCookieKey, "")
     val isLoggedIn = remember(innerTubeCookie) {
         "SAPISID" in parseCookieString(innerTubeCookie)

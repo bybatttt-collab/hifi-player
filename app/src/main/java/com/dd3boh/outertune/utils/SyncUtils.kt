@@ -468,13 +468,19 @@ class SyncUtils @Inject constructor(
         // Failed until shown otherwise: a fetch that throws or comes back short says so.
         var result = SyncResult.FAILED
 
+        var imported = 0
+        var complete = false
         try {
+            context.dataStore.edit { it[AlbumSyncStateKey] = "RUNNING" }
             Log.i(TAG, "Library albums synchronization started")
 
             // Get remote albums (from library and uploads)
             val remote =
                 getRemoteData<AlbumItem>("FEmusic_liked_albums", "FEmusic_library_privately_owned_releases")
-            val remoteAlbums = remote.items
+            val remoteAlbums = remote.items.distinctBy { it.id }
+            imported = remoteAlbums.size
+            complete = remote.complete
+            Log.i(TAG, "Album import: read=$imported, complete=$complete")
             if (!context.isInternetConnected()) {
                 return SyncResult.FAILED
             }
@@ -519,7 +525,14 @@ class SyncUtils @Inject constructor(
             _isSyncingRemoteAlbums.value = false
             withContext(NonCancellable) {
                 context.dataStore.edit { settings ->
-                    settings[LastAlbumSyncKey] = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+                    if (result == SyncResult.SYNCED) settings[LastAlbumSyncKey] = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+                    settings[AlbumSyncCountKey] = imported
+                    settings[AlbumSyncAttemptKey] = System.currentTimeMillis()
+                    settings[AlbumSyncStateKey] = when {
+                        result == SyncResult.SYNCED -> "COMPLETE"
+                        !complete && imported > 0 -> "PARTIAL"
+                        else -> "FAILED"
+                    }
                 }
             }
             Log.i(TAG, "Library albums synchronization ended")
@@ -867,8 +880,9 @@ class SyncUtils @Inject constructor(
      * that had been emptied. What was read is still fine to add; only a complete read may remove.
      */
     private suspend inline fun <reified T> getRemoteData(libraryId: String, uploadsId: String): Walked<T> {
+        val sources = if (context.dataStore.get(SyncUploadsKey, false)) listOf(libraryId to 0, uploadsId to 1) else listOf(libraryId to 0)
         val tabs = coroutineScope {
-            listOf(libraryId to 0, uploadsId to 1).map { (browseId, tab) ->
+            sources.map { (browseId, tab) ->
                 async {
                     YouTube.library(browseId, tab).fold(
                         onSuccess = { it.walkItems() },

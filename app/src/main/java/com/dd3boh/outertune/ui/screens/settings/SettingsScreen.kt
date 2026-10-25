@@ -101,6 +101,21 @@ fun SettingsScreen(
             modifier = Modifier.fillMaxWidth().tourTarget(Tour.SETTINGS_YOU)
         ) {
             PreferenceEntry(
+                title = { Text(stringResource(R.string.account)) },
+                icon = { Icon(Icons.Rounded.AccountCircle, null) },
+                onClick = { navController.navigate("account") }
+            )
+            PreferenceEntry(
+                title = { Text(stringResource(R.string.history)) },
+                icon = { Icon(Icons.Rounded.Storage, null) },
+                onClick = { navController.navigate("history") }
+            )
+            PreferenceEntry(
+                title = { Text(stringResource(R.string.stats)) },
+                icon = { Icon(Icons.Rounded.Info, null) },
+                onClick = { navController.navigate("stats") }
+            )
+            PreferenceEntry(
                 title = { Text(stringResource(R.string.grp_account_sync)) },
                 description = stringResource(R.string.settings_account_sync_description),
                 icon = { Icon(Icons.Rounded.AccountCircle, null) },

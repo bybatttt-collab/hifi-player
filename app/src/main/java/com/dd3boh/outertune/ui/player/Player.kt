@@ -265,6 +265,7 @@ fun BottomSheetPlayer(
 
     val haptic = LocalHapticFeedback.current
     val playerConnection = LocalPlayerConnection.current ?: return
+    OutputPickerHost()
     val menuState = LocalMenuState.current
     val context = LocalContext.current
     val database = LocalDatabase.current
@@ -558,7 +559,7 @@ fun BottomSheetPlayer(
         twoPane = landscapeTwoPane || tabletTwoPane,
         queueAsButton = queueAsButton,
         songLoaded = mediaMetadata != null,
-        outputRow = Unreleased.CASTING,
+        outputRow = false,
     )
     val queueReserve = queueLayout.reserve
     val compactPlayer = queueLayout.compact

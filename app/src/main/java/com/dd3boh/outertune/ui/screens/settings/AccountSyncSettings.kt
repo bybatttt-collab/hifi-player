@@ -21,6 +21,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -42,6 +43,7 @@ fun AccountSyncSettings(
     navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior,
 ) {
+    val syncingAlbums = com.dd3boh.outertune.LocalSyncUtils.current.isSyncingRemoteAlbums.collectAsState().value
     ColumnWithContentPadding(
         modifier = Modifier.fillMaxHeight(),
         columnModifier = Modifier
@@ -78,6 +80,7 @@ fun AccountSyncSettings(
         PreferenceGroupTitle(
             title = stringResource(R.string.grp_sync)
         )
+        com.dd3boh.outertune.utils.AlbumSyncReport(syncingAlbums)
 
         ElevatedCard(
             modifier = Modifier.fillMaxWidth()

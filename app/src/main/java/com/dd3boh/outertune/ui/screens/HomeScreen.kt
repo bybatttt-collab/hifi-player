@@ -68,7 +68,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.TrendingUp
-import androidx.compose.material.icons.rounded.Casino
+
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.SdCard
@@ -176,7 +176,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.math.min
 import kotlin.math.roundToInt
-import kotlin.random.Random
+
 import com.dd3boh.outertune.ui.screens.walkthrough.Tour
 import com.dd3boh.outertune.ui.screens.walkthrough.WelcomeBanner
 import com.dd3boh.outertune.ui.screens.walkthrough.WelcomeCard
@@ -212,7 +212,7 @@ internal fun quickPicksLabelKind(
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+fun LegacyHomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
     /** The card for somebody back after an update, when there is one to show: welcomeCardFor. */
@@ -1264,64 +1264,6 @@ fun HomeScreen(
         }
         LazyColumnScrollbar(
             state = lazylistState,
-        )
-
-        HideOnScrollFAB(
-            visible = allLocalItems.isNotEmpty() || allYtItems.isNotEmpty(),
-            lazyListState = lazylistState,
-            icon = Icons.Rounded.Casino,
-            contentDescription = stringResource(R.string.home_play_at_random),
-            onClick = {
-                val local = when {
-                    allLocalItems.isNotEmpty() && allYtItems.isNotEmpty() -> Random.nextFloat() < 0.5
-                    allLocalItems.isNotEmpty() -> true
-                    else -> false
-                }
-                if (local) {
-                    when (val luckyItem = allLocalItems.random()) {
-                        is Song -> playerConnection.playQueue(
-                            YouTubeQueue.radio(luckyItem.toMediaMetadata()),
-                            isRadio = true
-                        )
-
-                        is Album -> {
-                            scope.launch(Dispatchers.IO) {
-                                val songs = database.albumSongs(luckyItem.id).first()
-                                playerConnection.playQueue(
-                                    ListQueue(
-                                        title = luckyItem.title,
-                                        items = songs.map(Song::toMediaMetadata)
-                                    ),
-                                    origin = PlayOrigin.HOME_ROW,
-                                )
-                            }
-                        }
-                        // not possible, already filtered out
-                        is Artist -> {}
-                        is Playlist -> {}
-                    }
-                } else {
-                    when (val luckyItem = allYtItems.random()) {
-                        is SongItem -> playerConnection.playQueue(
-                            YouTubeQueue.radio(luckyItem.toMediaMetadata()),
-                            isRadio = true
-                        )
-
-                        is AlbumItem -> playerConnection.playQueue(
-                            YouTubeAlbumRadio(luckyItem.playlistId),
-                            isRadio = true
-                        )
-
-                        is ArtistItem -> luckyItem.radioEndpoint?.let {
-                            playerConnection.playQueue(YouTubeQueue(it), isRadio = true)
-                        }
-
-                        is PlaylistItem -> luckyItem.playEndpoint?.let {
-                            playerConnection.playQueue(YouTubeQueue(it), isRadio = true)
-                        }
-                    }
-                }
-            }
         )
 
         // Below the search bar, not behind it.

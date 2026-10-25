@@ -100,7 +100,7 @@ class LibrarySongsViewModel @Inject constructor(
         return context.dataStore.data
             .map {
                 Triple(
-                    it[SongFilterKey].toEnum(SongFilter.LIKED),
+                    SongFilter.LIKED,
                     it[SongSortTypeKey].toEnum(SongSortType.CREATE_DATE),
                     (it[SongSortDescendingKey] != false)
                 )
@@ -243,15 +243,14 @@ class LibraryAlbumsViewModel @Inject constructor(
 
     val allAlbums = context.dataStore.data
         .map {
-            Triple(
-                it[AlbumFilterKey].toEnum(AlbumFilter.LIKED),
+            Pair(
                 it[AlbumSortTypeKey].toEnum(AlbumSortType.CREATE_DATE),
                 it[AlbumSortDescendingKey] ?: true
             )
         }
         .distinctUntilChanged()
-        .flatMapLatest { (filter, sortType, descending) ->
-            database.albums(filter, sortType, descending)
+        .flatMapLatest { (sortType, descending) ->
+            database.albums(AlbumFilter.LIKED, sortType, descending)
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
@@ -277,11 +276,7 @@ class LibraryAlbumsViewModel @Inject constructor(
                             }
                         }.onFailure {
                             reportException(it)
-                            if (it.message?.contains("NOT_FOUND") == true) {
-                                database.query {
-                                    delete(album.album)
-                                }
-                            }
+                            // An unavailable detail page does not mean the saved album was removed.
                         }
                     }
             }
@@ -300,7 +295,7 @@ class LibraryPlaylistsViewModel @Inject constructor(
     val allPlaylists = context.dataStore.data
         .map {
             Triple(
-                it[PlaylistFilterKey].toEnum(PlaylistFilter.LIBRARY),
+                PlaylistFilter.LIBRARY,
                 it[PlaylistSortTypeKey].toEnum(PlaylistSortType.CREATE_DATE),
                 it[PlaylistSortDescendingKey] ?: true
             )

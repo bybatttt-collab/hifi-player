@@ -51,6 +51,18 @@ suspend fun PlaylistPage.walkSongs(
 /** Every item of a library tab, and whether that is all of them. See [walkContinuations]. */
 suspend fun LibraryPage.walkItems(
     fetch: suspend (String) -> Result<LibraryContinuationPage> = { YouTube.libraryContinuation(it) },
-): Walked<YTItem> = walkContinuations(items, continuation) { c ->
-    fetch(c).map { it.items to it.continuation }
+): Walked<YTItem> {
+    val result = items.toMutableList()
+    val followed = HashSet<String>()
+    var next = continuation
+    var parsedAll = complete
+    while (next != null) {
+        if (!followed.add(next)) return Walked(result, false)
+        val page = fetch(next).getOrNull() ?: return Walked(result, false)
+        parsedAll = parsedAll && page.complete
+        if (page.items.isEmpty()) parsedAll = false
+        result += page.items
+        next = page.continuation
+    }
+    return Walked(result.distinctBy { it.id }, parsedAll)
 }

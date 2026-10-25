@@ -148,6 +148,10 @@ interface SongsDao {
     @Query("SELECT * FROM song WHERE inLibrary IS NOT NULL ORDER BY inLibrary")
     fun songsByCreateDateAsc(): Flow<List<Song>>
 
+    @Transaction
+    @Query("SELECT * FROM song WHERE liked = 1 ORDER BY likedDate DESC, rowid DESC LIMIT :limit")
+    fun recentSavedSongs(limit: Int): Flow<List<Song>>
+
     /**
      * The library rows for a set of ids, in the order the ids are given.
      *

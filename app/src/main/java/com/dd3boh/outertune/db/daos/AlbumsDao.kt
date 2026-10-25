@@ -166,6 +166,10 @@ interface AlbumsDao : ArtistsDao {
     fun albumsInLibraryAsc() = albums(AlbumFilter.LIBRARY, AlbumSortType.CREATE_DATE, false)
     fun albumsLikedAsc() = albums(AlbumFilter.LIKED, AlbumSortType.CREATE_DATE, false)
 
+    @Transaction
+    @Query("SELECT album.*, 0 AS downloadCount FROM album WHERE bookmarkedAt IS NOT NULL ORDER BY bookmarkedAt DESC, rowid DESC LIMIT :limit")
+    fun recentSavedAlbums(limit: Int): Flow<List<Album>>
+
     @Query(LibrarySql.LOCAL_ALBUM_BY_TITLE)
     fun localAlbumByTitle(title: String): AlbumEntity?
 

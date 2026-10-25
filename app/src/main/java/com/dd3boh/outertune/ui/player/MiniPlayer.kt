@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.dd3boh.outertune.ui.theme.hifiPanel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Pause
@@ -103,7 +104,7 @@ fun MiniPlayer(
 
     val glass = rememberGlassSpec()
     val glassOn = glass != null
-    val glassShape = RoundedCornerShape(24.dp)
+    val glassShape = RoundedCornerShape(6.dp)
     // Slightly more opaque than the dock: this panel carries two lines of text over whatever the
     // library happens to be showing, so it is the first place a section heading bleeds through.
     val glassTint = glass?.tint(min = 0.66f, max = 0.98f) ?: Color.Transparent
@@ -144,6 +145,8 @@ fun MiniPlayer(
                         .background(glassTint, glassShape)
                 } else Modifier
             )
+            .clip(RoundedCornerShape(6.dp))
+            .hifiPanel(header = true)
     ) {
         PlaybackOrder {
             LinearProgressIndicator(

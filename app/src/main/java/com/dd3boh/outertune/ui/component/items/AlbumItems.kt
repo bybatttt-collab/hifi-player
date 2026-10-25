@@ -62,7 +62,6 @@ fun AlbumListItem(
         }
 
         if (showLikedIcon && album.album.bookmarkedAt != null) {
-            Icon.Favorite()
         }
 
         Icon.Download(downloadState)
@@ -125,7 +124,6 @@ fun AlbumGridItem(
         }
 
         if (album.album.bookmarkedAt != null) {
-            Icon.Favorite()
         }
 
         Icon.Download(downloadState)

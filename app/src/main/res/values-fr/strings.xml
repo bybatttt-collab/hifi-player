@@ -285,13 +285,13 @@
     <string name="queue">File d\'attente</string>
     <string name="auto_load_more">Charger automatiquement plus de titres</string>
     <string name="auto_skip_next_on_error">Aller au titre suivant si une erreur apparaît</string>
-    <string name="discord_information">InterTune utilise la bibliothèque KizzyRPC pour définir le statut de votre compte Discord. Cela implique l\'utilisation de la connexion Discord Gateway, ce qui peut être considéré comme une violation des conditions d\'utilisation de Discord. Cependant, il n\'existe aucun cas connu de comptes d\'utilisateurs suspendus pour cette raison. Utilisez-le à vos propres risques. \n \nInterTune extraira uniquement votre jeton, et tout le reste sera stocké localement.</string>
+    <string name="discord_information">HiFi Player utilise la bibliothèque KizzyRPC pour définir le statut de votre compte Discord. Cela implique l\'utilisation de la connexion Discord Gateway, ce qui peut être considéré comme une violation des conditions d\'utilisation de Discord. Cependant, il n\'existe aucun cas connu de comptes d\'utilisateurs suspendus pour cette raison. Utilisez-le à vos propres risques. \n \nHiFi Player extraira uniquement votre jeton, et tout le reste sera stocké localement.</string>
     <string name="use_login_for_browse">Utiliser le compte connecté pour parcourir le contenu</string>
     <string name="use_login_for_browse_desc">Ceci peut influencer le contenu que vous voyez et affiche par exemple les albums Premium si vous êtes connecté avec un compte Premium</string>
     <string name="action_login">Se connecter</string>
 
     <!-- Crash report, shown on the launch after a crash (CrashLog) -->
-    <string name="crash_report_title">InterTune a planté la dernière fois</string>
+    <string name="crash_report_title">HiFi Player a planté la dernière fois</string>
     <string name="crash_report_text">Désolé pour ça. L\'erreur ci-dessous est restée sur ce téléphone et rien n\'a été envoyé nulle part. La signaler aide à la corriger sur votre appareil.</string>
     <string name="crash_report_github">Signaler sur GitHub</string>
     <string name="crash_report_copy">Copier</string>

@@ -85,7 +85,7 @@ fun UpdateSettings(
     val fromFdroid = remember { context.installSource() == InstallSource.F_DROID }
     val coroutineScope = rememberCoroutineScope()
     val (backgroundHours, onBackgroundHoursChange) =
-        rememberPreference(BackgroundCheckHoursKey, defaultValue = 0)
+        rememberPreference(BackgroundCheckHoursKey, defaultValue = BackgroundCheckWorker.DEFAULT_HOURS)
 
     // Asked for when background checking is switched on, not at launch. Without it the worker runs,
     // finds the update or the question, and then silently cannot say so, which is indistinguishable
@@ -95,7 +95,7 @@ fun UpdateSettings(
     ) { }
     val updateChecker = LocalUpdateChecker.current
 
-    val (enabled, onEnabledChange) = rememberPreference(UpdateCheckEnabledKey, defaultValue = false)
+    val (enabled, onEnabledChange) = rememberPreference(UpdateCheckEnabledKey, defaultValue = com.dd3boh.outertune.ui.screens.SetupChoices.UPDATES_DEFAULT)
     val update: UpdateChecker.Update? by updateChecker.available.collectAsState()
     var checking by remember { mutableStateOf(false) }
 
@@ -144,6 +144,9 @@ fun UpdateSettings(
                 checked = enabled,
                 onCheckedChange = {
                     onEnabledChange(it)
+                    if (it && Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                        notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
                     // Check straight away on opt in, otherwise the switch appears to do nothing
                     // until the app is next opened.
                     if (it) coroutineScope.launch { updateChecker.check(force = true) }

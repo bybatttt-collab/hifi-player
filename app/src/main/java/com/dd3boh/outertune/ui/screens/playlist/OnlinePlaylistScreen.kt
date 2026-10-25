@@ -324,8 +324,9 @@ fun OnlinePlaylistScreen(
                     AsyncImage(
                         model = playlist.thumbnail,
                         contentDescription = null,
+                        contentScale = androidx.compose.ui.layout.ContentScale.Crop,
                         modifier = Modifier
-                            .size(AlbumThumbnailSize)
+                            .size(112.dp)
                             .clip(RoundedCornerShape(ThumbnailCornerRadius))
                     )
 
@@ -333,6 +334,7 @@ fun OnlinePlaylistScreen(
 
                     Column(
                         verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.weight(1f),
                     ) {
                         AutoResizeText(
                             text = playlist.title,
@@ -372,7 +374,7 @@ fun OnlinePlaylistScreen(
                             )
                         }
 
-                        Row {
+                        androidx.compose.foundation.layout.FlowRow {
                             if (playlist.id != "LM") {
                                 IconButton(
                                     onClick = {
@@ -695,7 +697,7 @@ fun OnlinePlaylistScreen(
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Spacer(
                                         modifier = Modifier
-                                            .size(AlbumThumbnailSize)
+                                            .size(112.dp)
                                             .clip(RoundedCornerShape(ThumbnailCornerRadius))
                                             .background(MaterialTheme.colorScheme.onSurface)
                                     )

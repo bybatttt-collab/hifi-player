@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hifi_rym_tab">RYM</string>
+    <string name="hifi_output">Uscita audio</string>
+    <string name="hifi_rym_album">Cerca album su RYM</string>
+    <string name="hifi_rym_song">Cerca brano su RYM</string>
+    <string name="hifi_themes">Tema hi-fi</string>
+    <string name="hifi_custom_color">Colore personalizzato (#RRGGBB)</string>
+    <string name="hifi_sync_uploads">Includi caricamenti personali YouTube Music</string>
+    <string name="hifi_sync_uploads_description">Attiva solo se hai caricato file dal PC sul tuo account YouTube Music. Non riguarda le cartelle del telefono.</string>
+    <string name="hifi_library">Libreria</string>
+    <string name="hifi_pinned_playlists">Playlist fissate</string>
+    <string name="hifi_pin">Fissa nella Home</string>
+    <string name="hifi_unpin">Rimuovi dalla Home</string>
+    <string name="hifi_recent_albums">Album salvati di recente</string>
+    <string name="hifi_recent_songs">Brani salvati di recente</string>
+    <string name="hifi_tools">Altro</string>
+    <string name="hifi_discovery">Da scoprire</string>
+    <string name="hifi_recommended_albums">Album per te</string>
+    <string name="hifi_community">Playlist della community</string>
+    <string name="hifi_new_releases">Nuove uscite</string>
+    <string name="hifi_retry_discovery">Riprova suggerimenti</string>
+</resources>

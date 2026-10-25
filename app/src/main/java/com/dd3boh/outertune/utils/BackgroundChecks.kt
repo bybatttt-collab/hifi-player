@@ -75,7 +75,7 @@ class BackgroundCheckWorker(
 
         // Each half is gated on its own opt in, exactly as it is in the app. A background schedule
         // must not become a way to check something the user turned off.
-        if (context.dataStore.get(UpdateCheckEnabledKey, false)) {
+        if (context.dataStore.get(UpdateCheckEnabledKey, com.dd3boh.outertune.ui.screens.SetupChoices.UPDATES_DEFAULT)) {
             runCatching { deps.updateChecker().check() }
                 .onSuccess { update ->
                     // check() returns the same pending update on every run, fetched again or
@@ -194,6 +194,7 @@ class BackgroundCheckWorker(
 
         /** What the setting offers. 0 is off, and is the default. */
         val INTERVAL_CHOICES = listOf(0, 1, 2, 5, 10, 24)
+        val DEFAULT_HOURS = if (com.dd3boh.outertune.ui.screens.SetupChoices.UPDATES_DEFAULT) 5 else 0
 
         /**
          * schedule() calls, applied one at a time in the order they were made. Off the main thread,
@@ -236,7 +237,7 @@ class BackgroundCheckWorker(
             // the first version and it was wrong: the preference setter is fire and forget, so a
             // schedule call straight after it reads the old value and the setting appeared to do
             // nothing at all. The same trap PollsOptInCard documents.
-            val hours = hoursOverride ?: context.dataStore.data.first()[BackgroundCheckHoursKey] ?: 0
+            val hours = hoursOverride ?: context.dataStore.data.first()[BackgroundCheckHoursKey] ?: DEFAULT_HOURS
             val manager = WorkManager.getInstance(context)
 
             if (hours <= 0) {

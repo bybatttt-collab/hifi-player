@@ -891,26 +891,15 @@ fun LocalPlaylistHeader(
 //        }
 //    }
 
-    // Beside its list (Landscape.kt) the header has half the page, and on most phones that is
-    // less than the cover and the row of buttons take together. The cover gives way there and
-    // the column keeps to what is left, so that the two stay on one line and Play stays in
-    // sight. Upright there is no such width, and both are what they were.
-    val paneWidth = rememberHeaderPaneWidth()
-    val buttons = 2 + (if (playlist.playlist.browseId != null) 1 else 0) +
-            (if (songs.any { !it.song.song.isLocal }) 2 else 0)
-    // The paddings either side and the gap between the two come to 36dp.
-    val coverRoom = paneWidth - 36.dp - 48.dp * buttons
-    val coverSize = LocalLandscape.current.headerCover(upright = AlbumThumbnailSize, room = coverRoom)
-    val onOneLine = coverRoom.isSpecified && coverSize <= coverRoom
+    val coverSize = 112.dp
 
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier.padding(12.dp)
     ) {
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            itemVerticalAlignment = Alignment.CenterVertically
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             PlaylistThumbnail(
                 playlist = playlist.playlist,
@@ -923,7 +912,7 @@ fun LocalPlaylistHeader(
 
             Column(
                 verticalArrangement = Arrangement.Center,
-                modifier = if (onOneLine) Modifier.widthIn(max = paneWidth - 36.dp - coverSize) else Modifier,
+                modifier = Modifier.weight(1f),
             ) {
                 AutoResizeText(
                     text = playlist.playlist.name,
@@ -957,7 +946,7 @@ fun LocalPlaylistHeader(
                     fontWeight = FontWeight.Normal
                 )
 
-                Row {
+                FlowRow {
                     IconButton(
                         onClick = onShowEditDialog
                     ) {

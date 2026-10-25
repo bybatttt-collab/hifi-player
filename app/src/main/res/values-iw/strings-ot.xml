@@ -86,7 +86,7 @@
     <string name="dev_settings_description">חושף הגדרות מתקדמות נוספות המיועדות לשימוש בפיתוח</string>
     <string name="swipe_to_skip_title">החלק אופקית כדי לשנות שיר</string>
     <string name="swipe_to_skip_description">הפעל החלקה אופקית בנגן כדי להחליף שירים</string>
-    <string name="oobe_welcome_message">ברוכים הבאים ל-InterTune</string>
+    <string name="oobe_welcome_message">ברוכים הבאים ל-HiFi Player</string>
     <string name="oobe_ytm_integration">שילוב YouTube Music</string>
     <string name="oobe_ytm_integration_description">גש בצורה חלקה לרצועות האהובות עליך</string>
     <string name="oobe_ad_free_exp">ללא פרסומות יוטיוב</string>
@@ -96,7 +96,7 @@
     <string name="oobe_cross_platform_sync">סנכרון בין פלטפורמות</string>
     <string name="oobe_cross_platform_sync_description">שמרו על הרמוניה במוזיקה שלכם בין מכשירים שונים</string>
     <string name="oobe_use_backup">יש לי גיבוי</string>
-    <string name="oobe_interface_subtitle">התאם אישית את מראה InterTune ואת התוכן שהוא מציג לך.</string>
+    <string name="oobe_interface_subtitle">התאם אישית את מראה HiFi Player ואת התוכן שהוא מציג לך.</string>
     <string name="oobe_ytm_logon_title">חשבון</string>
     <string name="oobe_ytm_logon_subtitle">היכנס לחשבון YouTube Music שלך כדי לסנכרן ולגשת לתוכן חשבון פרטי (אופציונלי).</string>
     <string name="oobe_local_media_title">מדיה מקומית</string>
@@ -104,7 +104,7 @@
     <string name="oobe_downloads_title">הורדות שירים</string>
     <string name="oobe_downloads_subtitle">בחר תיקייה שבה יישמרו השירים שהורדו.</string>
     <string name="oobe_complete_title">אתה מוכן!</string>
-    <string name="oobe_complete">InterTune מותקן ומוכן לשימוש. גלו את המוזיקה שלכם, גלו שירים חדשים ותיהנו מהחוויה!</string>
+    <string name="oobe_complete">HiFi Player מותקן ומוכן לשימוש. גלו את המוזיקה שלכם, גלו שירים חדשים ותיהנו מהחוויה!</string>
     <string name="import_failed_songs">לא ניתן היה לייבא</string>
     <string name="import_success_songs">יובא בהצלחה</string>
     <string name="m3u_export">ייצוא כקובץ M3U</string>
@@ -140,7 +140,7 @@
     <string name="tablet_ui_title">כפיית ממשק משתמש של טאבלט</string>
     <string name="tablet_ui_title_description">הפעל ממשק תצוגה לרוחב המותאם למסכים גדולים יותר ללא קשר לגודל המסך הנוכחי</string>
     <string name="keep_alive_title">מניעת הריגת מערכת של אפליקציה</string>
-    <string name="keep_alive_description">השתמש בשירות קדמי מתמשך כדי למנוע סגירה של InterTune ברקע.</string>
+    <string name="keep_alive_description">השתמש בשירות קדמי מתמשך כדי למנוע סגירה של HiFi Player ברקע.</string>
     <string name="min_playback_duration">משך השמעה מינימלי</string>
     <string name="min_playback_duration_description">הכמות המינימלית של שיר שחייבת להיות מושמעת לפני שהוא נחשב \"מנוגן\"</string>
     <string name="swipe2Queue">החלק לתור</string>
@@ -209,7 +209,7 @@
     <string name="dl_migrate_title">מעביר הורדות לאחסון חיצוני…</string>
     <string name="dl_migrate_description">העבר הורדות מאחסון פנימי של האפליקציה לאחסון חיצוני</string>
     <string name="dl_rescan_description">עדכן את מסד הנתונים ורענן את רישום ההורדות אם קבצים או תיקיות שונו</string>
-    <string name="dl_storage_tooltip">הורדות פנימיות נשמרות באחסון הפרטי של האפליקציה ואינן נגישות ללא root.\n\nהורדות חיצוניות נשמרות באחסון החיצוני של המכשיר שלך (למשל, כרטיסי /sdcard או micro SD) וניתן לגשת אליהן או לערוך אותן ישירות באמצעות סייר קבצים. עבור תיקיית ההורדות החיצוניות, אנו ממליצים לבחור תיקייה ריקה במיוחד עבור הורדות שירים, מכיוון ש-InterTune עשוי לשנות או למחוק קבצים בתיקייה זו.\n\nתיקיות ייבוא נוספות הן לקריאה בלבד ומשמשות לטעינת שירים נוספים. InterTune לעולם לא ישנה או ימחק קבצים בתיקיות אלה. ניתן לבחור תיקיות אלה במקטע המתקדם.\n\nכאשר אתה מנקה הורדות, רק שירים פנימיים נמחקים. יש להסיר הורדות חיצוניות ושירים ייבוא נוספים באופן ידני, דרך תפריט השיר או ידנית באמצעות סייר קבצים.\n\nסרוק מחדש את תיקיות ההורדה: הורדות שירים בתיקיות ההורדות החיצוניות והייבוא נוסף אינן מתעדכנות אוטומטית. אם אתה מוסיף, מסיר או משנה קבצים באופן ידני באמצעות סייר קבצים, ייתכן שתצטרך לסרוק מחדש את תיקיות ההורדה כדי לעדכן את מסד הנתונים של האפליקציה. אפשרות זו זמינה במקטע המתקדם.</string>
+    <string name="dl_storage_tooltip">הורדות פנימיות נשמרות באחסון הפרטי של האפליקציה ואינן נגישות ללא root.\n\nהורדות חיצוניות נשמרות באחסון החיצוני של המכשיר שלך (למשל, כרטיסי /sdcard או micro SD) וניתן לגשת אליהן או לערוך אותן ישירות באמצעות סייר קבצים. עבור תיקיית ההורדות החיצוניות, אנו ממליצים לבחור תיקייה ריקה במיוחד עבור הורדות שירים, מכיוון ש-HiFi Player עשוי לשנות או למחוק קבצים בתיקייה זו.\n\nתיקיות ייבוא נוספות הן לקריאה בלבד ומשמשות לטעינת שירים נוספים. HiFi Player לעולם לא ישנה או ימחק קבצים בתיקיות אלה. ניתן לבחור תיקיות אלה במקטע המתקדם.\n\nכאשר אתה מנקה הורדות, רק שירים פנימיים נמחקים. יש להסיר הורדות חיצוניות ושירים ייבוא נוספים באופן ידני, דרך תפריט השיר או ידנית באמצעות סייר קבצים.\n\nסרוק מחדש את תיקיות ההורדה: הורדות שירים בתיקיות ההורדות החיצוניות והייבוא נוסף אינן מתעדכנות אוטומטית. אם אתה מוסיף, מסיר או משנה קבצים באופן ידני באמצעות סייר קבצים, ייתכן שתצטרך לסרוק מחדש את תיקיות ההורדה כדי לעדכן את מסד הנתונים של האפליקציה. אפשרות זו זמינה במקטע המתקדם.</string>
     <string name="attribution_title">שיוך</string>
     <string name="toggle_lyrics">הפעל/כבה את מילות השיר</string>
     <string name="ffmpeg_lgpl">תוכנה זו עושה שימוש בספריות מפרויקט FFmpeg תחת רישיון LGPLv2.1</string>
@@ -285,7 +285,7 @@
     <string name="quick_picks_source_description">מאיפה מגיעים השירים בשורת הבחירות המהירות. YouTube Music בוחר אותם עבור החשבון שלך. הספרייה שלך בונה את השורה משירים שקשורים למה שכבר האזנת לו. זה משנה רק את השורה הזו; שאר מסך הבית זהה בשני המקרים.</string>
     <string name="oobe_update_auto_description">מוריד אותה ברקע כדי שתהיה מוכנה כשתרצה. אנדרואיד עדיין יבקש ממך לאשר.</string>
     <string name="oobe_polls_answered">אפשר לשנות את זה בכל רגע בהגדרות, תחת שאלות.</string>
-    <string name="poll_title">שאלה מ-InterTune</string>
+    <string name="poll_title">שאלה מ-HiFi Player</string>
     <string name="poll_banner_hint">הקש כדי לענות, או סגור עם ה-X</string>
     <string name="poll_dismiss">התעלם מהשאלה הזו</string>
     <string name="poll_close">סגור</string>
@@ -294,7 +294,7 @@
     <string name="poll_anonymous_notice">התשובה שלך אנונימית. נשלח רק איזו שאלה זו הייתה, מה בחרת, וגרסת האפליקציה. בלי חשבון, בלי פרטי מכשיר, ובלי שום דבר על הספרייה שלך.</string>
     <string name="grp_polls">שאלות</string>
     <string name="polls_enabled">שאל אותי שאלה מדי פעם</string>
-    <string name="polls_enabled_description">InterTune בודק מדי פעם אם יש שאלה ומציג אותה בראש מסך הבית. כבוי כברירת מחדל. התשובות אנונימיות: נשלחים רק השאלה, הבחירה שלך וגרסת האפליקציה. כל עוד זה כבוי, שום דבר לא נטען.</string>
+    <string name="polls_enabled_description">HiFi Player בודק מדי פעם אם יש שאלה ומציג אותה בראש מסך הבית. כבוי כברירת מחדל. התשובות אנונימיות: נשלחים רק השאלה, הבחירה שלך וגרסת האפליקציה. כל עוד זה כבוי, שום דבר לא נטען.</string>
     <string name="polls_none">אין שאלה כרגע</string>
     <string name="polls_one_waiting">יש שאלה שמחכה</string>
     <string name="polls_forget">אפשר לשאול אותי שוב</string>
@@ -303,12 +303,12 @@
     <string name="catch_up_body">ההגדרות האלה דורשות את אישורך, וההתקנה הזאת מעולם לא נשאלה.</string>
     <string name="catch_up_done">סיום</string>
     <string name="polls_opt_in_title">לשאול אותך שאלה מדי פעם?</string>
-    <string name="polls_opt_in_body">מדי פעם InterTune יכול להציג שאלה קצרה בראש מסך הבית, על מה כדאי לבנות או לשנות. המענה אופציונלי ואנונימי, ואפשר לכבות את זה בכל רגע בהגדרות. כל עוד זה כבוי, שום דבר לא נטען ושום דבר לא נשלח.</string>
+    <string name="polls_opt_in_body">מדי פעם HiFi Player יכול להציג שאלה קצרה בראש מסך הבית, על מה כדאי לבנות או לשנות. המענה אופציונלי ואנונימי, ואפשר לכבות את זה בכל רגע בהגדרות. כל עוד זה כבוי, שום דבר לא נטען ושום דבר לא נשלח.</string>
     <string name="polls_opt_in_yes">כן, תשאלו אותי</string>
     <string name="polls_opt_in_no">לא, תודה</string>
     <string name="update_available_description">פותח את דף הגרסה כדי שתוכל לקרוא מה השתנה ולהוריד בעצמך. שימושי אם ההתקנה מתוך האפליקציה לא עובדת במכשיר הזה.</string>
     <string name="update_install">הורד והתקן</string>
-    <string name="update_prompt_title">InterTune %1$s זמינה</string>
+    <string name="update_prompt_title">HiFi Player %1$s זמינה</string>
     <string name="update_prompt_ready">כבר הורדה ומוכנה להתקנה.</string>
     <string name="update_prompt_needs_permission">הורדה ומוכנה. אנדרואיד צריך קודם את האישור שלך: צריך לתת אותו רק פעם אחת.</string>
     <string name="update_prompt_allow">המשך</string>
@@ -317,15 +317,15 @@
     <string name="update_prompt_install">התקן</string>
     <string name="update_auto">הורד עדכונים אוטומטית</string>
     <string name="update_auto_description">מביא את הגרסה החדשה ברקע כדי שתהיה מוכנה ברגע שתרצה. היא עדיין לא יכולה להתקין את עצמה: אנדרואיד תמיד מבקש אישור, אז את בקשת ההתקנה תראה כך או כך.</string>
-    <string name="update_install_description">מוריד את הגרסה החדשה ומבקש מאנדרואיד להתקין אותה. בפעם הראשונה אנדרואיד יבקש ממך לאפשר ל-InterTune להתקין אפליקציות. שום דבר לא מותקן בלי שתאשר.</string>
+    <string name="update_install_description">מוריד את הגרסה החדשה ומבקש מאנדרואיד להתקין אותה. בפעם הראשונה אנדרואיד יבקש ממך לאפשר ל-HiFi Player להתקין אפליקציות. שום דבר לא מותקן בלי שתאשר.</string>
     <string name="update_downloading">מוריד, %1$d%%. הקש כדי לעצור.</string>
     <string name="update_downloading_indeterminate">מוריד. הקש כדי לעצור.</string>
     <string name="update_awaiting_confirmation">מוכן. אנדרואיד יבקש ממך לאשר את ההתקנה.</string>
-    <string name="update_needs_permission">אנדרואיד צריך את האישור שלך כדי ש-InterTune יתקין אפליקציות. הקש כדי לפתוח את ההגדרה הזו, ואז חזור ונסה שוב.</string>
+    <string name="update_needs_permission">אנדרואיד צריך את האישור שלך כדי ש-HiFi Player יתקין אפליקציות. הקש כדי לפתוח את ההגדרה הזו, ואז חזור ונסה שוב.</string>
     <string name="update_install_failed">ההתקנה נכשלה: %1$s. עדיין אפשר להוריד בעצמך מדף הגרסה.</string>
     <string name="update_open_page">פתח במקום זאת את דף הגרסה</string>
-    <string name="update_check_description">בודק ב-GitHub אם יצאה גרסה חדשה יותר של InterTune בכל פעם שאתה פותח את האפליקציה. כבוי כברירת מחדל. שום דבר לא מותקן בלי שתאשר.</string>
-    <string name="oobe_update_check_description">InterTune לא נמצאת בחנות אפליקציות, ולכן היא בודקת ב-GitHub כשהיא נפתחת ומודיעה לך כשיש גרסה חדשה. היא יכולה להוריד ולהתקין עבורך, ואנדרואיד תמיד מבקש אישור קודם. אפשר לשנות את זה אחר כך בהגדרות.</string>
+    <string name="update_check_description">בודק ב-GitHub אם יצאה גרסה חדשה יותר של HiFi Player בכל פעם שאתה פותח את האפליקציה. כבוי כברירת מחדל. שום דבר לא מותקן בלי שתאשר.</string>
+    <string name="oobe_update_check_description">HiFi Player לא נמצאת בחנות אפליקציות, ולכן היא בודקת ב-GitHub כשהיא נפתחת ומודיעה לך כשיש גרסה חדשה. היא יכולה להוריד ולהתקין עבורך, ואנדרואיד תמיד מבקש אישור קודם. אפשר לשנות את זה אחר כך בהגדרות.</string>
     <string name="look_and_feel">מראה ותחושה</string>
     <string name="grp_privacy_and_history">פרטיות והיסטוריה</string>
     <string name="grp_storage_and_downloads">אחסון והורדות</string>

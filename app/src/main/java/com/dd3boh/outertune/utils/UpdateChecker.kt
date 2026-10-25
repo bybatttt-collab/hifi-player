@@ -92,6 +92,8 @@ class UpdateChecker @Inject constructor(
      * per IP and everyone behind one carrier NAT shares that budget.
      */
     suspend fun check(force: Boolean = false): Update? = withContext(Dispatchers.IO) {
+        // This personal fork must never offer an APK signed by the upstream project.
+        if (BuildConfig.APPLICATION_ID.startsWith("local.hifi.player") && (BuildConfig.DEBUG || BuildConfig.HIFI_UPDATE_REPOSITORY.isBlank())) return@withContext null
         // Debug builds only: the fake-update file stands in for a release, whatever the switch
         // says, so the whole install can be tried on an emulator. See FAKE_UPDATE_FILE.
         fakeUpdate()?.let { fake ->
@@ -99,7 +101,7 @@ class UpdateChecker @Inject constructor(
             return@withContext fake
         }
         val store = context.dataStore
-        if (!force && !store.get(UpdateCheckEnabledKey, false)) return@withContext null
+        if (!force && !store.get(UpdateCheckEnabledKey, !BuildConfig.DEBUG)) return@withContext null
         // Offline means the check could not be made, not that there is no update: show an update
         // a previous check already found, and let lastCheckFailed tell the caller.
         if (!context.isInternetConnected()) {
@@ -122,7 +124,7 @@ class UpdateChecker @Inject constructor(
         val body = runCatching {
             client.newCall(
                 Request.Builder()
-                    .url(RELEASES_URL)
+                    .url(if (BuildConfig.APPLICATION_ID.startsWith("local.hifi.player")) "https://api.github.com/repos/${BuildConfig.HIFI_UPDATE_REPOSITORY}/releases/latest" else RELEASES_URL)
                     .header("Accept", "application/vnd.github+json")
                     .build()
             ).execute().use { response ->
@@ -189,6 +191,7 @@ class UpdateChecker @Inject constructor(
         val url = store.get(LastReleaseUrlKey, "")
         val apk = store.get(LastDownloadUrlKey, "")
         if (code <= BuildConfig.VERSION_CODE || name.isEmpty() || url.isEmpty()) return null
+        if (BuildConfig.APPLICATION_ID.startsWith("local.hifi.player") && !ReleaseSourcePolicy.trustedDownload(apk, BuildConfig.HIFI_UPDATE_REPOSITORY)) return null
         if (code == store.get(DismissedUpdateCodeKey, -1)) return null
 
         val restored = Update(
@@ -262,6 +265,7 @@ class UpdateChecker @Inject constructor(
             }
         }
         if (code < 0 || downloadUrl.isEmpty()) return null
+        if (BuildConfig.APPLICATION_ID.startsWith("local.hifi.player") && !ReleaseSourcePolicy.trustedDownload(downloadUrl, BuildConfig.HIFI_UPDATE_REPOSITORY)) return null
 
         return Update(
             versionCode = code,

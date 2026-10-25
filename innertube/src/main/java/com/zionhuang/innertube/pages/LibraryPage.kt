@@ -16,20 +16,19 @@ import com.zionhuang.innertube.utils.parseTime
 data class LibraryPage(
     val items: List<YTItem>,
     val continuation: String?,
+    val complete: Boolean = true,
 ) {
     companion object {
         fun fromMusicTwoRowItemRenderer(renderer: MusicTwoRowItemRenderer): YTItem? {
             return when {
                 renderer.isAlbum -> AlbumItem(
                     browseId = renderer.navigationEndpoint.browseEndpoint?.browseId ?: return null,
-                    playlistId = renderer.thumbnailOverlay?.musicItemThumbnailOverlayRenderer?.content
-                        ?.musicPlayButtonRenderer?.playNavigationEndpoint
-                        ?.watchPlaylistEndpoint?.playlistId ?: return null,
+                    playlistId = albumPlaylistId(renderer) ?: return null,
                     title = renderer.title.runs?.firstOrNull()?.text ?: return null,
                     artists = parseArtists(renderer.subtitle?.runs),
                     year = renderer.subtitle?.runs?.lastOrNull()?.text?.toIntOrNull(),
                     thumbnail = renderer.thumbnailRenderer.musicThumbnailRenderer?.getThumbnailUrl()
-                        ?: return null,
+                        .orEmpty(),
                     explicit = renderer.subtitleBadges?.find {
                         it.musicInlineBadgeRenderer?.icon?.iconType == "MUSIC_EXPLICIT_BADGE"
                     } != null
@@ -44,13 +43,13 @@ data class LibraryPage(
                     playEndpoint = renderer.thumbnailOverlay
                         ?.musicItemThumbnailOverlayRenderer?.content
                         ?.musicPlayButtonRenderer?.playNavigationEndpoint
-                        ?.watchPlaylistEndpoint,
+                        ?.anyWatchEndpoint,
                     shuffleEndpoint = renderer.menu?.menuRenderer?.items?.find {
                         it.menuNavigationItemRenderer?.icon?.iconType == "MUSIC_SHUFFLE"
-                    }?.menuNavigationItemRenderer?.navigationEndpoint?.watchPlaylistEndpoint,
+                    }?.menuNavigationItemRenderer?.navigationEndpoint?.anyWatchEndpoint,
                     radioEndpoint = renderer.menu?.menuRenderer?.items?.find {
                         it.menuNavigationItemRenderer?.icon?.iconType == "MIX"
-                    }?.menuNavigationItemRenderer?.navigationEndpoint?.watchPlaylistEndpoint,
+                    }?.menuNavigationItemRenderer?.navigationEndpoint?.anyWatchEndpoint,
                     isEditable = renderer.menu?.menuRenderer?.items?.none {
                         // idk why we have the same menu even if on YTM webpage it shows different menus. I would rather
                         // check for a proper edit status or even a "delete playlist" item in the menu but... this is
@@ -66,10 +65,10 @@ data class LibraryPage(
                     thumbnail = renderer.thumbnailRenderer.musicThumbnailRenderer?.getThumbnailUrl() ?: return null,
                     shuffleEndpoint = renderer.menu?.menuRenderer?.items?.find {
                         it.menuNavigationItemRenderer?.icon?.iconType == "MUSIC_SHUFFLE"
-                    }?.menuNavigationItemRenderer?.navigationEndpoint?.watchPlaylistEndpoint ?: return null,
+                    }?.menuNavigationItemRenderer?.navigationEndpoint?.anyWatchEndpoint ?: return null,
                     radioEndpoint = renderer.menu.menuRenderer.items.find {
                         it.menuNavigationItemRenderer?.icon?.iconType == "MIX"
-                    }?.menuNavigationItemRenderer?.navigationEndpoint?.watchPlaylistEndpoint ?: return null,
+                    }?.menuNavigationItemRenderer?.navigationEndpoint?.anyWatchEndpoint ?: return null,
                 )
 
                 else -> null
@@ -115,32 +114,25 @@ data class LibraryPage(
                         ?: return null,
                     shuffleEndpoint = renderer.menu?.menuRenderer?.items
                         ?.find { it.menuNavigationItemRenderer?.icon?.iconType == "MUSIC_SHUFFLE" }
-                        ?.menuNavigationItemRenderer?.navigationEndpoint?.watchPlaylistEndpoint,
+                        ?.menuNavigationItemRenderer?.navigationEndpoint?.anyWatchEndpoint,
                     radioEndpoint = renderer.menu?.menuRenderer?.items
                         ?.find { it.menuNavigationItemRenderer?.icon?.iconType == "MIX" }
-                        ?.menuNavigationItemRenderer?.navigationEndpoint?.watchPlaylistEndpoint
+                        ?.menuNavigationItemRenderer?.navigationEndpoint?.anyWatchEndpoint
                 )
 
                 else -> null
             }
         }
 
-        private fun parseArtists(runs: List<Run>?): List<Artist> {
-            val artists = mutableListOf<Artist>()
-
-            if (runs != null) {
-                for (run in runs) {
-                    if (run.navigationEndpoint != null) {
-                        artists.add(
-                            Artist(
-                                id = run.navigationEndpoint.browseEndpoint?.browseId!!,
-                                name = run.text
-                            )
-                        )
-                    }
+        private fun albumPlaylistId(renderer: MusicTwoRowItemRenderer): String? =
+            renderer.thumbnailOverlay?.musicItemThumbnailOverlayRenderer?.content
+                ?.musicPlayButtonRenderer?.playNavigationEndpoint?.anyWatchEndpoint?.playlistId
+                ?: renderer.menu?.menuRenderer?.items.orEmpty().firstNotNullOfOrNull {
+                    it.menuNavigationItemRenderer?.navigationEndpoint?.anyWatchEndpoint?.playlistId
                 }
-            }
-            return artists
+
+        private fun parseArtists(runs: List<Run>?): List<Artist> = runs.orEmpty().mapNotNull { run ->
+            run.navigationEndpoint?.browseEndpoint?.browseId?.let { Artist(name = run.text, id = it) }
         }
     }
 }

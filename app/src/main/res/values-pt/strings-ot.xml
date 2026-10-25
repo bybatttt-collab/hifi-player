@@ -100,7 +100,7 @@
     <string name="audio_offload">Ativar descarga</string>
     <string name="audio_offload_description">Utilize o caminho de áudio de descarregamento para a reprodução de áudio. A ativação desta opção pode reduzir o consumo de energia, mas pode causar problemas com a reprodução ou o pós-processamento de áudio. Esta preferência não tem qualquer efeito para codecs ou dispositivos não suportados</string>
     <string name="keep_alive_title">Evitar encerramento pelo sistema</string>
-    <string name="keep_alive_description">Usar um serviço de primeiro plano persistente para evitar que o InterTune seja encerrado em segundo plano</string>
+    <string name="keep_alive_description">Usar um serviço de primeiro plano persistente para evitar que o HiFi Player seja encerrado em segundo plano</string>
     <string name="persistent_queue_desc_ot">Restaurar fila(s) aberta(s) previamente ao iniciar a app</string>
     <string name="min_playback_duration">Duração mínima de reprodução</string>
     <string name="min_playback_duration_description">A duração mínima que uma música deve ser reproduzida antes que seja considerada realmente reproduzida</string>
@@ -184,7 +184,7 @@
     <string name="dl_size_used_cache">Interno: %s usados</string>
     <string name="dl_size_used_main">Externo: %s usados</string>
     <string name="dl_size_used_extra">Importados extra: %s usados</string>
-    <string name="dl_storage_tooltip">As descargas internas são gravadas no armazenamento privado da app e não são acessíveis sem root.\n\nAs descargas externas são gravadas no armazenamento externo do seu dispositivo (ex: /sdcard ou em cartões micro SD) e podem serem acedidas e editados diretamente com um explorador de ficheiros. Para a pasta de descargas externas, recomendamos selecionar uma pasta vazia especificamente para descarregar músicas, já que o InterTune pode modificar ou apagar ficheiros nesta pasta.\n\nPastas de importações extra são somente de leitura e são usadas para carregar músicas adicionais. O InterTune nunca alterará ou apagará ficheiros nestas pastas. Pode selecionar uma dessas pastas na secção avançada.\n\nAo apagar descargas, somente as músicas internas serão apagadas. As descargas externas e as importações extra devem serem apagados manualmente, ou pelo menu da música ou manualmente usando um explorador de ficheiros.\n\nPastas de análise de descargas: Descargas de músicas externas e importações extra NÃO são atualizadas automaticamente. Se adicionar, remover, ou alterar ficheiros manualmente usando um explorador de ficheiros, precisará analisar as pastas de descargas novamente para atualizar a base de dados da app. Esta opção está disponível na secção avançada.</string>
+    <string name="dl_storage_tooltip">As descargas internas são gravadas no armazenamento privado da app e não são acessíveis sem root.\n\nAs descargas externas são gravadas no armazenamento externo do seu dispositivo (ex: /sdcard ou em cartões micro SD) e podem serem acedidas e editados diretamente com um explorador de ficheiros. Para a pasta de descargas externas, recomendamos selecionar uma pasta vazia especificamente para descarregar músicas, já que o HiFi Player pode modificar ou apagar ficheiros nesta pasta.\n\nPastas de importações extra são somente de leitura e são usadas para carregar músicas adicionais. O HiFi Player nunca alterará ou apagará ficheiros nestas pastas. Pode selecionar uma dessas pastas na secção avançada.\n\nAo apagar descargas, somente as músicas internas serão apagadas. As descargas externas e as importações extra devem serem apagados manualmente, ou pelo menu da música ou manualmente usando um explorador de ficheiros.\n\nPastas de análise de descargas: Descargas de músicas externas e importações extra NÃO são atualizadas automaticamente. Se adicionar, remover, ou alterar ficheiros manualmente usando um explorador de ficheiros, precisará analisar as pastas de descargas novamente para atualizar a base de dados da app. Esta opção está disponível na secção avançada.</string>
     <string name="restart_to_apply_changes">Reinicie a app para que as alterações tomem efeito</string>
     <string name="pause_remote_listen_history">Pausar o compartilhamento do histórico de reprodução com o YouTube Music</string>
     <string name="err_restore_incompatible_database">Não foi possível restaurar a base de dados incompatível</string>
@@ -193,7 +193,7 @@
     <string name="dev_settings_description">Revela configurações avançadas adicionais utilizadas no desenvolvimento</string>
     <string name="swipe_to_skip_title">Deslizar horizontalmente para mudar de música</string>
     <string name="swipe_to_skip_description">Deslize horizontalmente no reprodutor para mudar de música</string>
-    <string name="oobe_welcome_message">Boas-vindas ao InterTune</string>
+    <string name="oobe_welcome_message">Boas-vindas ao HiFi Player</string>
     <string name="oobe_ytm_integration">Integração com o YouTube Music</string>
     <string name="oobe_ytm_integration_description">Aceda as suas músicas favoritas</string>
     <string name="oobe_ad_free_exp">Sem anúncios do YouTube</string>
@@ -203,7 +203,7 @@
     <string name="oobe_cross_platform_sync">Sincronização entre plataformas</string>
     <string name="oobe_cross_platform_sync_description">Mantenha a sua música em harmonia entre dispositivos</string>
     <string name="oobe_use_backup">Tenho um backup</string>
-    <string name="oobe_interface_subtitle">Customize como o InterTune parece e que conteúdo lhe mostra.</string>
+    <string name="oobe_interface_subtitle">Customize como o HiFi Player parece e que conteúdo lhe mostra.</string>
     <string name="oobe_ytm_logon_title">Conta</string>
     <string name="oobe_ytm_logon_subtitle">Conecte-se à sua conta do YouTube Music para sincronizar e aceder conteúdo privado da conta. Isto é opcional.</string>
     <string name="oobe_local_media_title">Média local</string>
@@ -211,7 +211,7 @@
     <string name="oobe_downloads_title">Descargas de músicas</string>
     <string name="oobe_downloads_subtitle">Selecione uma pasta na qual as músicas descarregadas serão gravadas.</string>
     <string name="oobe_complete_title">Está tudo pronto!</string>
-    <string name="oobe_complete">O InterTune está configurado e pronto para ser usado. Explore as suas músicas, descubra novas faixas e aproveite a experiência!</string>
+    <string name="oobe_complete">O HiFi Player está configurado e pronto para ser usado. Explore as suas músicas, descubra novas faixas e aproveite a experiência!</string>
     <string name="import_failed_songs">Não foi possível importar</string>
     <string name="import_success_songs">Importadas com sucesso</string>
     <string name="m3u_export">Exportar como um ficheiro M3U</string>
@@ -303,7 +303,7 @@
     <string name="quick_picks_source_description">De onde vêm as músicas da linha Escolhas rápidas. O YouTube Music escolhe-as para a sua conta. A sua biblioteca constrói a linha a partir de músicas relacionadas com o que já ouviu. Isto muda apenas essa linha; o resto do ecrã inicial é igual nos dois casos.</string>
     <string name="oobe_update_auto_description">Transfere-a em segundo plano para estar pronta quando quiser. O Android continua a pedir-lhe confirmação.</string>
     <string name="oobe_polls_answered">Pode alterar isto a qualquer momento nas Definições, em Perguntas.</string>
-    <string name="poll_title">Uma pergunta do InterTune</string>
+    <string name="poll_title">Uma pergunta do HiFi Player</string>
     <string name="poll_banner_hint">Toque para responder, ou dispense com a cruz</string>
     <string name="poll_dismiss">Dispensar esta pergunta</string>
     <string name="poll_close">Fechar</string>
@@ -312,7 +312,7 @@
     <string name="poll_anonymous_notice">A sua resposta é anónima. Só é enviado qual era a pergunta, o que escolheu e a versão da aplicação. Nenhuma conta, nenhum detalhe do dispositivo, nada sobre a sua biblioteca.</string>
     <string name="grp_polls">Perguntas</string>
     <string name="polls_enabled">Fazer-me uma pergunta de vez em quando</string>
-    <string name="polls_enabled_description">O InterTune verifica de vez em quando se há uma pergunta e mostra-a no topo do ecrã inicial. Desativado por predefinição. As respostas são anónimas: só são enviados a pergunta, a sua escolha e a versão da aplicação. Enquanto isto estiver desativado, nada é transferido.</string>
+    <string name="polls_enabled_description">O HiFi Player verifica de vez em quando se há uma pergunta e mostra-a no topo do ecrã inicial. Desativado por predefinição. As respostas são anónimas: só são enviados a pergunta, a sua escolha e a versão da aplicação. Enquanto isto estiver desativado, nada é transferido.</string>
     <string name="polls_none">Nenhuma pergunta de momento</string>
     <string name="polls_one_waiting">Há uma pergunta à espera</string>
     <string name="polls_forget">Deixar que me perguntem de novo</string>
@@ -321,12 +321,12 @@
     <string name="catch_up_body">Estas definições precisam da sua autorização, e esta instalação nunca foi questionada.</string>
     <string name="catch_up_done">Concluído</string>
     <string name="polls_opt_in_title">Fazer-lhe uma pergunta de vez em quando?</string>
-    <string name="polls_opt_in_body">De vez em quando o InterTune pode mostrar uma pergunta curta no topo do ecrã inicial, sobre o que construir ou mudar. Responder é opcional e anónimo, e pode desativar isto a qualquer momento nas definições. Enquanto estiver desativado, nada é transferido e nada é enviado.</string>
+    <string name="polls_opt_in_body">De vez em quando o HiFi Player pode mostrar uma pergunta curta no topo do ecrã inicial, sobre o que construir ou mudar. Responder é opcional e anónimo, e pode desativar isto a qualquer momento nas definições. Enquanto estiver desativado, nada é transferido e nada é enviado.</string>
     <string name="polls_opt_in_yes">Sim, pergunte-me</string>
     <string name="polls_opt_in_no">Não, obrigado</string>
     <string name="update_available_description">Abre a página da versão para poder ler o que mudou e transferi-la você mesmo. Útil se a instalação a partir da aplicação não funcionar neste dispositivo.</string>
     <string name="update_install">Transferir e instalar</string>
-    <string name="update_prompt_title">O InterTune %1$s está disponível</string>
+    <string name="update_prompt_title">O HiFi Player %1$s está disponível</string>
     <string name="update_prompt_ready">Já transferida e pronta a instalar.</string>
     <string name="update_prompt_needs_permission">Transferida e pronta. O Android precisa primeiro da sua permissão: só tem de ser dada uma vez.</string>
     <string name="update_prompt_allow">Continuar</string>
@@ -335,15 +335,15 @@
     <string name="update_prompt_install">Instalar</string>
     <string name="update_auto">Transferir atualizações automaticamente</string>
     <string name="update_auto_description">Obtém a nova versão em segundo plano para estar pronta no momento em que a quiser. Continua a não poder instalar-se sozinha: o Android pede sempre confirmação, por isso verá o pedido de instalação de qualquer forma.</string>
-    <string name="update_install_description">Transfere a nova versão e pede ao Android para a instalar. Da primeira vez, o Android vai pedir-lhe para permitir que o InterTune instale aplicações. Nunca é instalado nada sem a sua confirmação.</string>
+    <string name="update_install_description">Transfere a nova versão e pede ao Android para a instalar. Da primeira vez, o Android vai pedir-lhe para permitir que o HiFi Player instale aplicações. Nunca é instalado nada sem a sua confirmação.</string>
     <string name="update_downloading">A transferir, %1$d%%. Toque para parar.</string>
     <string name="update_downloading_indeterminate">A transferir. Toque para parar.</string>
     <string name="update_awaiting_confirmation">Pronta. O Android vai pedir-lhe para confirmar a instalação.</string>
-    <string name="update_needs_permission">O Android precisa da sua permissão para o InterTune instalar aplicações. Toque para abrir essa definição, depois volte e tente de novo.</string>
+    <string name="update_needs_permission">O Android precisa da sua permissão para o HiFi Player instalar aplicações. Toque para abrir essa definição, depois volte e tente de novo.</string>
     <string name="update_install_failed">Não foi possível instalar: %1$s. Pode à mesma transferi-la você próprio a partir da página da versão.</string>
     <string name="update_open_page">Abrir antes a página da versão</string>
-    <string name="update_check_description">Verifica no GitHub se existe uma versão mais recente do InterTune sempre que abre a aplicação. Desativado por predefinição. Nunca é instalado nada sem a sua confirmação.</string>
-    <string name="oobe_update_check_description">O InterTune não está numa loja de aplicações, por isso consulta o GitHub quando abre e avisa-o quando há uma versão nova. Pode transferi-la e instalá-la por si, e o Android pede sempre confirmação primeiro. Pode alterar isto mais tarde nas definições.</string>
+    <string name="update_check_description">Verifica no GitHub se existe uma versão mais recente do HiFi Player sempre que abre a aplicação. Desativado por predefinição. Nunca é instalado nada sem a sua confirmação.</string>
+    <string name="oobe_update_check_description">O HiFi Player não está numa loja de aplicações, por isso consulta o GitHub quando abre e avisa-o quando há uma versão nova. Pode transferi-la e instalá-la por si, e o Android pede sempre confirmação primeiro. Pode alterar isto mais tarde nas definições.</string>
     <string name="look_and_feel">Aspeto</string>
     <string name="grp_privacy_and_history">Privacidade e histórico</string>
     <string name="grp_storage_and_downloads">Armazenamento e transferências</string>

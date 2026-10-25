@@ -157,33 +157,7 @@ import kotlinx.coroutines.withContext
  */
 @Composable
 fun CastButton(tint: Color, modifier: Modifier = Modifier) {
-    if (!Unreleased.CASTING) return
-    val playerConnection = LocalPlayerConnection.current ?: return
-    val session = playerConnection.service.castSession ?: return
-    val state by session.state.collectAsState()
-    val showPicker by session.pickerOpen.collectAsState()
-
-    val casting = state as? CastSession.State.Casting
-    val connecting = state as? CastSession.State.Connecting
-    IconButton(onClick = { session.pickerOpen.value = true }, modifier = modifier) {
-        Icon(
-            imageVector = if (casting != null) Icons.Rounded.CastConnected else Icons.Rounded.Cast,
-            contentDescription = when {
-                casting != null -> stringResource(R.string.cast_playing_on, casting.device.name)
-                connecting != null -> stringResource(R.string.cast_connecting_to, connecting.device.name)
-                else -> stringResource(R.string.cast)
-            },
-            tint = when {
-                casting != null -> MaterialTheme.colorScheme.primary
-                connecting != null -> tint.copy(alpha = 0.5f)
-                else -> tint
-            },
-        )
-    }
-
-    if (showPicker) {
-        CastPicker(session, onDismiss = { session.pickerOpen.value = false })
-    }
+    // Output controls are available from the player overflow menu.
 }
 
 /**
@@ -206,113 +180,7 @@ fun OutputButton(
     backdrop: LayerBackdrop? = null,
     glassIntensity: Float = 1f,
 ) {
-    if (!Unreleased.CASTING) return
-    val playerConnection = LocalPlayerConnection.current ?: return
-    val session = playerConnection.service.castSession ?: return
-    val state by session.state.collectAsState()
-    val showPicker by session.pickerOpen.collectAsState()
-    val casting = state as? CastSession.State.Casting
-    val connecting = state as? CastSession.State.Connecting
-    val local = rememberLocalOutput()
-    val open = { session.pickerOpen.value = true }
-
-    if (casting != null && !wide) {
-        // Laid over a corner, on a phone on its side: the pill, in the bar's colour.
-        Surface(
-            onClick = open,
-            shape = CircleShape,
-            color = if (backdrop != null) Color.Transparent else MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            modifier = modifier
-                .requiredHeight(44.dp)
-                .frosted(backdrop, glassIntensity, CircleShape, MaterialTheme.colorScheme.primary.copy(alpha = lerp(0.95f, 0.8f, glassIntensity.coerceIn(0f, 1f)))),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.padding(horizontal = 18.dp),
-            ) {
-                Icon(iconOf(casting.device), contentDescription = null, modifier = Modifier.size(22.dp))
-                Text(casting.device.name, style = MaterialTheme.typography.labelLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            }
-        }
-    } else if (casting != null) {
-        Surface(
-            onClick = open,
-            shape = RoundedCornerShape(20.dp),
-            color = if (backdrop != null) Color.Transparent else MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            modifier = modifier
-                .fillMaxWidth()
-                .requiredHeight(56.dp)
-                .frosted(backdrop, glassIntensity, RoundedCornerShape(20.dp), MaterialTheme.colorScheme.primary.copy(alpha = lerp(0.95f, 0.8f, glassIntensity.coerceIn(0f, 1f)))),
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 16.dp)) {
-                Icon(iconOf(casting.device), contentDescription = null)
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 14.dp)
-                ) {
-                    Text(casting.device.name, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    Text(
-                        stringResource(R.string.cast_casting),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = LocalContentColor.current.copy(alpha = 0.75f),
-                        maxLines = 1,
-                    )
-                }
-                Icon(Icons.AutoMirrored.Rounded.KeyboardArrowRight, contentDescription = null)
-            }
-        }
-    } else {
-        Surface(
-            onClick = open,
-            shape = CircleShape,
-            color = if (backdrop != null) Color.Transparent else tint.copy(alpha = 0.12f),
-            contentColor = tint,
-            modifier = modifier
-                .requiredHeight(44.dp)
-                .frosted(backdrop, glassIntensity, CircleShape, tint.copy(alpha = 0.16f)),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.padding(horizontal = 18.dp),
-            ) {
-                if (connecting != null) {
-                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp, color = tint)
-                    Text(stringResource(R.string.cast_connecting_to, connecting.device.name), style = MaterialTheme.typography.labelLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                } else {
-                    Icon(
-                        imageVector = when (local.kind) {
-                            LocalOutput.Kind.PHONE -> Icons.Rounded.Smartphone
-                            LocalOutput.Kind.BLUETOOTH, LocalOutput.Kind.WIRED -> Icons.Rounded.Headphones
-                            LocalOutput.Kind.OTHER -> Icons.Rounded.Speaker
-                        },
-                        contentDescription = null,
-                        modifier = Modifier.size(22.dp),
-                    )
-                    Text(
-                        text = local.name ?: stringResource(
-                            when (local.kind) {
-                                LocalOutput.Kind.WIRED -> R.string.output_wired
-                                LocalOutput.Kind.OTHER -> R.string.output_cable
-                                else -> R.string.output_this_phone
-                            }
-                        ),
-                        style = MaterialTheme.typography.labelLarge,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-            }
-        }
-    }
-
-    if (showPicker) {
-        CastPicker(session, onDismiss = { session.pickerOpen.value = false })
-    }
+    // Output controls are available from the player overflow menu.
 }
 
 /**
@@ -839,4 +707,13 @@ private fun iconOf(device: CastDevice): ImageVector = when (device.protocol) {
     CastProtocol.FCAST -> Icons.Rounded.Tv
     CastProtocol.DLNA -> Icons.Rounded.Speaker
     CastProtocol.CHROMECAST -> if (device.audioOnly) Icons.Rounded.Speaker else Icons.Rounded.Tv
+}
+
+@Composable
+fun OutputPickerHost() {
+    if (!Unreleased.CASTING) return
+    val connection = LocalPlayerConnection.current ?: return
+    val session = connection.service.castSession ?: return
+    val show by session.pickerOpen.collectAsState()
+    if (show) CastPicker(session, onDismiss = { session.pickerOpen.value = false })
 }

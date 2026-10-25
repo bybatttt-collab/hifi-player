@@ -573,6 +573,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        downloadUtil.retryDeferredDownloadsOnResume()
+    }
+
     override fun onDestroy() {
         Log.i(MAIN_TAG, "onDestroy() called. isFinishing = $isFinishing")
         try {
@@ -628,7 +633,7 @@ class MainActivity : ComponentActivity() {
             val snackbarHostState = remember { SnackbarHostState() }
 
             val enableDynamicTheme by rememberPreference(DynamicThemeKey, defaultValue = true)
-            val darkTheme by rememberEnumPreference(DarkModeKey, defaultValue = DarkMode.AUTO)
+            val darkTheme by rememberEnumPreference(DarkModeKey, defaultValue = DarkMode.ON)
             val highContrastCompat by rememberPreference(HighContrastKey, defaultValue = false)
             val pureBlack by rememberPreference(PureBlackKey, defaultValue = false)
             val isSystemInDarkTheme = isSystemInDarkTheme()
@@ -678,7 +683,9 @@ class MainActivity : ComponentActivity() {
              */
             val slimNav = slimNavPreference ||
                     windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT
-            val (enabledTabs) = rememberPreference(EnabledTabsKey, defaultValue = DEFAULT_ENABLED_TABS)
+            val (enabledTabs, changeEnabledTabs) = rememberPreference(EnabledTabsKey, defaultValue = DEFAULT_ENABLED_TABS)
+            var hifiNavigationMigrated by rememberPreference(com.dd3boh.outertune.utils.HifiNavigationMigratedKey, false)
+            LaunchedEffect(hifiNavigationMigrated) { if (!hifiNavigationMigrated) { changeEnabledTabs(DEFAULT_ENABLED_TABS); hifiNavigationMigrated = true } }
             val navigationItems = Screens.getScreens(enabledTabs)
             // One size for the tabs' names, in the bar or in the rail: see TabLabel.
             val tabNames = remember { SameTextSize() }
@@ -763,47 +770,6 @@ class MainActivity : ComponentActivity() {
             // is in effect. onDestroy unregisters it.
             connectivityObserver = remember { NetworkConnectivityObserver(this@MainActivity) }
             val isNetworkConnected by connectivityObserver.networkStatus.collectAsState(true)
-
-            LaunchedEffect(playerConnection, enableDynamicTheme, isSystemInDarkTheme) {
-                val playerConnection = playerConnection
-                if (!enableDynamicTheme || playerConnection == null) {
-                    themeColor = DefaultThemeColor
-                    return@LaunchedEffect
-                }
-                playerConnection.service.currentMediaMetadata.collectLatest { song ->
-                    // Done inside collectLatest rather than launched from it. Launching made the
-                    // lambda return the moment the job was handed off, so collectLatest had
-                    // nothing left to cancel when the next song arrived: every skip added another
-                    // image load and palette extraction racing the others to write themeColor,
-                    // and the winner was whichever finished last, not whichever song was playing.
-                    // Skipping quickly could therefore settle the theme on a song two back.
-                    themeColor = withContext(coilCoroutine) {
-                        var ret = DefaultThemeColor
-                        // A 100px thumbnail, the same one Player.kt asks for when it extracts the
-                        // gradient. Local files were already capped at 100px here, but a remote
-                        // song passed its bare thumbnailUrl with no size, so Coil fetched and
-                        // software-decoded the cover at whatever size that url named, often 544px
-                        // and over a megabyte of heap, on every track change, screen off included,
-                        // only to boil it down to one colour. Palette scales its input down to
-                        // roughly 112px square before it looks at it anyway, so the colour comes
-                        // out near enough the same. It is also the url the player's gradient and
-                        // blur backgrounds ask for, so they share one cached copy of it.
-                        val model = song?.getThumbnailModel(100, 100)
-                        if (model != null) {
-                            val result = applicationContext.imageLoader.execute(
-                                ImageRequest.Builder(applicationContext)
-                                    .data(model)
-                                    .allowHardware(false)
-                                    .build()
-                            )
-
-                            ret = result.image?.toBitmap()?.extractThemeSource() ?: DefaultThemeColor
-                        }
-                        ret
-                    }
-                }
-            }
-
 
             OuterTuneTheme(
                 context = this@MainActivity,
@@ -1080,6 +1046,22 @@ class MainActivity : ComponentActivity() {
 
                     // Keyed on the rail too: a turn no longer makes a new screen, so without it the
                     // pages kept the left edge they had upright and ran under the rail on their side.
+                    LaunchedEffect(navController) {
+                        com.dd3boh.outertune.utils.RymBrowser.openings.collect {
+                            searchActive = false
+                            if (playerBottomSheetState.isExpanded) playerBottomSheetState.collapseSoft()
+                            if (navController.currentBackStackEntry?.destination?.route != "rym") {
+                                navigateToNavTab(navController, "rym", navigationItems, navController.currentBackStackEntry)
+                            }
+                        }
+                    }
+                    LaunchedEffect(navController) {
+                        com.dd3boh.outertune.utils.RymBrowser.albumOpenings.collect { id ->
+                            searchActive = false
+                            if (playerBottomSheetState.isExpanded) playerBottomSheetState.collapseSoft()
+                            navController.navigate("album/" + id) { launchSingleTop = true }
+                        }
+                    }
                     val playerAwareWindowInsets =
                         remember(
                             bottomInset,
@@ -1273,6 +1255,14 @@ class MainActivity : ComponentActivity() {
                         LocalGlassIntensity provides glassIntensity,
                         dpadBringIntoView(),
                     ) {
+                        LaunchedEffect(menuState) {
+                            com.dd3boh.outertune.utils.RymBrowser.videoOpenings.collect { song ->
+                                playerBottomSheetState.collapseSoft()
+                                menuState.show {
+                                    com.dd3boh.outertune.ui.menu.YouTubeSongMenu(song, navController, menuState::dismiss)
+                                }
+                            }
+                        }
                         /**
                          * Ask for the answers this install never gave.
                          *
@@ -1304,6 +1294,7 @@ class MainActivity : ComponentActivity() {
                          * activity field instead.
                          */
                         val updateChoice by rememberNullablePreference(UpdateCheckEnabledKey)
+                        com.dd3boh.outertune.ui.component.HifiUpdateNotifications(oobeStatus >= OOBE_VERSION && updateChoice == true)
                         val pollChoice by rememberNullablePreference(PollsEnabledKey)
                         val newsChoice by rememberNullablePreference(AnnouncementsEnabledKey)
                         val usageChoice by rememberNullablePreference(UsageCountEnabledKey)
@@ -1768,7 +1759,7 @@ class MainActivity : ComponentActivity() {
                             val navbar: @Composable() (() -> Unit) = @Composable {
                                 val dockGlass = rememberGlassSpec()
                                 val dockTint = dockGlass?.tint() ?: Color.Transparent
-                                val dockShape = RoundedCornerShape(if (slimNav) 26.dp else 28.dp)
+                                val dockShape = RoundedCornerShape(6.dp)
 
                                 val navigationBarHeight by animateDpAsState(
                                     targetValue = NavigationBarHeight,
@@ -1851,7 +1842,7 @@ class MainActivity : ComponentActivity() {
                                             } else Modifier
                                         ),
                                     containerColor = if (navGlass) Color.Transparent
-                                    else MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
+                                    else MaterialTheme.colorScheme.surface,
                                     contentColor = MaterialTheme.colorScheme.onSurface,
                                     windowInsets = if (navGlass) WindowInsets(0, 0, 0, 0)
                                     else NavigationBarDefaults.windowInsets
@@ -1880,7 +1871,7 @@ class MainActivity : ComponentActivity() {
                                             ),
                                             selected = tabSelected,
                                             icon = {
-                                                Icon(
+                                                if (screen == Screens.Rym) com.dd3boh.outertune.ui.theme.RymBrandIcon() else Icon(
                                                     screen.icon,
                                                     contentDescription = null
                                                 )
@@ -1984,7 +1975,7 @@ class MainActivity : ComponentActivity() {
                                             modifier = if (slimNav) Modifier.semantics { contentDescription = tabName } else Modifier,
                                             selected = navBackStackEntry?.destination?.hierarchy?.any { it.route == screen.route } == true,
                                             icon = {
-                                                Icon(
+                                                if (screen == Screens.Rym) com.dd3boh.outertune.ui.theme.RymBrandIcon() else Icon(
                                                     screen.icon,
                                                     contentDescription = null
                                                 )
@@ -2267,13 +2258,12 @@ private fun navigateToNavTab(
     navigationItems: List<Screens>,
     current: NavBackStackEntry?,
 ) {
-    val leavingATab = navigationItems.any { scr ->
-        current?.destination?.hierarchy?.any { it.route == scr.route } == true
-    }
+    // The graph is flat. Restoring any saved stack can reopen an old search in another tab.
+    navigationItems.forEach { navController.clearBackStack(it.route) }
     navController.navigate(route) {
-        popUpTo(navController.graph.startDestinationId) { saveState = true }
+        popUpTo(navController.graph.startDestinationId) { saveState = false }
         launchSingleTop = true
-        restoreState = leavingATab
+        restoreState = false
     }
 }
 

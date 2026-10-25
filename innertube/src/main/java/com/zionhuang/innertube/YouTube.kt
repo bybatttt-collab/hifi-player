@@ -636,34 +636,10 @@ object YouTube {
 
         val tabs = response.contents?.singleColumnBrowseResultsRenderer?.tabs
 
-        val contents = if (tabs != null && tabIndex in tabs.indices) {
-            tabs[tabIndex].tabRenderer.content?.sectionListRenderer?.contents?.firstOrNull()
-        }
-        else {
-            null
-        }
-
-        when {
-            contents?.gridRenderer != null -> {
-                LibraryPage(
-                    items = contents.gridRenderer.items
-                        .mapNotNull (GridRenderer.Item::musicTwoRowItemRenderer)
-                        .mapNotNull { LibraryPage.fromMusicTwoRowItemRenderer(it) },
-                    continuation = contents.gridRenderer.continuations?.getContinuation()
-                )
-            }
-
-            else -> { // contents?.musicShelfRenderer != null
-                // Was `!!`, which made "a shape we did not expect" indistinguishable from a crash.
-                // An empty page is the honest answer and lets the caller carry on.
-                LibraryPage(
-                    items = contents?.musicShelfRenderer?.contents.orEmpty()
-                        .mapNotNull (MusicShelfRenderer.Content::musicResponsiveListItemRenderer)
-                        .mapNotNull { LibraryPage.fromMusicResponsiveListItemRenderer(it) },
-                    continuation = contents?.musicShelfRenderer?.continuations?.getContinuation()
-                )
-            }
-        }
+        val tab = tabs?.getOrNull(tabIndex) ?: tabs?.singleOrNull()
+        com.zionhuang.innertube.pages.decodeLibrarySections(
+            tab?.tabRenderer?.content?.sectionListRenderer?.contents
+        )
     }
 
     suspend fun libraryContinuation(continuation: String) = runCatching {
@@ -674,25 +650,20 @@ object YouTube {
         ).body<BrowseResponse>()
 
         val contents = response.continuationContents
-
+        val grid = contents?.gridContinuation
+        val shelf = contents?.musicShelfContinuation
         when {
-            contents?.gridContinuation != null -> {
-                LibraryContinuationPage(
-                    items = contents.gridContinuation.items
-                        .mapNotNull (GridRenderer.Item::musicTwoRowItemRenderer)
-                        .mapNotNull { LibraryPage.fromMusicTwoRowItemRenderer(it) },
-                    continuation = contents.gridContinuation.continuations?.getContinuation()
-                )
+            grid != null -> {
+                val raw = grid.items.mapNotNull(GridRenderer.Item::musicTwoRowItemRenderer)
+                val parsed = raw.mapNotNull(LibraryPage::fromMusicTwoRowItemRenderer)
+                LibraryContinuationPage(parsed, grid.continuations?.getContinuation(), parsed.size == raw.size)
             }
-
-            else -> { // contents?.musicShelfContinuation != null
-                LibraryContinuationPage(
-                    items = contents?.musicShelfContinuation?.contents.orEmpty()
-                        .mapNotNull (MusicShelfRenderer.Content::musicResponsiveListItemRenderer)
-                        .mapNotNull { LibraryPage.fromMusicResponsiveListItemRenderer(it) },
-                    continuation = contents?.musicShelfContinuation?.continuations?.getContinuation()
-                )
+            shelf != null -> {
+                val raw = shelf.contents.orEmpty().mapNotNull(MusicShelfRenderer.Content::musicResponsiveListItemRenderer)
+                val parsed = raw.mapNotNull(LibraryPage::fromMusicResponsiveListItemRenderer)
+                LibraryContinuationPage(parsed, shelf.continuations?.getContinuation() ?: shelf.contents?.getContinuation(), parsed.size == raw.size)
             }
+            else -> error("Library continuation has no recognized shelf")
         }
     }
 

@@ -157,6 +157,8 @@ fun AlbumMenu(
             bottom = 8.dp + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
         )
     ) {
+        rymMenuItems(context, album.artists.map { it.name }, album.title, onDismiss = onDismiss)
+
         GridMenuItem(
             icon = Icons.AutoMirrored.Rounded.PlaylistPlay,
             title = R.string.play_next

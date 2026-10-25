@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dd3boh.outertune.models.ItemsPage
 import com.dd3boh.outertune.utils.reportException
+import com.zionhuang.innertube.FullAlbumSearch
 import com.zionhuang.innertube.YouTube
 import com.zionhuang.innertube.pages.SearchSummaryPage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +27,7 @@ class OnlineSearchViewModel @Inject constructor(
     // null here can only mean the user searched for the word "null". Without this the nullable
     // nav arg just moves upstream #1190's crash from a verification failure to an NPE.
     val query = savedStateHandle.get<String>("query") ?: "null"
-    val filter = MutableStateFlow<YouTube.SearchFilter?>(null)
+    val filter = MutableStateFlow<YouTube.SearchFilter?>(YouTube.SearchFilter.FILTER_SONG)
     var summaryPage by mutableStateOf<SearchSummaryPage?>(null)
     val viewStateMap = mutableStateMapOf<String, ItemsPage?>()
 
@@ -58,7 +59,7 @@ class OnlineSearchViewModel @Inject constructor(
         } else {
             if (viewStateMap[filter.value] == null) {
                 failed.remove(filter.value)
-                YouTube.search(query, filter)
+                (if (filter == FullAlbumSearch.FILTER) FullAlbumSearch.search(query) else YouTube.search(query, filter))
                     .onSuccess { result ->
                         viewStateMap[filter.value] = ItemsPage(ContentFilter.current.apply(result.items.distinctBy { it.id }), result.continuation)
                     }

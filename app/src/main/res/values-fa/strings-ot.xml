@@ -80,7 +80,7 @@
     <string name="audio_offload_description">از مسیر صوتی آفلود برای پخش صدا استفاده کنید. غیرفعال کردن این گزینه ممکن است مصرف باتری را افزایش دهد، اما اگر در پخش صدا یا پردازش پس از آن با مشکل مواجه شدید، می‌تواند مفید باشد</string>
     <string name="audio_offload">فعالسازی آفلود</string>
     <string name="keep_alive_title">جلوگیری از بسته شدن برنامه توسط سیستم</string>
-    <string name="keep_alive_description">برای جلوگیری از بسته شدن InterTune در پس‌زمینه، از یک سرویس پیش‌ زمینه‌ پایدار استفاده کنید.</string>
+    <string name="keep_alive_description">برای جلوگیری از بسته شدن HiFi Player در پس‌زمینه، از یک سرویس پیش‌ زمینه‌ پایدار استفاده کنید.</string>
     <string name="persistent_queue_desc_ot">بازیابی صف(های) باز قبلی هنگام شروع برنامه</string>
     <string name="min_playback_duration">حداقل مدت زمان پخش</string>
     <string name="min_playback_duration_description">حداقل مقدار آهنگی که باید پخش شود تا «پخش شده» محسوب شود</string>
@@ -160,7 +160,7 @@
     <string name="dl_size_used_cache">داخلی: %s استفاده شده</string>
     <string name="dl_size_used_main">خارجی: %s استفاده شده</string>
     <string name="dl_size_used_extra">واردات اضافی: %s استفاده شده</string>
-    <string name="dl_storage_tooltip">دانلودهای داخلی در حافظه خصوصی برنامه ذخیره می‌شوند و بدون روت قابل دسترسی نیستند.\n\nدانلودهای خارجی در حافظه خارجی دستگاه شما (مثلاً /sdcard یا کارت‌های micro SD) ذخیره می‌شوند و می‌توان مستقیماً با یک فایل اکسپلورر به آنها دسترسی یا ویرایش کرد. برای پوشه دانلودهای خارجی، توصیه می‌کنیم یک پوشه خالی مخصوص دانلود آهنگ انتخاب کنید، زیرا InterTune ممکن است فایل‌های موجود در آن پوشه را تغییر دهد یا حذف کند.\n\nپوشه‌های Extra Import فقط خواندنی هستند و برای بارگذاری آهنگ‌های اضافی استفاده می‌شوند. InterTune هرگز فایل‌های این پوشه‌ها را تغییر یا حذف نمی‌کند. می‌توانید این پوشه‌ها را در بخش پیشرفته انتخاب کنید.\n\nهنگامی که دانلودها را پاک می‌کنید، فقط آهنگ‌های داخلی حذف می‌شوند. دانلودهای خارجی و آهنگ‌های Extra Import باید به صورت دستی، یا از طریق منوی آهنگ یا به صورت دستی از طریق فایل اکسپلورر، حذف شوند.\n\nاسکن مجدد پوشه‌های دانلود: دانلودهای آهنگ در پوشه‌های External Downloads و Extra Imports به طور خودکار به‌روزرسانی نمی‌شوند. اگر با استفاده از یک فایل اکسپلورر، فایل‌ها را به صورت دستی اضافه، حذف یا تغییر دهید، ممکن است لازم باشد پوشه‌های دانلود را دوباره اسکن کنید تا پایگاه داده برنامه به‌روزرسانی شود. این گزینه در بخش پیشرفته موجود است.</string>
+    <string name="dl_storage_tooltip">دانلودهای داخلی در حافظه خصوصی برنامه ذخیره می‌شوند و بدون روت قابل دسترسی نیستند.\n\nدانلودهای خارجی در حافظه خارجی دستگاه شما (مثلاً /sdcard یا کارت‌های micro SD) ذخیره می‌شوند و می‌توان مستقیماً با یک فایل اکسپلورر به آنها دسترسی یا ویرایش کرد. برای پوشه دانلودهای خارجی، توصیه می‌کنیم یک پوشه خالی مخصوص دانلود آهنگ انتخاب کنید، زیرا HiFi Player ممکن است فایل‌های موجود در آن پوشه را تغییر دهد یا حذف کند.\n\nپوشه‌های Extra Import فقط خواندنی هستند و برای بارگذاری آهنگ‌های اضافی استفاده می‌شوند. HiFi Player هرگز فایل‌های این پوشه‌ها را تغییر یا حذف نمی‌کند. می‌توانید این پوشه‌ها را در بخش پیشرفته انتخاب کنید.\n\nهنگامی که دانلودها را پاک می‌کنید، فقط آهنگ‌های داخلی حذف می‌شوند. دانلودهای خارجی و آهنگ‌های Extra Import باید به صورت دستی، یا از طریق منوی آهنگ یا به صورت دستی از طریق فایل اکسپلورر، حذف شوند.\n\nاسکن مجدد پوشه‌های دانلود: دانلودهای آهنگ در پوشه‌های External Downloads و Extra Imports به طور خودکار به‌روزرسانی نمی‌شوند. اگر با استفاده از یک فایل اکسپلورر، فایل‌ها را به صورت دستی اضافه، حذف یا تغییر دهید، ممکن است لازم باشد پوشه‌های دانلود را دوباره اسکن کنید تا پایگاه داده برنامه به‌روزرسانی شود. این گزینه در بخش پیشرفته موجود است.</string>
     <string name="restart_to_apply_changes">برای اعمال تغییرات، راه‌اندازی مجدد برنامه لازم است</string>
     <string name="pause_remote_listen_history">اشتراک‌گذاری سابقه گوش دادن با YouTube Music را متوقف کند</string>
     <string name="import_innertune_tooltip">بازیابی پشتیبان‌های InnerTune پشتیبانی می‌شود، البته به دلیل محدودیت‌های فنی، احتمال ناهنجاری وجود دارد</string>
@@ -168,7 +168,7 @@
     <string name="dev_settings_description">تنظیمات پیشرفته اضافی را که برای استفاده در توسعه در نظر گرفته شده است، آشکار می‌کند</string>
     <string name="swipe_to_skip_title">برای تغییر آهنگ، انگشت خود را به صورت افقی بکشید</string>
     <string name="swipe_to_skip_description">فعال کردن کشیدن انگشت به صورت افقی در پخش‌کننده برای تغییر آهنگ‌ها</string>
-    <string name="oobe_welcome_message">به InterTune خوش آمدید</string>
+    <string name="oobe_welcome_message">به HiFi Player خوش آمدید</string>
     <string name="oobe_ytm_integration">ادغام موسیقی یوتیوب</string>
     <string name="oobe_ytm_integration_description">به آهنگ‌های مورد علاقه‌تان به طور یکپارچه دسترسی داشته باشید</string>
     <string name="oobe_ad_free_exp">بدون تبلیغات YouTube</string>
@@ -178,7 +178,7 @@
     <string name="oobe_cross_platform_sync">همگام‌ سازی بین پلتفرمی</string>
     <string name="oobe_cross_platform_sync_description">موسیقی خود را در دستگاه‌های مختلف با هماهنگی پخش کنید</string>
     <string name="oobe_use_backup">من یک نسخه پشتیبان دارم</string>
-    <string name="oobe_interface_subtitle">ظاهر InterTune و محتوایی که به شما نشان می‌دهد را سفارشی کنید.</string>
+    <string name="oobe_interface_subtitle">ظاهر HiFi Player و محتوایی که به شما نشان می‌دهد را سفارشی کنید.</string>
     <string name="oobe_ytm_logon_title">حساب کاربری</string>
     <string name="oobe_ytm_logon_subtitle">برای همگام‌ سازی و دسترسی به محتوای حساب خصوصی، وارد حساب YouTube Music خود شوید. این گزینه اختیاری است.</string>
     <string name="oobe_local_media_title">رسانه محلی</string>
@@ -186,7 +186,7 @@
     <string name="oobe_downloads_title">دانلود آهنگ</string>
     <string name="oobe_downloads_subtitle">پوشه‌ ای را انتخاب کنید که آهنگ‌های دانلود شده در آن ذخیره شوند.</string>
     <string name="oobe_complete_title">همه چیز آماده است!</string>
-    <string name="oobe_complete">InterTune تنظیم و آماده استفاده است. موسیقی خود را کاوش کنید، آهنگ‌های جدید کشف کنید و از این تجربه لذت ببرید!</string>
+    <string name="oobe_complete">HiFi Player تنظیم و آماده استفاده است. موسیقی خود را کاوش کنید، آهنگ‌های جدید کشف کنید و از این تجربه لذت ببرید!</string>
     <string name="import_failed_songs">وارد نشد</string>
     <string name="import_success_songs">با موفقیت وارد شد</string>
     <string name="m3u_export">استخراج به عنوان فایل M3U</string>
@@ -284,7 +284,7 @@
     <string name="quick_picks_source_description">آهنگ‌های ردیف انتخاب‌های سریع از کجا می‌آیند. YouTube Music آن‌ها را برای حساب شما انتخاب می‌کند. کتابخانهٔ شما در عوض این ردیف را از آهنگ‌های مرتبط با آنچه قبلاً شنیده‌اید می‌سازد. این فقط همان یک ردیف را عوض می‌کند؛ بقیهٔ صفحهٔ خانه در هر دو حالت یکسان است.</string>
     <string name="oobe_update_auto_description">آن را در پس‌زمینه دانلود می‌کند تا هر وقت خواستید آماده باشد. اندروید همچنان از شما تأیید می‌خواهد.</string>
     <string name="oobe_polls_answered">این را هر وقت خواستید می‌توانید در تنظیمات، بخش پرسش‌ها، تغییر دهید.</string>
-    <string name="poll_title">پرسشی از InterTune</string>
+    <string name="poll_title">پرسشی از HiFi Player</string>
     <string name="poll_banner_hint">برای پاسخ ضربه بزنید، یا با ضربدر ببندید</string>
     <string name="poll_dismiss">نادیده گرفتن این پرسش</string>
     <string name="poll_close">بستن</string>
@@ -293,7 +293,7 @@
     <string name="poll_anonymous_notice">پاسخ شما ناشناس است. تنها چیزی که فرستاده می‌شود این است که پرسش کدام بود، چه چیزی را انتخاب کردید، و نسخهٔ برنامه. نه حسابی، نه مشخصات دستگاه، و نه چیزی دربارهٔ کتابخانهٔ شما.</string>
     <string name="grp_polls">پرسش‌ها</string>
     <string name="polls_enabled">گاهی از من پرسشی بپرس</string>
-    <string name="polls_enabled_description">InterTune هرازگاهی بررسی می‌کند که پرسشی هست یا نه و آن را بالای صفحهٔ خانه نشان می‌دهد. به‌طور پیش‌فرض خاموش است. پاسخ‌ها ناشناس‌اند: تنها پرسش، انتخاب شما و نسخهٔ برنامه فرستاده می‌شود. تا وقتی خاموش است، هیچ چیزی دریافت نمی‌شود.</string>
+    <string name="polls_enabled_description">HiFi Player هرازگاهی بررسی می‌کند که پرسشی هست یا نه و آن را بالای صفحهٔ خانه نشان می‌دهد. به‌طور پیش‌فرض خاموش است. پاسخ‌ها ناشناس‌اند: تنها پرسش، انتخاب شما و نسخهٔ برنامه فرستاده می‌شود. تا وقتی خاموش است، هیچ چیزی دریافت نمی‌شود.</string>
     <string name="polls_none">در حال حاضر پرسشی نیست</string>
     <string name="polls_one_waiting">پرسشی در انتظار شماست</string>
     <string name="polls_forget">بگذار دوباره از من بپرسند</string>
@@ -302,12 +302,12 @@
     <string name="catch_up_body">این تنظیمات به تأیید شما نیاز دارند و تا کنون از این نصب پرسیده نشده است.</string>
     <string name="catch_up_done">انجام شد</string>
     <string name="polls_opt_in_title">گاهی پرسشی از شما بپرسیم؟</string>
-    <string name="polls_opt_in_body">هرازگاهی InterTune می‌تواند پرسشی کوتاه بالای صفحهٔ خانه نشان دهد، دربارهٔ اینکه چه چیزی ساخته یا عوض شود. پاسخ دادن اختیاری و ناشناس است و هر وقت بخواهید می‌توانید در تنظیمات خاموشش کنید. تا وقتی خاموش است، نه چیزی دریافت می‌شود و نه چیزی فرستاده.</string>
+    <string name="polls_opt_in_body">هرازگاهی HiFi Player می‌تواند پرسشی کوتاه بالای صفحهٔ خانه نشان دهد، دربارهٔ اینکه چه چیزی ساخته یا عوض شود. پاسخ دادن اختیاری و ناشناس است و هر وقت بخواهید می‌توانید در تنظیمات خاموشش کنید. تا وقتی خاموش است، نه چیزی دریافت می‌شود و نه چیزی فرستاده.</string>
     <string name="polls_opt_in_yes">بله، بپرسید</string>
     <string name="polls_opt_in_no">نه، ممنون</string>
     <string name="update_available_description">صفحهٔ انتشار را باز می‌کند تا بخوانید چه چیزی عوض شده و خودتان دانلود کنید. اگر نصب از داخل برنامه روی این دستگاه کار نکند مفید است.</string>
     <string name="update_install">دانلود و نصب</string>
-    <string name="update_prompt_title">InterTune %1$s در دسترس است</string>
+    <string name="update_prompt_title">HiFi Player %1$s در دسترس است</string>
     <string name="update_prompt_ready">از قبل دانلود شده و آمادهٔ نصب است.</string>
     <string name="update_prompt_needs_permission">دانلود شده و آماده است. اندروید ابتدا به اجازهٔ شما نیاز دارد: تنها یک بار باید داده شود.</string>
     <string name="update_prompt_allow">ادامه</string>
@@ -316,15 +316,15 @@
     <string name="update_prompt_install">نصب</string>
     <string name="update_auto">دانلود خودکار به‌روزرسانی‌ها</string>
     <string name="update_auto_description">نسخهٔ جدید را در پس‌زمینه می‌گیرد تا همان لحظه که خواستید آماده باشد. با این حال خودش نصب نمی‌شود: اندروید همیشه تأیید می‌خواهد، پس در هر صورت درخواست نصب را خواهید دید.</string>
-    <string name="update_install_description">نسخهٔ جدید را دانلود می‌کند و از اندروید می‌خواهد آن را نصب کند. بار اول، اندروید از شما می‌خواهد به InterTune اجازهٔ نصب برنامه بدهید. هیچ چیز بدون تأیید شما نصب نمی‌شود.</string>
+    <string name="update_install_description">نسخهٔ جدید را دانلود می‌کند و از اندروید می‌خواهد آن را نصب کند. بار اول، اندروید از شما می‌خواهد به HiFi Player اجازهٔ نصب برنامه بدهید. هیچ چیز بدون تأیید شما نصب نمی‌شود.</string>
     <string name="update_downloading">در حال دانلود، %1$d%%. برای توقف ضربه بزنید.</string>
     <string name="update_downloading_indeterminate">در حال دانلود. برای توقف ضربه بزنید.</string>
     <string name="update_awaiting_confirmation">آماده است. اندروید از شما می‌خواهد نصب را تأیید کنید.</string>
-    <string name="update_needs_permission">اندروید برای اینکه InterTune بتواند برنامه نصب کند به اجازهٔ شما نیاز دارد. ضربه بزنید تا آن تنظیم باز شود، بعد برگردید و دوباره تلاش کنید.</string>
+    <string name="update_needs_permission">اندروید برای اینکه HiFi Player بتواند برنامه نصب کند به اجازهٔ شما نیاز دارد. ضربه بزنید تا آن تنظیم باز شود، بعد برگردید و دوباره تلاش کنید.</string>
     <string name="update_install_failed">نصب ممکن نشد: %1$s. هنوز می‌توانید خودتان از صفحهٔ انتشار دانلود کنید.</string>
     <string name="update_open_page">در عوض صفحهٔ انتشار را باز کن</string>
-    <string name="update_check_description">هر بار که برنامه را باز می‌کنید، در GitHub بررسی می‌کند که نسخهٔ تازه‌تری از InterTune هست یا نه. به‌طور پیش‌فرض خاموش است. هیچ چیز بدون تأیید شما نصب نمی‌شود.</string>
-    <string name="oobe_update_check_description">InterTune در هیچ فروشگاه برنامه‌ای نیست، بنابراین هنگام باز شدن GitHub را بررسی می‌کند و وقتی نسخهٔ جدیدی باشد به شما می‌گوید. می‌تواند آن را برایتان دانلود و نصب کند، و اندروید همیشه اول تأیید می‌خواهد. بعداً می‌توانید این را در تنظیمات عوض کنید.</string>
+    <string name="update_check_description">هر بار که برنامه را باز می‌کنید، در GitHub بررسی می‌کند که نسخهٔ تازه‌تری از HiFi Player هست یا نه. به‌طور پیش‌فرض خاموش است. هیچ چیز بدون تأیید شما نصب نمی‌شود.</string>
+    <string name="oobe_update_check_description">HiFi Player در هیچ فروشگاه برنامه‌ای نیست، بنابراین هنگام باز شدن GitHub را بررسی می‌کند و وقتی نسخهٔ جدیدی باشد به شما می‌گوید. می‌تواند آن را برایتان دانلود و نصب کند، و اندروید همیشه اول تأیید می‌خواهد. بعداً می‌توانید این را در تنظیمات عوض کنید.</string>
     <string name="look_and_feel">ظاهر</string>
     <string name="grp_privacy_and_history">حریم خصوصی و تاریخچه</string>
     <string name="grp_storage_and_downloads">فضای ذخیره‌سازی و دانلودها</string>

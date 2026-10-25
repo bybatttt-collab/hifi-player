@@ -111,7 +111,7 @@ fun SearchBarContainer(
     var searchSource by rememberEnumPreference(SearchSourceKey, SearchSource.ONLINE)
     val updateAvailable by rememberPreference(UpdateAvailableKey, defaultValue = false)
 
-    val navigationItems = remember { Screens.getScreens(enabledTabs) }
+    val navigationItems = remember(enabledTabs) { Screens.getScreens(enabledTabs) }
     val searchBarFocusRequester = remember { FocusRequester() }
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -164,11 +164,15 @@ fun SearchBarContainer(
 
 
     val shouldShowSearchBar = remember(searchActive, navBackStackEntry) {
-        (searchActive || navigationItems.fastAny { it.route == navBackStackEntry?.destination?.route } ||
+        (searchActive || navigationItems.fastAny { it != Screens.Rym && it.route == navBackStackEntry?.destination?.route } ||
                 navBackStackEntry?.destination?.route?.startsWith("search/") == true)
     }
 
     LaunchedEffect(navBackStackEntry) {
+        if (navigationItems.any { it.route == navBackStackEntry?.destination?.route }) {
+            onQueryChange(TextFieldValue())
+            focusManager.clearFocus()
+        }
         if (searchActive) {
             onSearchActiveChange(false)
         }

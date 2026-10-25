@@ -223,6 +223,14 @@ fun PlayerMenu(
             bottom = 8.dp + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
         )
     ) {
+        rymMenuItems(context, mediaMetadata.artists.map { it.name }, mediaMetadata.album?.title, mediaMetadata.title, onDismiss = onDismiss)
+        playerConnection.service.castSession?.let { session ->
+            GridMenuItem(icon = Icons.AutoMirrored.Rounded.VolumeUp, title = R.string.hifi_output) {
+                onDismiss()
+                session.pickerOpen.value = true
+            }
+        }
+
         if (!mediaMetadata.isLocal)
             GridMenuItem(
                 icon = Icons.Rounded.Radio,

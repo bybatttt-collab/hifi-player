@@ -174,7 +174,7 @@ fun AboutScreen(
             IconLabelButton(
                 text = "GitHub",
                 painter = painterResource(R.drawable.github),
-                onClick = { uriHandler.openUri("https://github.com/ItzSkyeYT/InterTune") },
+                onClick = { uriHandler.openUri("https://github.com/bybatttt-collab/hifi-player") },
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
 
@@ -183,7 +183,7 @@ fun AboutScreen(
             IconLabelButton(
                 text = stringResource(R.string.wiki),
                 icon = Icons.Outlined.Info,
-                onClick = { uriHandler.openUri("https://github.com/ItzSkyeYT/InterTune/wiki") },
+                onClick = { uriHandler.openUri("https://github.com/bybatttt-collab/hifi-player/blob/main/README-HIFI.md") },
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
         }

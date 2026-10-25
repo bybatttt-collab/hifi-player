@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
@@ -74,6 +75,7 @@ fun YouTubePlaylistMenu(
     coroutineScope: CoroutineScope,
     onDismiss: () -> Unit,
 ) {
+    val (homePinned, toggleHomePin) = rememberPinAction("", playlist.id)
     val context = LocalContext.current
     val database = LocalDatabase.current
     val downloadUtil = LocalDownloadUtil.current
@@ -170,6 +172,15 @@ fun YouTubePlaylistMenu(
             bottom = 8.dp + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
         )
     ) {
+        GridMenuItem(icon = Icons.Rounded.PushPin, title = if (homePinned) R.string.hifi_unpin else R.string.hifi_pin) {
+            coroutineScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                if (!homePinned && dbPlaylist == null) database.insert(com.dd3boh.outertune.db.entities.PlaylistEntity(name = playlist.title, browseId = playlist.id, isEditable = playlist.isEditable, thumbnailUrl = playlist.thumbnail, bookmarkedAt = java.time.LocalDateTime.now()))
+                else if (!homePinned && dbPlaylist?.playlist?.bookmarkedAt == null) dbPlaylist?.playlist?.let { database.update(it.copy(bookmarkedAt = java.time.LocalDateTime.now())) }
+                toggleHomePin()
+            }
+            onDismiss()
+        }
+
         playlist.playEndpoint?.let { playEndpoint ->
             GridMenuItem(
                 icon = Icons.Rounded.PlayArrow,

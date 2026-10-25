@@ -324,6 +324,7 @@ fun GridItem(
                 style = style,
                 fontWeight = FontWeight.Bold,
                 autoSize = autoSize,
+                minLines = if (shrinks && oneWord) 1 else 2,
                 maxLines = if (shrinks && oneWord) 1 else 2,
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Start,
@@ -342,7 +343,7 @@ fun GridItem(
             style = style,
             color = MaterialTheme.colorScheme.secondary,
             autoSize = if (shrinks) style.shrinkToFit(smallest = 9.sp) else null,
-            maxLines = if (shrinks) 3 else 2,
+            maxLines = if (shrinks) 3 else 1,
             overflow = TextOverflow.Ellipsis,
         )
     },
@@ -378,7 +379,6 @@ fun MediaMetadataListItem(
             Icon.NewPick()
         }
         if (showLikedIcon && mediaMetadata.liked) {
-            Icon.Favorite()
         }
         if (showInLibraryIcon && mediaMetadata.isLocal) {
             Icon.FolderCopy()
@@ -445,7 +445,6 @@ fun YouTubeListItem(
         if (item is SongItem && song?.song?.liked == true ||
             item is AlbumItem && album?.album?.bookmarkedAt != null
         ) {
-            Icon.Favorite()
         }
         if (item.explicit) {
             Icon.Explicit()
@@ -511,7 +510,6 @@ fun YouTubeGridItem(
         if (item is SongItem && song?.song?.liked == true ||
             item is AlbumItem && album?.album?.bookmarkedAt != null
         ) {
-            Icon.Favorite()
         }
         if (item.explicit) {
             Icon.Explicit()
@@ -846,14 +844,8 @@ object Icon {
 
     @Composable
     fun Library() {
-        Icon(
-            imageVector = Icons.Rounded.LibraryAddCheck,
-            contentDescription = null,
-            modifier = Modifier
-                .size(18.dp)
-                .padding(end = 2.dp)
-        )
-    }
+    // Output controls are available from the player overflow menu.
+}
 
     @Composable
     fun PlaylistIcon(playlist: PlaylistEntity) {

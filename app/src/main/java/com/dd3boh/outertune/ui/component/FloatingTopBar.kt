@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import com.dd3boh.outertune.ui.theme.hifiPanel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
@@ -136,6 +137,7 @@ fun FloatingTopBar(
             // positioned, which is every frame of a screen transition, and without a layer here
             // that re-recorded both screens, twice each, for the length of the slide.
             .then(if (barGlass != null) Modifier.drawnBy(host!!).graphicsLayer() else Modifier)
+            .hifiPanel(header = true)
             .topBarFade()
             .dpadOverlay()
             .semantics {

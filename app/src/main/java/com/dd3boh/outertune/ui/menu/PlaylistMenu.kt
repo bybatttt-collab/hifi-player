@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
+import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Output
 import androidx.compose.material.icons.rounded.PlayArrow
@@ -84,6 +85,7 @@ fun PlaylistMenu(
     coroutineScope: CoroutineScope,
     onDismiss: () -> Unit,
 ) {
+    val (homePinned, toggleHomePin) = rememberPinAction(playlist.id, playlist.playlist.browseId)
     val context = LocalContext.current
     val database = LocalDatabase.current
     val downloadUtil = LocalDownloadUtil.current
@@ -180,6 +182,8 @@ fun PlaylistMenu(
             bottom = 8.dp + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
         )
     ) {
+        GridMenuItem(icon = Icons.Rounded.PushPin, title = if (homePinned) R.string.hifi_unpin else R.string.hifi_pin) { toggleHomePin(); onDismiss() }
+
         GridMenuItem(
             icon = Icons.Rounded.PlayArrow,
             title = R.string.play
