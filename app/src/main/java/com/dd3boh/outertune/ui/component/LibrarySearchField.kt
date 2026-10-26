@@ -1,6 +1,5 @@
 package com.dd3boh.outertune.ui.component
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -25,8 +24,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun LibrarySearchField(query: String, onQueryChange: (String) -> Unit, description: String, modifier: Modifier = Modifier) {
     val keyboard = LocalSoftwareKeyboardController.current
-    Surface(modifier = modifier, shape = MaterialTheme.shapes.small,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), color = MaterialTheme.colorScheme.surface) {
+    Surface(modifier = modifier, shape = MaterialTheme.shapes.small, color = MaterialTheme.colorScheme.surface) {
         Row(Modifier.heightIn(min = 48.dp).padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Rounded.Search, null, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(6.dp))

@@ -2,9 +2,11 @@
 
 Lettore Android sperimentale per YouTube Music e file locali. Fork indipendente di [InterTune](https://github.com/ItzSkyeYT/InterTune), revisione iniziale 0f300ee97246383f465e38e246ee609bae010050, GPL-3.0-only. Nessuna affiliazione con YouTube, Pear, InterTune o Rate Your Music.
 
-## Versione 0.4.3
+## Versione 0.4.4
 
 Introduzione HiFi per le nuove installazioni, in tre passaggi: aggiornamenti e notifiche, tema e colore, collegamento facoltativo a YouTube Music. Nessuna guida InterTune o serie di domande aggiuntive. Gli utenti già configurati non ripetono la procedura.
+
+Campi di ricerca senza bordo rettangolare nelle sezioni Brani, Album e Playlist.
 
 Ricerca locale accanto all’ordinamento in Brani, Album e Playlist. Album e brani vengono cercati per titolo e artista, senza cambiare la riproduzione. I dati delle schede già presenti vengono aggiornati durante la sincronizzazione; i dettagli degli album visibili sono recuperati con massimo due richieste contemporanee, senza aprire la pagina e senza una scansione di tutti gli album.
 

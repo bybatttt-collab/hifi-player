@@ -52,8 +52,8 @@ android {
         minSdk = 26
         ndk { abiFilters += listOf("arm64-v8a") }
         targetSdk = 36
-        versionCode = 7
-        versionName = "0.4.3"
+        versionCode = 8
+        versionName = "0.4.4"
         buildConfigField("String", "HIFI_UPDATE_REPOSITORY", "\"bybatttt-collab/hifi-player\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
