@@ -81,6 +81,7 @@ class MigrationFromReleasedTest {
             InternalDatabase_AutoMigration_23_24_Impl(),
             InternalDatabase_AutoMigration_24_25_Impl(),
             InternalDatabase_AutoMigration_25_26_Impl(),
+            InternalDatabase_AutoMigration_26_27_Impl(),
         )
         assertEquals("a migration for every step from the release to now", MusicDatabase.MUSIC_DATABASE_VERSION - released, migrations.size)
         var at = released
@@ -104,6 +105,15 @@ class MigrationFromReleasedTest {
         val migrated = shape(old)
         assertEquals(expected.keys, migrated.keys)
         for (key in expected.keys) assertEquals(key, expected[key], migrated[key])
+    }
+
+    @Test
+    fun `HiFi 0_4_1 albums keep their data when adding remote saved order`() {
+        SchemaDb.open(version = 26).use { db ->
+            db.exec("INSERT INTO album(id,title,songCount,duration,lastUpdateTime,bookmarkedAt) VALUES ('saved','Kept',2,400,100,12345)")
+            InternalDatabase_AutoMigration_26_27_Impl().migrate(Jdbc(db))
+            assertEquals(listOf(listOf("saved", "Kept", "12345", null)), db.rows("SELECT id,title,bookmarkedAt,savedOrder FROM album"))
+        }
     }
 
     @Test

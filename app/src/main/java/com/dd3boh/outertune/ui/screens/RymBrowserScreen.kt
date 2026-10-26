@@ -157,6 +157,8 @@ fun RymBrowserScreen() {
                 web = this
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
+                isVerticalScrollBarEnabled = false
+                isHorizontalScrollBarEnabled = false
                 settings.allowFileAccess = false
                 settings.allowContentAccess = false
                 settings.mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW

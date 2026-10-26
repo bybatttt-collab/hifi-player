@@ -161,14 +161,13 @@ fun LibraryPlaylistsScreen(
     val columns = rememberListColumns()
     val filterContent = @Composable { }
 
-    // TODO: full migration to flow row?
     val headerContent = @Composable {
-        FlowRow(
+        Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            itemVerticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, top = 16.dp, end = 8.dp, bottom = 16.dp)
+                .padding(horizontal = 16.dp)
         ) {
             SortHeader(
                 sortType = sortType,
@@ -181,7 +180,8 @@ fun LibraryPlaylistsScreen(
                         PlaylistSortType.NAME -> R.string.sort_by_name
                         PlaylistSortType.SONG_COUNT -> R.string.sort_by_song_count
                     }
-                }
+                },
+                modifier = Modifier.weight(1f),
             )
 
             Row(

@@ -50,9 +50,12 @@ fun OuterTuneTheme(
     content: @Composable () -> Unit,
 ) {
     val hifiHex by rememberPreference(HifiAccentKey, "E8B45C")
+    val hifiAppearance by rememberPreference(HifiAppearanceKey, "classic")
     val baseTypography = MaterialTheme.typography
     MaterialTheme(
-        colorScheme = remember(hifiHex) { hifiColors(hifiAccent(hifiHex)) },
+        colorScheme = remember(hifiHex, hifiAppearance, pureBlack, highContrastCompat) {
+            hifiColors(hifiAccent(hifiHex), night = hifiAppearance == "night", pureBlack = pureBlack, highContrast = highContrastCompat)
+        },
         shapes = HifiShapes,
         typography = androidx.compose.material3.Typography(),
     ) {

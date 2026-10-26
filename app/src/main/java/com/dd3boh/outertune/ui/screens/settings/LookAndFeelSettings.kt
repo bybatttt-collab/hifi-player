@@ -66,6 +66,7 @@ fun LookAndFeelSettings(
         ElevatedCard(
             modifier = Modifier.fillMaxWidth()
         ) {
+            com.dd3boh.outertune.ui.theme.HifiThemeSettings()
             ThemeAppFrag()
         }
         Spacer(modifier = Modifier.height(16.dp))

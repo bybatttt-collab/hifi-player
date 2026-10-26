@@ -92,8 +92,6 @@ import kotlin.math.roundToInt
 
 @Composable
 fun ColumnScope.ThemeAppFrag() {
-    val (darkMode, onDarkModeChange) = rememberEnumPreference(DarkModeKey, defaultValue = DarkMode.AUTO)
-    val (dynamicTheme, onDynamicThemeChange) = rememberPreference(DynamicThemeKey, defaultValue = true)
     val (highContrastCompat, onHccChange) = rememberPreference(HighContrastKey, defaultValue = false)
 
     val (pureBlack, onPureBlackChange) = rememberPreference(PureBlackKey, defaultValue = false)
@@ -107,14 +105,6 @@ fun ColumnScope.ThemeAppFrag() {
         onCheckedChange = onBackAnimationsChange
     )
 
-    SwitchPreference(
-        title = { Text(stringResource(R.string.enable_dynamic_theme)) },
-        description = stringResource(R.string.enable_dynamic_theme_description),
-        icon = { Icon(Icons.Rounded.Palette, null) },
-        checked = dynamicTheme,
-        onCheckedChange = onDynamicThemeChange
-    )
-    AnimatedVisibility(!dynamicTheme) {
         SwitchPreference(
             title = { Text(stringResource(R.string.high_contrast)) },
             description = stringResource(R.string.high_contrast_description),
@@ -122,21 +112,6 @@ fun ColumnScope.ThemeAppFrag() {
             checked = highContrastCompat,
             onCheckedChange = onHccChange
         )
-    }
-    EnumListPreference(
-        modifier = Modifier.tourTarget(Tour.SETTING_DARK_THEME),
-        title = { Text(stringResource(R.string.dark_theme)) },
-        icon = { Icon(Icons.Rounded.DarkMode, null) },
-        selectedValue = darkMode,
-        onValueSelected = onDarkModeChange,
-        valueText = {
-            when (it) {
-                DarkMode.ON -> stringResource(R.string.dark_theme_on)
-                DarkMode.OFF -> stringResource(R.string.dark_theme_off)
-                DarkMode.AUTO -> stringResource(R.string.dark_theme_follow_system)
-            }
-        }
-    )
     SwitchPreference(
         title = { Text(stringResource(R.string.pure_black)) },
         description = stringResource(R.string.pure_black_description),

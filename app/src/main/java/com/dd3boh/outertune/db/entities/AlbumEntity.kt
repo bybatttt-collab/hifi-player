@@ -26,12 +26,15 @@ data class AlbumEntity(
     val duration: Int,
     val lastUpdateTime: LocalDateTime = LocalDateTime.now(),
     val bookmarkedAt: LocalDateTime? = null,
+    /** Position in the last complete YouTube Music snapshot, oldest first; not a timestamp. */
+    val savedOrder: Long? = null,
     @ColumnInfo(name = "isLocal", defaultValue = "false")
     val isLocal: Boolean = false
 ) {
 
     fun localToggleLike() = copy(
-        bookmarkedAt = if (bookmarkedAt != null) null else LocalDateTime.now()
+        bookmarkedAt = if (bookmarkedAt != null) null else LocalDateTime.now(),
+        savedOrder = null,
     )
 
     fun toggleLike() = localToggleLike().also {

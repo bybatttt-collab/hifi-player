@@ -627,10 +627,15 @@ object YouTube {
         )
     }
 
-    suspend fun library(browseId: String, tabIndex: Int = 0) = runCatching {
+    // Same browse order used by the web client's "Recently added" option.
+    // Reference: sigma67/ytmusicapi, mixins/_utils.py prepare_order_params.
+    const val LIBRARY_RECENTLY_ADDED = "ggMGKgQIABAB"
+
+    suspend fun library(browseId: String, tabIndex: Int = 0, params: String? = null) = runCatching {
         val response = innerTube.browse(
             client = WEB_REMIX,
             browseId = browseId,
+            params = params,
             setLogin = true
         ).body<BrowseResponse>()
 

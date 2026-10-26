@@ -24,7 +24,6 @@ import com.dd3boh.outertune.utils.rememberPreference
 
 @Composable
 fun ColumnScope.AppearanceMiscFrag() {
-    com.dd3boh.outertune.ui.theme.HifiThemeSettings()
     val (slimNav, onSlimNavChange) = rememberPreference(SlimNavBarKey, defaultValue = false)
     val (tabletUi, onTabletUiChange) = rememberPreference(TabletUiKey, defaultValue = false)
 

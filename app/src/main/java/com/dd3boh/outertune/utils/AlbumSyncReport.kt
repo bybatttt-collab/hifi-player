@@ -17,6 +17,7 @@ import java.util.Date
 val SyncUploadsKey = booleanPreferencesKey("hifiSyncPersonalUploads")
 
 val AlbumSyncStateKey = stringPreferencesKey("hifiAlbumSyncState")
+val AlbumSavedOrderReadyKey = androidx.datastore.preferences.core.booleanPreferencesKey("hifiAlbumSavedOrderReady")
 val AlbumSyncCountKey = intPreferencesKey("hifiAlbumSyncCount")
 val AlbumSyncAttemptKey = longPreferencesKey("hifiAlbumSyncAttempt")
 

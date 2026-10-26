@@ -2,13 +2,13 @@
 
 Lettore Android sperimentale per YouTube Music e file locali. Fork indipendente di [InterTune](https://github.com/ItzSkyeYT/InterTune), revisione iniziale 0f300ee97246383f465e38e246ee609bae010050, GPL-3.0-only. Nessuna affiliazione con YouTube, Pear, InterTune o Rate Your Music.
 
-## Versione 0.4.1
+## Versione 0.4.2
 
 Home essenziale: playlist fissate, ultimi 24 album salvati e tre brani piaciuti recenti. Toccare uno di questi brani prepara la coda completa dei brani piaciuti, nell’ordinamento della sezione Brani. Nessun dado, suggerimento, nuova uscita o playlist della community. Circa tre copertine per volta.
 
 Cinque schede: Home, Brani, Album, Playlist e RYM. Brani mostra i piaciuti; Album gli album salvati, senza filtri o riepiloghi. Playlist contiene le playlist e la cartella Brani scaricati. Strumenti, account e sincronizzazione sono nelle impostazioni. La navigazione delle schede torna alle rispettive pagine principali.
 
-Tema hi-fi carbone e ambra, preset e colori personalizzabili, font del dispositivo. Titoli delle griglie allineati; copertine delle pagine playlist di misura fissa con testo affiancato. Nessun cuore o contrassegno sugli elementi salvati degli elenchi; il salvataggio usa il segnalibro. Uscita audio nei tre punti. Nessun numero sopra le copertine dei brani di un album.
+Tema hi-fi carbone e ambra e nuovo Dark / Night, con campioni colore selezionabili e font del dispositivo. Le vecchie voci tema dinamico e tema scuro sono rimosse; le altre opzioni restano disponibili. Nessuna barra laterale di scorrimento visibile. Menu di ordinamento allineati tra Album, Brani e Playlist. Titoli delle griglie allineati; copertine delle pagine playlist di misura fissa con testo affiancato. Nessun cuore o contrassegno sugli elementi salvati degli elenchi; il salvataggio usa il segnalibro. Uscita audio nei tre punti. Nessun numero sopra le copertine dei brani di un album.
 
 ## RYM
 
@@ -41,6 +41,6 @@ Asset: HiFiPlayer-<versione>-core-release-<versionCode>.apk. Ogni aggiornamento 
 
 Test JVM per navigazione, indirizzi RYM, primo risultato, domini pubblicitari, fonte degli aggiornamenti, decodifica e paginazione della raccolta. Prove sul dispositivo di avvio, ricerca, raccolta album, riproduzione e browser RYM. I test simulati non dimostrano la disponibilità permanente di YouTube Music o la correttezza di ogni account.
 
-Scelta rigorosa della versione audio, cartelle locali e copertura completa delle mutazioni bidirezionali richiedono ancora sviluppo o prove. L’accesso non ufficiale a YouTube Music può cambiare. I caricamenti personali non sono importati automaticamente. La data della prima importazione non ricostruisce l’ordine storico di salvataggio degli album su YouTube Music.
+Scelta rigorosa della versione audio, cartelle locali e copertura completa delle mutazioni bidirezionali richiedono ancora sviluppo o prove. L’accesso non ufficiale a YouTube Music può cambiare. I caricamenti personali non sono importati automaticamente. La sincronizzazione album richiede esplicitamente Recently added di YouTube Music e ne conserva le posizioni attraverso tutte le pagine, indipendentemente dagli inserimenti nel database. Home e Album usano lo stesso ordine. I nuovi salvataggi locali precedono la copia sincronizzata fino al successivo aggiornamento completo. Le letture incomplete mantengono le posizioni precedenti. Le date storiche originali non sono disponibili: vengono conservate le posizioni senza inventare date. Dopo questo aggiornamento aprire Album per ricostruire automaticamente l’ordine.
 
 APK e sorgenti corrispondenti, inclusi sottomoduli e licenze, sono pubblicati insieme. Conservare LICENSE e attribuzioni di InterTune, OuterTune, InnerTune e dipendenze. README-UPSTREAM.md conserva la documentazione della base e può descrivere funzioni o servizi non disponibili in questo fork.

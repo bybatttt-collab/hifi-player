@@ -94,7 +94,7 @@ class MusicDatabase(
     fun close() = delegate.close()
 
     companion object {
-        const val MUSIC_DATABASE_VERSION = 26
+        const val MUSIC_DATABASE_VERSION = 27
     }
 }
 
@@ -175,6 +175,7 @@ class MusicDatabase(
         // under and how much its lead lane weighs in learning. Additive with defaults, and 0, 0
         // and 1.0 are also the truth for every row written before them: no lean.
         AutoMigration(from = 25, to = 26),
+        AutoMigration(from = 26, to = 27), // album.savedOrder, independent of import time and rowid
     ]
 )
 @TypeConverters(Converters::class)

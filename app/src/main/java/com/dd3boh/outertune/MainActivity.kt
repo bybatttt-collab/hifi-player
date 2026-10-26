@@ -633,13 +633,10 @@ class MainActivity : ComponentActivity() {
             val snackbarHostState = remember { SnackbarHostState() }
 
             val enableDynamicTheme by rememberPreference(DynamicThemeKey, defaultValue = true)
-            val darkTheme by rememberEnumPreference(DarkModeKey, defaultValue = DarkMode.ON)
             val highContrastCompat by rememberPreference(HighContrastKey, defaultValue = false)
             val pureBlack by rememberPreference(PureBlackKey, defaultValue = false)
-            val isSystemInDarkTheme = isSystemInDarkTheme()
-            val useDarkTheme = remember(darkTheme, isSystemInDarkTheme) {
-                if (darkTheme == DarkMode.AUTO) isSystemInDarkTheme else darkTheme == DarkMode.ON
-            }
+            // Both HiFi appearances are dark; old InterTune dark-mode values must not alter system-bar contrast.
+            val useDarkTheme = true
 
             val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
             // The window, measured once for everything that is laid out differently when a phone

@@ -118,7 +118,7 @@ class RymAlbumActionsViewModel @Inject constructor(private val database: MusicDa
         database.transactionNow {
             insert(page)
             albumById(album.id)?.let { entity ->
-                if (entity.bookmarkedAt == null) update(entity.copy(bookmarkedAt = LocalDateTime.now()))
+                if (entity.bookmarkedAt == null) update(entity.copy(bookmarkedAt = LocalDateTime.now(), savedOrder = null))
             }
         }
         notice.value = if (remote) "Album salvato nella raccolta YouTube Music." else "Album salvato nell’app. Scrittura su YouTube Music disattivata."

@@ -235,7 +235,7 @@ class LibraryArtistsViewModel @Inject constructor(
 
 @HiltViewModel
 class LibraryAlbumsViewModel @Inject constructor(
-    @ApplicationContext context: Context,
+    @ApplicationContext private val context: Context,
     database: MusicDatabase,
     private val syncUtils: SyncUtils,
 ) : ViewModel() {
@@ -255,7 +255,10 @@ class LibraryAlbumsViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     fun syncAlbums(bypassCd: Boolean = false) {
-        viewModelScope.launch(Dispatchers.IO) { syncUtils.syncRemoteAlbums(bypassCd) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val orderReady = context.dataStore.data.first()[com.dd3boh.outertune.utils.AlbumSavedOrderReadyKey] == true
+            syncUtils.syncRemoteAlbums(bypassCd || !orderReady)
+        }
     }
 
     init {

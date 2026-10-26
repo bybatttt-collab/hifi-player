@@ -1,6 +1,7 @@
 package com.dd3boh.outertune.db.daos
 
 import com.dd3boh.outertune.db.LibrarySql
+import com.dd3boh.outertune.db.AlbumSavedOrderSql
 import com.dd3boh.outertune.db.RecommendationSql
 import androidx.room.Dao
 import androidx.room.Delete
@@ -131,7 +132,7 @@ interface AlbumsDao : ArtistsDao {
 
     fun albums(filter: AlbumFilter, sortType: AlbumSortType, descending: Boolean): Flow<List<Album>> {
         val orderBy = when (sortType) {
-            AlbumSortType.CREATE_DATE -> "album.rowId ASC"
+            AlbumSortType.CREATE_DATE -> AlbumSavedOrderSql.ASC
             AlbumSortType.NAME -> "album.title COLLATE NOCASE ASC"
             AlbumSortType.ARTIST -> """(
                                         SELECT LOWER(GROUP_CONCAT(name, ''))
@@ -167,7 +168,7 @@ interface AlbumsDao : ArtistsDao {
     fun albumsLikedAsc() = albums(AlbumFilter.LIKED, AlbumSortType.CREATE_DATE, false)
 
     @Transaction
-    @Query("SELECT album.*, 0 AS downloadCount FROM album WHERE bookmarkedAt IS NOT NULL ORDER BY bookmarkedAt DESC, rowid DESC LIMIT :limit")
+    @Query(AlbumSavedOrderSql.RECENT)
     fun recentSavedAlbums(limit: Int): Flow<List<Album>>
 
     @Query(LibrarySql.LOCAL_ALBUM_BY_TITLE)

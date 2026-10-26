@@ -501,21 +501,25 @@ class SyncUtils @Inject constructor(
                 }
             }
 
-            // Add or mark albums in local database
-            runBlocking {
-                remoteAlbums.forEach { remoteAlbum ->
-                    launch(Dispatchers.IO) {
-                        val localAlbum = database.album(remoteAlbum.id).firstOrNull()
-                        if (localAlbum == null) {
-                            database.insert(remoteAlbum)
-                            database.album(remoteAlbum.id).firstOrNull()?.let {
-                                database.update(it.album.localToggleLike())
-                            }
-                        } else if (localAlbum.album.bookmarkedAt == null) {
-                            database.update(localAlbum.album.localToggleLike())
-                        }
+            // getRemoteData reverses the complete newest-first response into oldest-first order.
+            // Store that order explicitly: concurrent inserts / rowid never encode save history.
+            val importedAt = LocalDateTime.now()
+            database.transactionNow {
+                remoteAlbums.forEachIndexed { position, remoteAlbum ->
+                    insert(remoteAlbum)
+                    albumById(remoteAlbum.id)?.let { entity ->
+                        update(entity.copy(
+                            bookmarkedAt = entity.bookmarkedAt ?: importedAt,
+                            savedOrder = if (remote.complete) position.toLong() else entity.savedOrder,
+                        ))
                     }
                 }
+            }
+            if (com.dd3boh.outertune.BuildConfig.DEBUG && remote.complete) {
+                val expected = remoteAlbums.map { it.id }
+                val ids = expected.toHashSet()
+                val stored = database.albumsLikedAsc().first().map { it.id }.filter { it in ids }
+                Log.i(TAG, "Album saved order matches remote: ${stored == expected}")
             }
             result = if (remote.complete) SyncResult.SYNCED else SyncResult.FAILED
         } finally {
@@ -525,7 +529,10 @@ class SyncUtils @Inject constructor(
             _isSyncingRemoteAlbums.value = false
             withContext(NonCancellable) {
                 context.dataStore.edit { settings ->
-                    if (result == SyncResult.SYNCED) settings[LastAlbumSyncKey] = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+                    if (result == SyncResult.SYNCED) {
+                        settings[LastAlbumSyncKey] = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+                        settings[AlbumSavedOrderReadyKey] = true
+                    }
                     settings[AlbumSyncCountKey] = imported
                     settings[AlbumSyncAttemptKey] = System.currentTimeMillis()
                     settings[AlbumSyncStateKey] = when {
@@ -884,7 +891,8 @@ class SyncUtils @Inject constructor(
         val tabs = coroutineScope {
             sources.map { (browseId, tab) ->
                 async {
-                    YouTube.library(browseId, tab).fold(
+                    YouTube.library(browseId, tab,
+                        params = if (browseId == "FEmusic_liked_albums") YouTube.LIBRARY_RECENTLY_ADDED else null).fold(
                         onSuccess = { it.walkItems() },
                         onFailure = {
                             Log.w(TAG, "Could not read $browseId: ${it.message?.let(ErrorText::withoutAddresses)}")
