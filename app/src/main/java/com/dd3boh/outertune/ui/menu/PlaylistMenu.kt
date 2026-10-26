@@ -15,6 +15,8 @@ import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.Image
+import androidx.compose.material.icons.rounded.Restore
 import androidx.compose.material.icons.rounded.Output
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.PlaylistRemove
@@ -92,6 +94,7 @@ fun PlaylistMenu(
     val playerConnection = LocalPlayerConnection.current ?: return
     val isNetworkConnected = LocalNetworkConnected.current
     val dbPlaylist by remember(playlist.id) { database.playlist(playlist.id) }.collectAsState(initial = playlist)
+    val coverActions = rememberPlaylistCoverActions(dbPlaylist?.playlist ?: playlist.playlist, coroutineScope)
     var songs by remember {
         mutableStateOf(emptyList<Song>())
     }
@@ -183,6 +186,8 @@ fun PlaylistMenu(
         )
     ) {
         GridMenuItem(icon = Icons.Rounded.PushPin, title = if (homePinned) R.string.hifi_unpin else R.string.hifi_pin) { toggleHomePin(); onDismiss() }
+        GridMenuItem(icon = Icons.Rounded.Image, title = R.string.hifi_change_cover) { coverActions.choose() }
+        if (coverActions.canReset) GridMenuItem(icon = Icons.Rounded.Restore, title = R.string.hifi_reset_cover) { coverActions.reset() }
 
         GridMenuItem(
             icon = Icons.Rounded.PlayArrow,

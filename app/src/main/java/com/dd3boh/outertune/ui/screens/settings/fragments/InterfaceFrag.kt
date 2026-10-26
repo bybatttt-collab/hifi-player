@@ -213,16 +213,12 @@ fun ColumnScope.TabArrangementFrag() {
             title = stringResource(R.string.tab_arrangement),
             onDismiss = { showTabArrangement = false },
             onConfirm = {
-                var encoded = Screens.encodeScreens(mutableTabs.filter { it.second }.map { it.first })
+                val selected = mutableTabs.filter { it.second }.map { it.first }.ifEmpty { listOf(Screens.Songs) }
+                val encoded = Screens.encodeScreens(selected)
 
                 // reset defaultOpenTab if it got disabled
                 if (Screens.getScreens(encoded).find { it.route == defaultOpenTab } == null)
-                    onDefaultOpenTabChange(Screens.Home.route)
-
-                // home is required
-                if (!encoded.contains('H')) {
-                    encoded += "H"
-                }
+                    onDefaultOpenTabChange(Screens.getScreens(encoded).first().route)
 
                 onEnabledTabsChange(encoded)
                 showTabArrangement = false
@@ -294,7 +290,6 @@ fun ColumnScope.TabArrangementFrag() {
                 }
             }
 
-            InfoLabel(stringResource(R.string.tab_arrangement_home_required))
         }
     }
 

@@ -322,7 +322,7 @@ fun OnlinePlaylistScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     AsyncImage(
-                        model = playlist.thumbnail,
+                        model = com.dd3boh.outertune.utils.playlistCoverAfterSync(dbPlaylist?.playlist?.thumbnailUrl, playlist.thumbnail),
                         contentDescription = null,
                         contentScale = androidx.compose.ui.layout.ContentScale.Crop,
                         modifier = Modifier

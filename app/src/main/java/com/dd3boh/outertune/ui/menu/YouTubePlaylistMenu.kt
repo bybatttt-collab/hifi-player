@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Image
+import androidx.compose.material.icons.rounded.Restore
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material.icons.automirrored.rounded.PlaylistPlay
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
@@ -81,6 +83,7 @@ fun YouTubePlaylistMenu(
     val downloadUtil = LocalDownloadUtil.current
     val playerConnection = LocalPlayerConnection.current ?: return
     val dbPlaylist by remember(playlist.id) { database.playlistByBrowseId(playlist.id) }.collectAsState(initial = null)
+    val coverActions = rememberPlaylistCoverActions(dbPlaylist?.playlist, coroutineScope)
 
     var showChoosePlaylistDialog by rememberSaveable {
         mutableStateOf(false)
@@ -179,6 +182,10 @@ fun YouTubePlaylistMenu(
                 toggleHomePin()
             }
             onDismiss()
+        }
+        if (dbPlaylist != null) {
+            GridMenuItem(icon = Icons.Rounded.Image, title = R.string.hifi_change_cover) { coverActions.choose() }
+            if (coverActions.canReset) GridMenuItem(icon = Icons.Rounded.Restore, title = R.string.hifi_reset_cover) { coverActions.reset() }
         }
 
         playlist.playEndpoint?.let { playEndpoint ->

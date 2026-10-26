@@ -67,7 +67,6 @@ sealed class Screens(
             Folders to 'F',
             Artists to 'A',
             Albums to 'B',
-            Playlists to 'L',
             Library to 'M',
             Rym to 'R'
         )
@@ -77,13 +76,14 @@ sealed class Screens(
         fun getScreens(screens: String): List<Screens> {
             val charToScreenMap = screenPairs.associate { (screen, char) -> char to screen }
 
-            return screens.toCharArray().map { char -> charToScreenMap[char] ?: Home }
+            return screens.mapNotNull { char -> if (char == 'L') Library else charToScreenMap[char] }
+                .distinct().ifEmpty { listOf(Songs) }
         }
 
         fun encodeScreens(list: List<Screens>): String {
             val charToScreenMap = screenPairs.associate { (screen, char) -> char to screen }
 
-            return list.distinct().joinToString("") { screen ->
+            return list.map { if (it == Playlists) Library else it }.distinct().joinToString("") { screen ->
                 charToScreenMap.entries.first { it.value == screen }.key.toString()
             }
         }

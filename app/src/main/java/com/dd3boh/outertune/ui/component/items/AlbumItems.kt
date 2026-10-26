@@ -136,9 +136,6 @@ fun AlbumGridItem(
     subtitle = album.artists.joinToString { it.name },
     badges = badges,
     thumbnailContent = {
-        val database = LocalDatabase.current
-        val playerConnection = LocalPlayerConnection.current ?: return@GridItem
-
         ItemThumbnail(
             thumbnailUrl = album.album.thumbnailUrl,
             placeholderIcon = Icons.Outlined.Album,
@@ -147,24 +144,6 @@ fun AlbumGridItem(
             shape = androidx.compose.foundation.shape.RoundedCornerShape(ThumbnailCornerRadius),
         )
 
-        AlbumPlayButton(
-            visible = !isActive,
-            onClick = {
-                coroutineScope.launch {
-                    albumSongsToPlay(database, album.id)
-                        .takeIf { it.isNotEmpty() }
-                        ?.let {
-                            playerConnection.playQueue(
-                                ListQueue(
-                                    title = album.album.title,
-                                    items = it
-                                ),
-                                origin = PlayOrigin.ALBUM,
-                            )
-                        }
-                }
-            }
-        )
     },
     fillMaxWidth = fillMaxWidth,
     modifier = modifier

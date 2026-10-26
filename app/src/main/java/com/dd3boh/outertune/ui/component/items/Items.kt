@@ -572,25 +572,6 @@ fun YouTubeGridItem(
             shape = if (item is ArtistItem) CircleShape else RoundedCornerShape(ThumbnailCornerRadius),
         )
 
-        AlbumPlayButton(
-            visible = item is AlbumItem && !isActive,
-            onClick = {
-                coroutineScope?.launch(Dispatchers.IO) {
-                    albumSongsToPlay(database, item.id).takeIf { it.isNotEmpty() }?.let {
-                        withContext(Dispatchers.Main) {
-                            playerConnection.playQueue(
-                                ListQueue(
-                                    title = item.title,
-                                    items = it
-                                ),
-                                // The button only shows on an album.
-                                origin = PlayOrigin.ALBUM,
-                            )
-                        }
-                    }
-                }
-            }
-        )
     },
     thumbnailRatio = thumbnailRatio,
     fillMaxWidth = fillMaxWidth,

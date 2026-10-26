@@ -346,4 +346,7 @@ We recycle translations from upstream, they are pulled periodically. -->
     <string name="crash_report_copy">Copy</string>
     <string name="crash_report_dismiss">Dismiss</string>
     <string name="crash_report_copied">Error copied</string>
+    <string name="hifi_change_cover">Change cover</string>
+    <string name="hifi_reset_cover">Restore cover</string>
+    <string name="hifi_cover_error">Could not load the image</string>
 </resources>

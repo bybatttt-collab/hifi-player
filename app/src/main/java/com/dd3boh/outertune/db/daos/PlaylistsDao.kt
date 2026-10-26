@@ -172,16 +172,23 @@ interface PlaylistsDao {
     @Update
     fun update(playlist: PlaylistEntity)
 
+    @Query("UPDATE playlist SET thumbnailUrl = :url WHERE id = :playlistId")
+    fun updatePlaylistCover(playlistId: String, url: String?)
+
+    @Query("SELECT thumbnailUrl FROM playlist WHERE id = :playlistId")
+    fun playlistCoverUrl(playlistId: String): String?
+
     @Update
     fun update(map: PlaylistSongMap)
 
     @Update
+    @Transaction
     fun update(playlistEntity: PlaylistEntity, playlistItem: PlaylistItem) {
         update(playlistEntity.copy(
             name = playlistItem.title,
             browseId = playlistItem.id,
             isEditable = playlistItem.isEditable,
-            thumbnailUrl = playlistItem.thumbnail,
+            thumbnailUrl = com.dd3boh.outertune.utils.playlistCoverAfterSync(playlistCoverUrl(playlistEntity.id), playlistItem.thumbnail),
             remoteSongCount = playlistItem.songCountText?.let { Regex("""\d+""").find(it)?.value?.toIntOrNull() },
             playEndpointParams = playlistItem.playEndpoint?.params,
             shuffleEndpointParams = playlistItem.shuffleEndpoint?.params,

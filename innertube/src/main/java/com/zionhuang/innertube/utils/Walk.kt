@@ -60,7 +60,9 @@ suspend fun LibraryPage.walkItems(
         if (!followed.add(next)) return Walked(result, false)
         val page = fetch(next).getOrNull() ?: return Walked(result, false)
         parsedAll = parsedAll && page.complete
-        if (page.items.isEmpty()) parsedAll = false
+        // YouTube may close a recognized shelf with an empty final continuation. An empty
+        // intermediate page or an unparsed shelf still means a partial read.
+        if (page.items.isEmpty() && page.continuation != null) parsedAll = false
         result += page.items
         next = page.continuation
     }

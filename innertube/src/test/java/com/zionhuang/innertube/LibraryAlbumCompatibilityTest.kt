@@ -64,4 +64,22 @@ class LibraryAlbumCompatibilityTest {
         assertEquals(1, result.items.size)
         assertFalse(result.complete)
     }
+
+    @Test fun recognizedEmptyTerminalContinuationCompletesAlbumLibrary() = runBlocking {
+        val album = LibraryPage.fromMusicTwoRowItemRenderer(card())!!
+        val result = LibraryPage(listOf(album), "end").walkItems {
+            Result.success(LibraryContinuationPage(emptyList(), null, complete = true))
+        }
+        assertTrue(result.complete)
+        assertEquals(listOf(album), result.items)
+    }
+
+    @Test fun emptyIntermediateContinuationDoesNotAuthorizeRemoval() = runBlocking {
+        val album = LibraryPage.fromMusicTwoRowItemRenderer(card())!!
+        val result = LibraryPage(listOf(album), "empty").walkItems {
+            Result.success(if(it == "empty") LibraryContinuationPage(emptyList(), "end", true)
+            else LibraryContinuationPage(emptyList(), null, true))
+        }
+        assertFalse(result.complete)
+    }
 }

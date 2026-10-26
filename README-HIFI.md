@@ -2,7 +2,13 @@
 
 Lettore Android sperimentale per YouTube Music e file locali. Fork indipendente di [InterTune](https://github.com/ItzSkyeYT/InterTune), revisione iniziale 0f300ee97246383f465e38e246ee609bae010050, GPL-3.0-only. Nessuna affiliazione con YouTube, Pear, InterTune o Rate Your Music.
 
-## Versione 0.4.4
+## Versione 0.4.5
+
+L’ordine degli album salvati si aggiorna anche quando YouTube Music termina la raccolta con una pagina vuota riconosciuta. Pagine intermedie vuote, errori e contenuti non decodificati restano incompleti e non autorizzano rimozioni.
+
+Copertine album senza pulsante Play sovrapposto. Nei tre punti delle playlist salvate, “Cambia copertina” sceglie un’immagine dal telefono; “Ripristina copertina” torna a quella originale. Le immagini vengono ridimensionate e copiate nella memoria privata dell’app, restano personalizzate dopo la sincronizzazione e non vengono caricate su YouTube Music.
+
+“Organizza le schede” mostra una sola voce Playlist e permette di disattivare Home. All’avvio viene usata una scheda abilitata; le vecchie preferenze Playlist/Libreria vengono unificate conservando l’ordine.
 
 Introduzione HiFi per le nuove installazioni, in tre passaggi: aggiornamenti e notifiche, tema e colore, collegamento facoltativo a YouTube Music. Nessuna guida InterTune o serie di domande aggiuntive. Gli utenti già configurati non ripetono la procedura.
 

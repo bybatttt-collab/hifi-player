@@ -1661,9 +1661,9 @@ class MainActivity : ComponentActivity() {
                             val navHost: @Composable() (() -> Unit) = @Composable {
                                 NavHost(
                                     navController = navController,
-                                    startDestination = (Screens.getAllScreens()
+                                    startDestination = (navigationItems
                                         .find { it.route == defaultOpenTab })?.route
-                                        ?: Screens.Home.route,
+                                        ?: navigationItems.first().route,
                                     enterTransition = {
                                         val currentRouteIndex = navigationItems.indexOfFirst {
                                             it.route == targetState.destination.route
