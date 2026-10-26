@@ -1,5 +1,6 @@
 package com.dd3boh.outertune.playback
 
+import android.os.SystemClock
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -10,148 +11,108 @@ import androidx.media3.common.Player
 import com.dd3boh.outertune.constants.SleepTimerDefaults
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.minutes
 
-/**
- * Sleep timer with an optional volume fade-out.
- *
- * [scope] must dispatch on the player's application thread, since the fade job reads
- * [Player.duration] and [Player.currentPosition] directly.
- */
+/** One monotonic deadline shared by the service, its wake-up alarm and the countdown UI. */
 class SleepTimer(
     private val scope: CoroutineScope,
     val player: Player,
+    private val alarm: SleepTimerAlarm = SleepTimerAlarm.None,
+    private val elapsed: () -> Long = { SystemClock.elapsedRealtime() },
+    private val wallClock: () -> Long = System::currentTimeMillis,
 ) : Player.Listener {
     private var sleepTimerJob: Job? = null
+    private var deadline = -1L
+    private var generation = 0L
     var triggerTime by mutableLongStateOf(-1L)
         private set
     var pauseWhenSongEnd by mutableStateOf(false)
         private set
-    val isActive: Boolean
-        get() = triggerTime != -1L || pauseWhenSongEnd
-
-    /** Whether the volume fades out before the timer stops playback. */
+    val isActive: Boolean get() = triggerTime != -1L || pauseWhenSongEnd
+    val remainingTimeMs: Long get() = if (deadline < 0) 0 else (deadline - elapsed()).coerceAtLeast(0)
     var fadeEnabled: Boolean = SleepTimerDefaults.FADE_ENABLED
-
-    /** Length of the fade-out, in milliseconds. */
     var fadeDurationMs: Long = SleepTimerDefaults.FADE_DURATION_SECONDS * 1000L
-
     private val _fadeFactor = MutableStateFlow(1f)
-
-    /** Multiplied into the player volume. 1f except while fading. */
-    val fadeFactor: StateFlow<Float> = _fadeFactor.asStateFlow()
-
-    /** Called when the active sleep timer completes. */
+    val fadeFactor = _fadeFactor.asStateFlow()
     var onFinish: () -> Unit = { player.pause() }
 
     fun start(minute: Int) {
-        sleepTimerJob?.cancel()
-        sleepTimerJob = null
-        _fadeFactor.value = 1f
-        pauseWhenSongEnd = false
-        triggerTime = -1L
-
+        clear()
+        val ticket = generation
         if (minute == -1) {
             pauseWhenSongEnd = true
-            if (fadeEnabled) {
-                sleepTimerJob = scope.launch {
-                    // Only drives the fade volume. Completion is handled by the player callbacks
-                    // below, when playback ends or the item changes.
-                    //
-                    // Loops while the coroutine is active AND the timer is still armed, rather than
-                    // forever: onMediaItemTransition can clear pauseWhenSongEnd without cancelling
-                    // this job, and an unbounded poll would then keep waking the CPU for the rest
-                    // of the session.
-                    while (isActive && pauseWhenSongEnd) {
-                        val duration = player.duration
-                        val remaining = if (duration == C.TIME_UNSET || duration <= 0L) {
-                            Long.MAX_VALUE
-                        } else {
-                            duration - player.currentPosition
-                        }
-                        if (remaining <= fadeDurationMs) {
-                            _fadeFactor.value = fadeFactorFor(remaining)
-                            delay(FADE_TICK_MS)
-                        } else {
-                            _fadeFactor.value = 1f
-                            delay(FADE_POLL_MS)
-                        }
-                    }
-                    _fadeFactor.value = 1f
+            if (fadeEnabled) sleepTimerJob = scope.launch {
+                while (currentCoroutineContext().isActive && pauseWhenSongEnd) {
+                    val duration = player.duration
+                    val remaining = if (duration == C.TIME_UNSET || duration <= 0) Long.MAX_VALUE else duration - player.currentPosition
+                    _fadeFactor.value = fadeFactorFor(remaining)
+                    delay(if (remaining <= fadeDurationMs) FADE_TICK_MS else POLL_MS)
                 }
             }
         } else {
-            val endTime = System.currentTimeMillis() + minute.minutes.inWholeMilliseconds
-            triggerTime = endTime
+            val duration = minute.coerceAtLeast(0) * 60_000L
+            deadline = elapsed() + duration
+            triggerTime = wallClock() + duration // notification's wall-clock display only
+            alarm.schedule(duration) { deadlineReached(ticket) }
             sleepTimerJob = scope.launch {
-                if (fadeEnabled) {
-                    val untilFade = endTime - fadeDurationMs - System.currentTimeMillis()
-                    if (untilFade > 0) delay(untilFade)
-                    while (isActive) {
-                        val remaining = endTime - System.currentTimeMillis()
-                        if (remaining <= 0) break
-                        _fadeFactor.value = fadeFactorFor(remaining)
-                        delay(FADE_TICK_MS)
+                while (currentCoroutineContext().isActive && ticket == generation) {
+                    val remaining = remainingTimeMs
+                    if (remaining == 0L) {
+                        finish(ticket)
+                        break
                     }
-                } else {
-                    val untilEnd = endTime - System.currentTimeMillis()
-                    if (untilEnd > 0) delay(untilEnd)
+                    _fadeFactor.value = if (fadeEnabled) fadeFactorFor(remaining) else 1f
+                    delay(minOf(remaining, if (fadeEnabled && remaining <= fadeDurationMs) FADE_TICK_MS else POLL_MS))
                 }
-                onFinish()
-                triggerTime = -1L
-                _fadeFactor.value = 1f
             }
         }
     }
 
     fun clear() {
+        generation++
+        alarm.cancel()
         sleepTimerJob?.cancel()
         sleepTimerJob = null
+        deadline = -1L
         pauseWhenSongEnd = false
         triggerTime = -1L
         _fadeFactor.value = 1f
     }
 
-    private fun fadeFactorFor(remainingMs: Long): Float {
-        if (remainingMs >= fadeDurationMs) return 1f
-        return (remainingMs.toFloat() / fadeDurationMs).coerceIn(0f, 1f)
+    private fun finish(ticket: Long) {
+        if (ticket != generation || !isActive) return
+        clear() // disarm before player callbacks, so an alarm and a transition cannot stop twice
+        onFinish()
     }
 
-    /** Ends an armed end-of-song timer, restoring the volume so the next play is not silent. */
-    private fun finishSongEnd() {
-        pauseWhenSongEnd = false
-        sleepTimerJob?.cancel()
-        sleepTimerJob = null
-        onFinish()
-        _fadeFactor.value = 1f
+    private fun deadlineReached(ticket: Long) {
+        if (ticket != generation || deadline < 0) return
+        val remaining = remainingTimeMs
+        if (remaining > 0) alarm.schedule(remaining) { deadlineReached(ticket) }
+        else finish(ticket)
     }
+
+    private fun fadeFactorFor(remainingMs: Long): Float =
+        if (fadeDurationMs <= 0 || remainingMs >= fadeDurationMs) 1f
+        else (remainingMs.toFloat() / fadeDurationMs).coerceIn(0f, 1f)
 
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-        // Only the song ending by itself, or starting over on repeat, ends it. Next, previous and a
-        // new queue counted as well, so with the timer set to the end of the song, pressing next
-        // paused the song just chosen. The timer now carries over to that song instead.
-        if (pauseWhenSongEnd && endsSong(reason)) finishSongEnd()
+        if (pauseWhenSongEnd && endsSong(reason)) finish(generation)
     }
 
-    override fun onPlaybackStateChanged(@Player.State playbackState: Int) {
-        if (playbackState == Player.STATE_ENDED && pauseWhenSongEnd) finishSongEnd()
+    override fun onPlaybackStateChanged(playbackState: Int) {
+        if (playbackState == Player.STATE_ENDED && pauseWhenSongEnd) finish(generation)
     }
 
     companion object {
-        /** Whether a transition for [reason] means the song before it played to its end. */
-        internal fun endsSong(reason: Int): Boolean =
+        internal fun endsSong(reason: Int) =
             reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO || reason == Player.MEDIA_ITEM_TRANSITION_REASON_REPEAT
-
-        /** Poll interval while actively fading. ~25 steps/s is smooth without being costly. */
         private const val FADE_TICK_MS = 40L
-
-        /** Poll interval while waiting for a song to get close enough to its end to fade. */
-        private const val FADE_POLL_MS = 1000L
+        private const val POLL_MS = 1000L
     }
 }

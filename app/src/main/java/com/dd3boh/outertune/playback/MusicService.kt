@@ -1009,7 +1009,7 @@ class MusicService : MediaLibraryService(),
                 // The sleep timer pauses whatever plays, so with casting possible it follows the
                 // routed player below instead, and pauses a receiver too.
                 if (!Unreleased.CASTING) {
-                    sleepTimer = SleepTimer(scope, this)
+                    sleepTimer = SleepTimer(scope, this, AndroidSleepTimerAlarm(this@MusicService))
                     addListener(sleepTimer)
                 }
                 transitionFade = TransitionFade(scope, this)
@@ -1057,8 +1057,14 @@ class MusicService : MediaLibraryService(),
             val routed = RoutedPlayer(exoPlayer)
             routedPlayer = routed
             player = routed
-            sleepTimer = SleepTimer(scope, routed)
+            sleepTimer = SleepTimer(scope, routed, AndroidSleepTimerAlarm(this))
             routed.addListener(sleepTimer)
+        }
+
+        sleepTimer.onFinish = {
+            // Pause the real output directly, including when a routed player's command snapshot is stale.
+            (routedPlayer?.target ?: exoPlayer).pause()
+            Log.i(TAG, "Sleep timer completed: playback paused")
         }
 
         mediaLibrarySessionCallback.apply {

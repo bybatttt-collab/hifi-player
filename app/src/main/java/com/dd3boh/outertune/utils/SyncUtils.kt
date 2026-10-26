@@ -532,6 +532,7 @@ class SyncUtils @Inject constructor(
                     if (result == SyncResult.SYNCED) {
                         settings[LastAlbumSyncKey] = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
                         settings[AlbumSavedOrderReadyKey] = true
+                        settings[AlbumMetadataReadyKey] = true
                     }
                     settings[AlbumSyncCountKey] = imported
                     settings[AlbumSyncAttemptKey] = System.currentTimeMillis()

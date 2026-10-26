@@ -47,6 +47,8 @@ import com.dd3boh.outertune.LocalMenuState
 import com.dd3boh.outertune.LocalPlayerAwareWindowInsets
 import com.dd3boh.outertune.LocalPlayerConnection
 import com.dd3boh.outertune.MainActivity
+import com.dd3boh.outertune.ui.component.LibrarySearchField
+import com.dd3boh.outertune.ui.component.rememberLibrarySearch
 import com.dd3boh.outertune.R
 import com.dd3boh.outertune.constants.AlbumFilter
 import com.dd3boh.outertune.constants.AlbumFilterKey
@@ -105,7 +107,9 @@ fun LibraryAlbumsScreen(
     val (sortDescending, onSortDescendingChange) = rememberPreference(AlbumSortDescendingKey, true)
     val localLibEnable by rememberPreference(LocalLibraryEnableKey, defaultValue = true)
 
-    val albums by viewModel.allAlbums.collectAsState()
+    var query by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf("") }
+    val savedAlbums by viewModel.allAlbums.collectAsState()
+    val albums = rememberLibrarySearch(savedAlbums, query, { it.title }, { it.artists.map { artist -> artist.name } })
     val isSyncingLibraryAlbums by viewModel.isSyncingRemoteAlbums.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
 
@@ -136,6 +140,7 @@ fun LibraryAlbumsScreen(
                 } },
                 modifier = Modifier.weight(1f),
             )
+            LibrarySearchField(query, { query = it }, "Cerca album salvati per titolo o artista", Modifier.weight(1f))
             IconButton(onClick = { albumViewType = albumViewType.toggle() }) {
                 Icon(if (albumViewType == LibraryViewType.LIST) Icons.Rounded.GridView else Icons.AutoMirrored.Rounded.List,
                     stringResource(if (albumViewType == LibraryViewType.LIST) R.string.view_as_grid else R.string.view_as_list))
@@ -186,7 +191,7 @@ fun LibraryAlbumsScreen(
                             item {
                                 EmptyPlaceholder(
                                     icon = Icons.Rounded.Album,
-                                    text = stringResource(R.string.library_album_empty),
+                                    text = if (query.isBlank()) stringResource(R.string.library_album_empty) else "Nessun risultato nella raccolta",
                                     modifier = Modifier.animateItem()
                                 )
                             }
@@ -197,6 +202,7 @@ fun LibraryAlbumsScreen(
                             key = { _, album -> album.id },
                             contentType = { _, _ -> CONTENT_TYPE_ALBUM }
                         ) { _, album ->
+                            LaunchedEffect(album.id) { viewModel.ensureAlbumDetails(album) }
                             LibraryAlbumListItem(
                                 navController = navController,
                                 menuState = menuState,
@@ -246,7 +252,7 @@ fun LibraryAlbumsScreen(
                             item(span = { GridItemSpan(maxLineSpan) }) {
                                 EmptyPlaceholder(
                                     icon = Icons.Rounded.Album,
-                                    text = stringResource(R.string.library_album_empty),
+                                    text = if (query.isBlank()) stringResource(R.string.library_album_empty) else "Nessun risultato nella raccolta",
                                     modifier = Modifier.animateItem()
                                 )
                             }
@@ -256,6 +262,7 @@ fun LibraryAlbumsScreen(
                             key = { it.id },
                             contentType = { CONTENT_TYPE_ALBUM }
                         ) { album ->
+                            LaunchedEffect(album.id) { viewModel.ensureAlbumDetails(album) }
                             LibraryAlbumGridItem(
                                 navController = navController,
                                 menuState = menuState,

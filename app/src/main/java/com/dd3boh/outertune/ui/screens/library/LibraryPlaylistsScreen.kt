@@ -56,6 +56,8 @@ import androidx.navigation.NavController
 import com.dd3boh.outertune.LocalMenuState
 import com.dd3boh.outertune.LocalPlayerAwareWindowInsets
 import com.dd3boh.outertune.MainActivity
+import com.dd3boh.outertune.ui.component.LibrarySearchField
+import com.dd3boh.outertune.ui.component.rememberLibrarySearch
 import com.dd3boh.outertune.R
 import com.dd3boh.outertune.constants.CONTENT_TYPE_HEADER
 import com.dd3boh.outertune.constants.CONTENT_TYPE_PLAYLIST
@@ -122,9 +124,11 @@ fun LibraryPlaylistsScreen(
 
     val (sortType, onSortTypeChange) = rememberEnumPreference(PlaylistSortTypeKey, PlaylistSortType.CREATE_DATE)
     val (sortDescending, onSortDescendingChange) = rememberPreference(PlaylistSortDescendingKey, true)
-    val showLikedAndDownloadedPlaylist = true
+    var query by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf("") }
+    val showLikedAndDownloadedPlaylist = com.dd3boh.outertune.utils.LibrarySearch.matches(query, stringResource(R.string.downloaded_songs))
 
-    val playlists by viewModel.allPlaylists.collectAsState()
+    val savedPlaylists by viewModel.allPlaylists.collectAsState()
+    val playlists = rememberLibrarySearch(savedPlaylists, query, { it.title })
     val isSyncingRemotePlaylists by viewModel.isSyncingRemotePlaylists.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
 
@@ -134,7 +138,7 @@ fun LibraryPlaylistsScreen(
     // One size for the names on their three tiles, side by side in the grid.
     val autoPlaylistTitles = remember { SameTextSize() }
     // The three in the order they are listed, and the picture of each, for the list view on its side.
-    val autoPlaylists = listOf(downloadedPlaylist)
+    val autoPlaylists = if (showLikedAndDownloadedPlaylist) listOf(downloadedPlaylist) else emptyList()
     val autoPlaylistIcons = mapOf(
         likedPlaylist.id to Icons.Rounded.Favorite,
         downloadedPlaylist.id to Icons.Rounded.CloudDownload,
@@ -184,11 +188,12 @@ fun LibraryPlaylistsScreen(
                 modifier = Modifier.weight(1f),
             )
 
+            LibrarySearchField(query, { query = it }, "Cerca nelle playlist salvate", Modifier.weight(1f))
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 playlists?.let { playlists ->
-                    Text(
+                    if (query.isBlank()) Text(
                         text = pluralStringResource(R.plurals.n_playlist, playlists.size, playlists.size),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.secondary
@@ -281,7 +286,7 @@ fun LibraryPlaylistsScreen(
                             item {
                                 EmptyPlaceholder(
                                     icon = Icons.AutoMirrored.Rounded.QueueMusic,
-                                    text = stringResource(R.string.library_playlist_empty),
+                                    text = if (query.isBlank()) stringResource(R.string.library_playlist_empty) else "Nessun risultato nella raccolta",
                                     modifier = Modifier.animateItem()
                                 )
                             }
@@ -377,7 +382,7 @@ fun LibraryPlaylistsScreen(
                             item(span = { GridItemSpan(maxLineSpan) }) {
                                 EmptyPlaceholder(
                                     icon = R.drawable.queue_music,
-                                    text = stringResource(R.string.library_playlist_empty),
+                                    text = if (query.isBlank()) stringResource(R.string.library_playlist_empty) else "Nessun risultato nella raccolta",
                                     modifier = Modifier.animateItem()
                                 )
                             }

@@ -2,9 +2,13 @@
 
 Lettore Android sperimentale per YouTube Music e file locali. Fork indipendente di [InterTune](https://github.com/ItzSkyeYT/InterTune), revisione iniziale 0f300ee97246383f465e38e246ee609bae010050, GPL-3.0-only. Nessuna affiliazione con YouTube, Pear, InterTune o Rate Your Music.
 
-## Versione 0.4.2
+## Versione 0.4.3
 
 Introduzione HiFi per le nuove installazioni, in tre passaggi: aggiornamenti e notifiche, tema e colore, collegamento facoltativo a YouTube Music. Nessuna guida InterTune o serie di domande aggiuntive. Gli utenti già configurati non ripetono la procedura.
+
+Ricerca locale accanto all’ordinamento in Brani, Album e Playlist. Album e brani vengono cercati per titolo e artista, senza cambiare la riproduzione. I dati delle schede già presenti vengono aggiornati durante la sincronizzazione; i dettagli degli album visibili sono recuperati con massimo due richieste contemporanee, senza aprire la pagina e senza una scansione di tutti gli album.
+
+Il timer usa una scadenza monotona condivisa con il conto alla rovescia e un allarme di sistema nel servizio di riproduzione; la pausa raggiunge direttamente l’uscita attiva. Allarmi cancellati o sostituiti non possono interrompere un nuovo timer. L’allarme con OnAlarmListener segue la [documentazione Android](https://developer.android.com/develop/background-work/services/alarms). Le prove automatiche coprono la scadenza e la cancellazione; il comportamento finale sul dispositivo resta da confermare.
 
 Home essenziale: playlist fissate, ultimi 24 album salvati e tre brani piaciuti recenti. Toccare uno di questi brani prepara la coda completa dei brani piaciuti, nell’ordinamento della sezione Brani. Nessun dado, suggerimento, nuova uscita o playlist della community. Circa tre copertine per volta.
 

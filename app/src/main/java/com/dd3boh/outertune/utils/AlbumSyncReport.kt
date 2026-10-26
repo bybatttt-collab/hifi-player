@@ -19,6 +19,7 @@ val HifiAskedUpdateNotificationsKey = booleanPreferencesKey("hifiAskedUpdateNoti
 
 val AlbumSyncStateKey = stringPreferencesKey("hifiAlbumSyncState")
 val AlbumSavedOrderReadyKey = androidx.datastore.preferences.core.booleanPreferencesKey("hifiAlbumSavedOrderReady")
+val AlbumMetadataReadyKey = booleanPreferencesKey("hifiAlbumMetadataReadyV2")
 val AlbumSyncCountKey = intPreferencesKey("hifiAlbumSyncCount")
 val AlbumSyncAttemptKey = longPreferencesKey("hifiAlbumSyncAttempt")
 

@@ -2,6 +2,7 @@ package com.dd3boh.outertune.db.daos
 
 import com.dd3boh.outertune.db.LibrarySql
 import com.dd3boh.outertune.db.AlbumSavedOrderSql
+import com.dd3boh.outertune.db.mergeAlbumLibraryMetadata
 import com.dd3boh.outertune.db.RecommendationSql
 import androidx.room.Dao
 import androidx.room.Delete
@@ -211,36 +212,34 @@ interface AlbumsDao : ArtistsDao {
 
     @Transaction
     fun insert(albumItem: AlbumItem) {
-        if (insert(AlbumEntity(
-                id = albumItem.browseId,
-                playlistId = albumItem.playlistId,
-                title = albumItem.title,
-                year = albumItem.year,
-                thumbnailUrl = albumItem.thumbnail,
-                songCount = 0,
-                duration = 0
-            )) == -1L
-        ) return
-        albumItem.artists
-            ?.map { artist ->
+        val existing = albumById(albumItem.browseId)
+        val merged = mergeAlbumLibraryMetadata(existing, albumItem)
+        if (existing == null) insert(merged) else if (merged != existing) update(merged)
+        // Existing cards need artist repair too, not just newly inserted albums.
+        val artists = albumItem.artists.orEmpty().filter { it.name.isNotBlank() }
+        if (artists.isNotEmpty()) clearAlbumArtists(albumItem.browseId)
+        artists
+            .map { artist ->
                 ArtistEntity(
                     id = artist.id ?: artistByName(artist.name)?.id ?: ArtistEntity.generateArtistId(),
                     name = artist.name
                 )
             }
-            ?.onEach(::insert)
-            ?.mapIndexed { index, artist ->
+            .onEach(::insert)
+            .mapIndexed { index, artist ->
                 AlbumArtistMap(
                     albumId = albumItem.browseId,
                     artistId = artist.id,
                     order = index
                 )
             }
-            ?.forEach(::insert)
+            .forEach(::insert)
     }
     // endregion
 
     // region Updates
+    @Query("DELETE FROM album_artist_map WHERE albumId = :albumId")
+    fun clearAlbumArtists(albumId: String)
     @Update
     fun update(album: AlbumEntity)
 

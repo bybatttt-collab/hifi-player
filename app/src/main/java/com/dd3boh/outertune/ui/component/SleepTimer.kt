@@ -98,19 +98,17 @@ fun rememberSleepTimerState(playerConnection: PlayerConnection): Pair<Boolean, L
         mutableLongStateOf(0L)
     }
 
-    LaunchedEffect(sleepTimerEnabled) {
+    LaunchedEffect(playerConnection, sleepTimerEnabled) {
+        if (!sleepTimerEnabled) sleepTimerTimeLeft = 0L
         if (sleepTimerEnabled) {
             while (isActive) {
                 val newSleepTimerTimeLeft = if (playerConnection.service.sleepTimer.pauseWhenSongEnd) {
-                    playerConnection.player.duration - playerConnection.player.currentPosition
+                    (playerConnection.player.duration - playerConnection.player.currentPosition).coerceAtLeast(0L)
                 } else {
-                    playerConnection.service.sleepTimer.triggerTime - System.currentTimeMillis()
+                    playerConnection.service.sleepTimer.remainingTimeMs
                 }
+                sleepTimerTimeLeft = newSleepTimerTimeLeft
                 delay(1000L)
-
-                withContext(Dispatchers.Main) {
-                    sleepTimerTimeLeft = newSleepTimerTimeLeft
-                }
             }
         }
     }

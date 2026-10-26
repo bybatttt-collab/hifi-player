@@ -59,6 +59,8 @@ import com.dd3boh.outertune.LocalPlayerAwareWindowInsets
 import com.dd3boh.outertune.LocalPlayerConnection
 import com.dd3boh.outertune.LocalSnackbarHostState
 import com.dd3boh.outertune.MainActivity
+import com.dd3boh.outertune.ui.component.LibrarySearchField
+import com.dd3boh.outertune.ui.component.rememberLibrarySearch
 import com.dd3boh.outertune.R
 import com.dd3boh.outertune.constants.CONTENT_TYPE_HEADER
 import com.dd3boh.outertune.constants.CONTENT_TYPE_SONG
@@ -115,7 +117,9 @@ fun LibrarySongsScreen(
     val (sortDescending, onSortDescendingChange) = rememberPreference(SongSortDescendingKey, true)
     val swipeEnabled by rememberPreference(SwipeToQueueKey, true)
 
-    val songs by viewModel.allSongs.collectAsState()
+    var query by rememberSaveable { mutableStateOf("") }
+    val savedSongs by viewModel.allSongs.collectAsState()
+    val songs = rememberLibrarySearch(savedSongs, query, { it.title }, { it.artists.map { artist -> artist.name } })
     val isPlaying by playerConnection.isPlaying.collectAsState()
     val isSyncingRemoteLikedSongs by viewModel.isSyncingRemoteLikedSongs.collectAsState()
     val isSyncingRemoteSongs by viewModel.isSyncingRemoteSongs.collectAsState()
@@ -183,11 +187,12 @@ fun LibrarySongsScreen(
                 modifier = Modifier.weight(1f)
             )
 
+            LibrarySearchField(query, { query = it }, "Cerca brani salvati per titolo o artista", Modifier.weight(1f))
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 songs?.let { songs ->
-                    Text(
+                    if (query.isBlank()) Text(
                         text = pluralStringResource(R.plurals.n_song, songs.size, songs.size),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.secondary,
@@ -281,7 +286,7 @@ fun LibrarySongsScreen(
                     item {
                         EmptyPlaceholder(
                             icon = Icons.Rounded.MusicNote,
-                            text = stringResource(R.string.library_song_empty),
+                            text = if (query.isBlank()) stringResource(R.string.library_song_empty) else "Nessun risultato nella raccolta",
                             modifier = Modifier.animateItem()
                         )
                     }

@@ -236,7 +236,7 @@ class LibraryArtistsViewModel @Inject constructor(
 @HiltViewModel
 class LibraryAlbumsViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    database: MusicDatabase,
+    private val database: MusicDatabase,
     private val syncUtils: SyncUtils,
 ) : ViewModel() {
     val isSyncingRemoteAlbums = syncUtils.isSyncingRemoteAlbums
@@ -257,32 +257,29 @@ class LibraryAlbumsViewModel @Inject constructor(
     fun syncAlbums(bypassCd: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
             val orderReady = context.dataStore.data.first()[com.dd3boh.outertune.utils.AlbumSavedOrderReadyKey] == true
-            syncUtils.syncRemoteAlbums(bypassCd || !orderReady)
+            val metadataReady = context.dataStore.data.first()[com.dd3boh.outertune.utils.AlbumMetadataReadyKey] == true
+            syncUtils.syncRemoteAlbums(bypassCd || !orderReady || !metadataReady)
         }
     }
 
-    init {
-        // Once, on the first real list, for the same reasons as the artist backfill above, and
-        // one more. update(album, albumPage) writes the album's songs and their artists, so every
-        // album it fixed made this list, and the artist list, run again and rescan. And an album
-        // whose page really has no songs is written back with a song count of 0, so it qualified
-        // on every one of those passes and was fetched again each time, forever.
+    private val attemptedDetails = HashSet<String>()
+    private val detailSlots = kotlinx.coroutines.sync.Semaphore(2)
+
+    /** Fetch only cards being displayed, once per visit, with bounded concurrency. */
+    fun ensureAlbumDetails(album: com.dd3boh.outertune.db.entities.Album) {
+        if (album.album.isLocal || (album.album.songCount > 0 && album.artists.isNotEmpty() &&
+                album.album.year != null && !album.thumbnailUrl.isNullOrBlank())) return
+        if (!attemptedDetails.add(album.id)) return
         viewModelScope.launch(Dispatchers.IO) {
-            allAlbums.filterNotNull().first().let { albums ->
-                albums
-                    .filter {
-                        !it.album.isLocal && it.album.songCount == 0
-                    }.forEach { album ->
-                        YouTube.album(album.id).onSuccess { albumPage ->
-                            database.query {
-                                update(album.album, albumPage)
-                            }
-                        }.onFailure {
-                            reportException(it)
-                            // An unavailable detail page does not mean the saved album was removed.
-                        }
+            detailSlots.acquire()
+            try {
+                YouTube.album(album.id).onSuccess { page ->
+                    database.transactionNow {
+                        // The user or sync may have changed save state while the request was in flight.
+                        albumById(album.id)?.let { current -> update(current, page) }
                     }
-            }
+                }.onFailure { Log.w("AlbumDetails", "Album details unavailable; existing data retained") }
+            } finally { detailSlots.release() }
         }
     }
 }
