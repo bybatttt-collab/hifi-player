@@ -459,7 +459,7 @@ fun NavGraphBuilder.appDestinations(
         }
 
         screen("setup_wizard", floating = false) {
-            if (Unreleased.SHORT_SETUP) ShortSetup(navController, appScope) else SetupWizard(navController)
+            com.dd3boh.outertune.ui.screens.HifiSetupScreen(navController, appScope)
         }
 }
 

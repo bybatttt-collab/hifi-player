@@ -15,6 +15,7 @@ import java.text.DateFormat
 import java.util.Date
 
 val SyncUploadsKey = booleanPreferencesKey("hifiSyncPersonalUploads")
+val HifiAskedUpdateNotificationsKey = booleanPreferencesKey("hifiAskedUpdateNotifications")
 
 val AlbumSyncStateKey = stringPreferencesKey("hifiAlbumSyncState")
 val AlbumSavedOrderReadyKey = androidx.datastore.preferences.core.booleanPreferencesKey("hifiAlbumSavedOrderReady")

@@ -60,11 +60,11 @@ fun hifiColors(accent: Color, night: Boolean = false, pureBlack: Boolean = false
 }
 
 @Composable
-fun HifiThemeSettings() {
+fun HifiThemeSettings(showTitle: Boolean = true) {
     var accent by rememberPreference(HifiAccentKey, "E8B45C")
     var appearance by rememberPreference(HifiAppearanceKey, "classic")
     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("Aspetto HiFi", style = MaterialTheme.typography.titleMedium)
+        if (showTitle) Text("Aspetto HiFi", style = MaterialTheme.typography.titleMedium)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("classic" to "HiFi classico", "night" to "Dark / Night").forEach { (value, name) ->
                 FilterChip(selected = appearance == value, onClick = { appearance = value }, label = { Text(name) })

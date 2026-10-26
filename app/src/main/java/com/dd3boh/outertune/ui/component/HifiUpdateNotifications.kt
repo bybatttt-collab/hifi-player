@@ -21,7 +21,7 @@ fun HifiUpdateNotifications(ready: Boolean) {
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
     LaunchedEffect(Unit) {
-        val askedKey = booleanPreferencesKey("hifiAskedUpdateNotifications")
+        val askedKey = com.dd3boh.outertune.utils.HifiAskedUpdateNotificationsKey
         if (context.dataStore.data.first()[askedKey] == true) return@LaunchedEffect
         context.dataStore.edit { it[askedKey] = true }
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {

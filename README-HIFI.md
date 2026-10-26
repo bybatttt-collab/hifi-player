@@ -4,6 +4,8 @@ Lettore Android sperimentale per YouTube Music e file locali. Fork indipendente 
 
 ## Versione 0.4.2
 
+Introduzione HiFi per le nuove installazioni, in tre passaggi: aggiornamenti e notifiche, tema e colore, collegamento facoltativo a YouTube Music. Nessuna guida InterTune o serie di domande aggiuntive. Gli utenti già configurati non ripetono la procedura.
+
 Home essenziale: playlist fissate, ultimi 24 album salvati e tre brani piaciuti recenti. Toccare uno di questi brani prepara la coda completa dei brani piaciuti, nell’ordinamento della sezione Brani. Nessun dado, suggerimento, nuova uscita o playlist della community. Circa tre copertine per volta.
 
 Cinque schede: Home, Brani, Album, Playlist e RYM. Brani mostra i piaciuti; Album gli album salvati, senza filtri o riepiloghi. Playlist contiene le playlist e la cartella Brani scaricati. Strumenti, account e sincronizzazione sono nelle impostazioni. La navigazione delle schede torna alle rispettive pagine principali.
