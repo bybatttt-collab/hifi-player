@@ -39,6 +39,7 @@ import com.dd3boh.outertune.ui.screens.settings.fragments.TabArrangementFrag
 import com.dd3boh.outertune.ui.screens.settings.fragments.TabExtrasFrag
 import com.dd3boh.outertune.ui.screens.settings.fragments.ThemeAppFrag
 import com.dd3boh.outertune.ui.screens.settings.fragments.ThemePlayerFrag
+import com.dd3boh.outertune.ui.screens.settings.fragments.HifiPlayerBackgroundPreference
 
 /**
  * Everything about how the app looks and how you move around it.
@@ -67,7 +68,7 @@ fun LookAndFeelSettings(
             modifier = Modifier.fillMaxWidth()
         ) {
             com.dd3boh.outertune.ui.theme.HifiThemeSettings()
-            com.dd3boh.outertune.ui.screens.settings.fragments.HifiPlayerBackgroundPreference()
+            HifiPlayerBackgroundPreference()
             ThemeAppFrag()
         }
         Spacer(modifier = Modifier.height(16.dp))
