@@ -1,6 +1,12 @@
 package com.dd3boh.outertune.ui.component.items
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -13,6 +19,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 import androidx.media3.exoplayer.offline.Download
 import com.dd3boh.outertune.constants.PlayOrigin
 import com.dd3boh.outertune.LocalDatabase
@@ -132,9 +143,8 @@ fun AlbumGridItem(
     isPlaying: Boolean = false,
     fillMaxWidth: Boolean = false,
 ) = GridItem(
-    title = album.album.title,
-    subtitle = album.artists.joinToString { it.name },
-    badges = badges,
+    title = { AlbumGridCaption(album.album.title, album.artists.joinToString { it.name }, badges) },
+    subtitle = {},
     thumbnailContent = {
         ItemThumbnail(
             thumbnailUrl = album.album.thumbnailUrl,
@@ -148,3 +158,31 @@ fun AlbumGridItem(
     fillMaxWidth = fillMaxWidth,
     modifier = modifier
 )
+
+/** Keep the caption's footprint while letting a one-line title give its spare line to the artist. */
+@Composable
+private fun AlbumGridCaption(title: String, artist: String, badges: @Composable RowScope.() -> Unit) {
+    var titleLines by remember(title) { mutableIntStateOf(2) }
+    val titleStyle = MaterialTheme.typography.bodyMedium
+    val artistStyle = MaterialTheme.typography.bodySmall
+    val minimumHeight = with(LocalDensity.current) {
+        (titleStyle.lineHeight.value * 2 + artistStyle.lineHeight.value).sp.toDp()
+    }
+    Column(Modifier.fillMaxWidth().heightIn(min = minimumHeight)) {
+        Text(
+            text = title, style = titleStyle, fontWeight = FontWeight.Bold,
+            maxLines = 2, overflow = TextOverflow.Ellipsis,
+            onTextLayout = { result -> titleLines = result.lineCount },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            badges()
+            Text(
+                text = artist, style = artistStyle, color = MaterialTheme.colorScheme.secondary,
+                maxLines = if (titleLines <= 1) 2 else 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}

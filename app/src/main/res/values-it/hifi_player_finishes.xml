@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hifi_player_finish_current">HiFi attuale</string>
+    <string name="hifi_player_finish_metal">Anni ’80 · Metallo nero</string>
+    <string name="hifi_player_finish_satin">Anni ’80 · Nero satinato</string>
+    <string name="hifi_player_finish_silver">Anni ’80 · Argento spazzolato</string>
+</resources>

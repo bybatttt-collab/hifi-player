@@ -56,19 +56,14 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dd3boh.outertune.R
-import com.dd3boh.outertune.constants.DEFAULT_PLAYER_BACKGROUND
 import com.dd3boh.outertune.constants.DarkMode
 import com.dd3boh.outertune.constants.DarkModeKey
 import com.dd3boh.outertune.constants.DynamicThemeKey
 import com.dd3boh.outertune.constants.HighContrastKey
 import com.dd3boh.outertune.constants.PlayerLiquidGlassKey
-import com.dd3boh.outertune.constants.PlayerBackgroundStyle
-import com.dd3boh.outertune.constants.PlayerBackgroundStyleKey
 import com.dd3boh.outertune.constants.LivingColours
-import com.dd3boh.outertune.constants.LivingColoursKey
-import com.dd3boh.outertune.constants.LivingSmoothingKey
-import com.dd3boh.outertune.constants.LivingStrengthKey
-import com.dd3boh.outertune.constants.Unreleased
+import com.dd3boh.outertune.ui.player.HifiPlayerFinish
+import com.dd3boh.outertune.ui.player.HifiPlayerFinishKey
 import com.dd3boh.outertune.ui.player.LivingField
 import com.dd3boh.outertune.ui.screens.walkthrough.Tour
 import com.dd3boh.outertune.ui.screens.walkthrough.tourTarget
@@ -123,18 +118,36 @@ fun ColumnScope.ThemeAppFrag() {
 
 
 @Composable
-fun ColumnScope.ThemePlayerFrag() {
+fun ColumnScope.HifiPlayerBackgroundPreference() {
     val (playerBackground, onPlayerBackgroundChange) = rememberEnumPreference(
-        key = PlayerBackgroundStyleKey,
-        defaultValue = DEFAULT_PLAYER_BACKGROUND
+        HifiPlayerFinishKey, HifiPlayerFinish.CURRENT
     )
-    val availableBackgroundStyles = PlayerBackgroundStyle.entries.filter {
-        when (it) {
-            PlayerBackgroundStyle.BLUR -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-            PlayerBackgroundStyle.LIVING -> Unreleased.LIVING_BACKGROUND
-            else -> true
-        }
-    }
+    val availableBackgroundStyles = HifiPlayerFinish.entries
+    EnumListPreference(
+        modifier = Modifier.tourTarget(Tour.SETTING_PLAYER_BACKGROUND),
+        title = { Text(stringResource(R.string.player_background_style)) },
+        icon = { Icon(Icons.Rounded.BlurOn, null) },
+        selectedValue = playerBackground,
+        onValueSelected = onPlayerBackgroundChange,
+        valueText = {
+            when (it) {
+                HifiPlayerFinish.CURRENT -> stringResource(R.string.hifi_player_finish_current)
+                HifiPlayerFinish.BLACK_METAL -> stringResource(R.string.hifi_player_finish_metal)
+                HifiPlayerFinish.BLACK_SATIN -> stringResource(R.string.hifi_player_finish_satin)
+                HifiPlayerFinish.SILVER -> stringResource(R.string.hifi_player_finish_silver)
+            }
+        },
+        values = availableBackgroundStyles
+    )
+
+}
+
+@Composable
+fun ColumnScope.ThemePlayerFrag(showBackgroundStyle: Boolean = true) {
+    val (playerBackground, _) = rememberEnumPreference(
+        HifiPlayerFinishKey, HifiPlayerFinish.CURRENT
+    )
+
     val (glassIntensity, onGlassIntensityChange) = rememberPreference(
         PlayerGlassIntensityKey,
         defaultValue = 1f
@@ -148,106 +161,10 @@ fun ColumnScope.ThemePlayerFrag() {
         defaultValue = true
     )
 
-    EnumListPreference(
-        modifier = Modifier.tourTarget(Tour.SETTING_PLAYER_BACKGROUND),
-        title = { Text(stringResource(R.string.player_background_style)) },
-        icon = { Icon(Icons.Rounded.BlurOn, null) },
-        selectedValue = playerBackground,
-        onValueSelected = onPlayerBackgroundChange,
-        valueText = {
-            when (it) {
-                PlayerBackgroundStyle.FOLLOW_THEME -> stringResource(R.string.player_background_default)
-                PlayerBackgroundStyle.GRADIENT -> stringResource(R.string.player_background_gradient)
-                PlayerBackgroundStyle.BLUR -> stringResource(R.string.player_background_blur)
-                PlayerBackgroundStyle.LIVING -> stringResource(R.string.player_background_living)
-            }
-        },
-        values = availableBackgroundStyles
-    )
+    if (showBackgroundStyle) HifiPlayerBackgroundPreference()
 
-    // Only there with the style it belongs to, and right under it. Shown through the same reveal
-    // the glass slider further down uses.
-    val (livingStrength, onLivingStrengthChange) = rememberPreference(
-        LivingStrengthKey,
-        defaultValue = LivingField.DEFAULT_STRENGTH
-    )
-    val (livingSmoothing, onLivingSmoothingChange) = rememberPreference(
-        LivingSmoothingKey,
-        defaultValue = LivingField.DEFAULT_SMOOTHING
-    )
-    val (livingColours, onLivingColoursChange) = rememberEnumPreference(
-        LivingColoursKey,
-        defaultValue = LivingColours.MAIN
-    )
-    AnimatedVisibility(playerBackground == PlayerBackgroundStyle.LIVING && Unreleased.LIVING_BACKGROUND) {
-        Column {
-            LivingBlurSample(
-                strength = livingStrength,
-                smoothing = livingSmoothing,
-                colours = livingColours,
-                modifier = Modifier.padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 8.dp)
-            )
-            EnumListPreference(
-                title = { Text(stringResource(R.string.player_living_colours)) },
-                icon = { Icon(Icons.Rounded.Palette, null) },
-                selectedValue = livingColours,
-                onValueSelected = onLivingColoursChange,
-                valueText = {
-                    when (it) {
-                        LivingColours.MAIN -> stringResource(R.string.player_living_colours_main)
-                        LivingColours.COVER -> stringResource(R.string.player_living_colours_cover)
-                    }
-                }
-            )
-            PreferenceEntry(
-                title = { Text(stringResource(R.string.player_living_strength)) },
-                description = stringResource(R.string.player_living_strength_description),
-                icon = { Icon(Icons.Rounded.GraphicEq, null) },
-                // A label for the slider underneath, not a button.
-                onClick = null
-            )
-            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)) {
-                Text(
-                    text = stringResource(
-                        R.string.player_glass_intensity_value,
-                        (livingStrength * 100).roundToInt()
-                    ),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-                Slider(
-                    value = livingStrength,
-                    onValueChange = onLivingStrengthChange,
-                    valueRange = 0f..1f
-                )
-            }
-            PreferenceEntry(
-                title = { Text(stringResource(R.string.player_living_smoothing)) },
-                description = stringResource(R.string.player_living_smoothing_description),
-                icon = { Icon(Icons.Rounded.Waves, null) },
-                onClick = null
-            )
-            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)) {
-                Text(
-                    text = stringResource(
-                        R.string.player_glass_intensity_value,
-                        (livingSmoothing * 100).roundToInt()
-                    ),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-                Slider(
-                    value = livingSmoothing,
-                    onValueChange = onLivingSmoothingChange,
-                    valueRange = 0f..1f
-                )
-            }
-        }
-    }
-
-    // Glass has nothing to act on when the background follows the theme: there is no artwork blur
-    // and no gradient to make translucent.
-    val glassApplies = playerBackground != PlayerBackgroundStyle.FOLLOW_THEME
+    // Hardware finishes are opaque; keep the user's glass preference for the current style.
+    val glassApplies = playerBackground == HifiPlayerFinish.CURRENT
 
     // One switch, not two. There used to be a separate "glass player background" that only
     // recoloured the now playing screen, and having two settings both called glass sharing one
@@ -266,6 +183,7 @@ fun ColumnScope.ThemePlayerFrag() {
         ),
         icon = { Icon(Icons.Rounded.AutoAwesome, null) },
         checked = liquidGlass,
+        isEnabled = glassApplies,
         onCheckedChange = onChromaticShockChange
     )
 
@@ -279,7 +197,7 @@ fun ColumnScope.ThemePlayerFrag() {
         icon = { Icon(Icons.Rounded.ViewAgenda, null) },
         checked = groupedControls,
         onCheckedChange = onGroupedControlsChange,
-        isEnabled = liquidGlass
+        isEnabled = liquidGlass && glassApplies
     )
 
     // Below Android 13, and beside the side navigation, the app draws no floating glass at all, so a
@@ -293,7 +211,7 @@ fun ColumnScope.ThemePlayerFrag() {
 
     // Shown rather than described, right above the slider that changes it. Always drawn where the
     // app can draw glass, so turning Liquid glass off shows the flat look that comes back.
-    if (noSampleBecause == null) {
+    if (noSampleBecause == null && glassApplies) {
         GlassSample(
             intensity = glassIntensity,
             grouped = liquidGlass && groupedControls,
@@ -306,7 +224,7 @@ fun ColumnScope.ThemePlayerFrag() {
     // One reveal rather than two consecutive `if` blocks, which popped content into existence in a
     // single frame directly under the switch that was just tapped. ThemeAppFrag above already
     // animates its equivalent, so the file disagreed with itself. ColumnScope defaults, to match.
-    AnimatedVisibility(liquidGlass) {
+    AnimatedVisibility(liquidGlass && glassApplies) {
         // Required: AnimatedVisibility takes one child, and this holds two.
         Column {
             // Below BOTH toggles, not nested under the first. It drives both, and while it sat

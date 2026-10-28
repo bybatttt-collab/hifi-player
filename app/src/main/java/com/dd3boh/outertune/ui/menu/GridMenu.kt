@@ -12,6 +12,8 @@ package com.dd3boh.outertune.ui.menu
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -35,6 +37,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -45,6 +49,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.dd3boh.outertune.ui.theme.hifiPlayerFont
 import androidx.media3.exoplayer.offline.Download
 import com.dd3boh.outertune.R
 import com.dd3boh.outertune.utils.getDownloadState
@@ -60,19 +65,25 @@ val GridMenuItemHeight = 72.dp
 
 /** Between an entry's icon and its name. */
 private val GridMenuItemGap = 6.dp
+private val LocalHifiPlayerMenu = compositionLocalOf { false }
 
 @Composable
 fun GridMenu(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    hifiStyle: Boolean = false,
     content: LazyGridScope.() -> Unit,
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 120.dp),
+    CompositionLocalProvider(LocalHifiPlayerMenu provides hifiStyle) {
+      LazyVerticalGrid(
+        columns = if (hifiStyle) GridCells.Fixed(3) else GridCells.Adaptive(minSize = 120.dp),
         modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(if (hifiStyle) 8.dp else 0.dp),
+        verticalArrangement = Arrangement.spacedBy(if (hifiStyle) 8.dp else 0.dp),
         contentPadding = contentPadding,
         content = content
     )
+    }
 }
 
 fun LazyGridScope.GridMenuItem(
@@ -102,17 +113,20 @@ fun LazyGridScope.GridMenuItem(
     onClick: () -> Unit,
 ) {
     item {
+        val hifiStyle = LocalHifiPlayerMenu.current
+        val label = stringResource(title)
         Column(
             verticalArrangement = Arrangement.spacedBy(GridMenuItemGap),
             modifier = modifier
-                .clip(ShapeDefaults.Large)
-                .heightIn(min = GridMenuItemHeight)
+                .clip(if (hifiStyle) RoundedCornerShape(2.dp) else ShapeDefaults.Large)
+                .then(if (hifiStyle) Modifier.border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f), RoundedCornerShape(2.dp)) else Modifier)
+                .heightIn(min = if (hifiStyle) 112.dp else GridMenuItemHeight)
                 .clickable(
                     enabled = enabled,
                     onClick = onClick
                 )
                 .alpha(if (enabled) 1f else 0.5f)
-                .padding(horizontal = 12.dp, vertical = 10.dp)
+                .padding(horizontal = 8.dp, vertical = if (hifiStyle) 16.dp else 10.dp)
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth(),
@@ -120,10 +134,11 @@ fun LazyGridScope.GridMenuItem(
                 content = icon
             )
             Text(
-                text = stringResource(title),
+                text = label,
                 style = MaterialTheme.typography.labelLarge,
+                fontFamily = if (hifiStyle) hifiPlayerFont(label) else null,
                 textAlign = TextAlign.Center,
-                maxLines = 2,
+                maxLines = if (hifiStyle) Int.MAX_VALUE else 2,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -235,15 +250,18 @@ fun LazyGridScope.SleepTimerGridMenu(
     onClick: () -> Unit
 ) {
     item {
+        val hifiStyle = LocalHifiPlayerMenu.current
+        val label = if (enabled) makeTimeString(sleepTimerTimeLeft) else stringResource(R.string.sleep_timer)
         Column(
             verticalArrangement = Arrangement.spacedBy(GridMenuItemGap),
             modifier = modifier
-                .clip(ShapeDefaults.Large)
-                .heightIn(min = GridMenuItemHeight)
+                .clip(if (hifiStyle) RoundedCornerShape(2.dp) else ShapeDefaults.Large)
+                .then(if (hifiStyle) Modifier.border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f), RoundedCornerShape(2.dp)) else Modifier)
+                .heightIn(min = if (hifiStyle) 112.dp else GridMenuItemHeight)
                 .clickable(
                     onClick = onClick
                 )
-                .padding(horizontal = 12.dp, vertical = 10.dp)
+                .padding(horizontal = 8.dp, vertical = if (hifiStyle) 16.dp else 10.dp)
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth(),
@@ -257,12 +275,11 @@ fun LazyGridScope.SleepTimerGridMenu(
                 }
             )
             Text(
-                text = if (enabled) makeTimeString(sleepTimerTimeLeft) else stringResource(
-                    id = R.string.sleep_timer
-                ),
+                text = label,
                 style = MaterialTheme.typography.labelLarge,
+                fontFamily = if (hifiStyle) hifiPlayerFont(label) else null,
                 textAlign = TextAlign.Center,
-                maxLines = 2,
+                maxLines = if (hifiStyle) Int.MAX_VALUE else 2,
                 modifier = Modifier.fillMaxWidth()
             )
         }

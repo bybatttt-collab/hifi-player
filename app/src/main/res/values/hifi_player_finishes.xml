@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hifi_player_finish_current">HiFi current</string>
+    <string name="hifi_player_finish_metal">80s · Black metal</string>
+    <string name="hifi_player_finish_satin">80s · Satin black</string>
+    <string name="hifi_player_finish_silver">80s · Brushed silver</string>
+</resources>

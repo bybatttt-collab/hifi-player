@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <!-- Asked of the car, not of the phone: to be drawn as a music app from templates. -->
     <uses-permission android:name="androidx.car.app.MEDIA_TEMPLATES" />
     <!-- Lets the app hand a downloaded release to Android's installer. Android still asks the user

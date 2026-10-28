@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -98,6 +99,8 @@ fun Thumbnail(
      */
     lyricsBottomPadding: Dp = 0.dp
 ) {
+    val finish = LocalHifiPlayerFinish.current
+    val inArtworkViewport = LocalHifiArtworkViewportWidth.current != null
     val context = LocalContext.current
     val database = LocalDatabase.current
     val currentView = LocalView.current
@@ -129,7 +132,7 @@ fun Thumbnail(
             exit = ThumbnailExit,
             modifier = Modifier
                 .fillMaxSize()
-                .statusBarsPadding()
+                .then(if (inArtworkViewport) Modifier else Modifier.statusBarsPadding())
         ) {
 
             // In the two-pane landscape player the artwork shares the width with the controls, so
@@ -149,7 +152,7 @@ fun Thumbnail(
                     else Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = if (isLandscape) 8.dp else PlayerHorizontalPadding)
+                    .padding(horizontal = if (inArtworkViewport) 0.dp else if (isLandscape) 8.dp else if (finish != HifiPlayerFinish.CURRENT) 24.dp else PlayerHorizontalPadding)
             ) {
                 BoxWithConstraints(
                     modifier = Modifier
@@ -195,7 +198,8 @@ fun Thumbnail(
                                 place.value = at
                                 if (showsWhatPlays) PlayerCoverPlace.bounds = at
                             }
-                            .clip(RoundedCornerShape(ThumbnailCornerRadius * 2))
+                            .hifiArtworkBezel(if (inArtworkViewport) HifiPlayerFinish.CURRENT else finish)
+                            .clip(RoundedCornerShape(if (finish == HifiPlayerFinish.CURRENT) ThumbnailCornerRadius * 2 else 6.dp))
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = null,
@@ -225,11 +229,13 @@ fun Thumbnail(
                                 ART_PREVIEW_PX
                             ),
                             contentDescription = null,
+                            contentScale = ContentScale.Fit,
                             modifier = Modifier.fillMaxSize()
                         )
                         AsyncImage(
                             model = mediaMetadata?.getThumbnailModel(artPx, artPx),
                             contentDescription = null,
+                            contentScale = ContentScale.Fit,
                             modifier = Modifier.fillMaxSize()
                         )
                     }

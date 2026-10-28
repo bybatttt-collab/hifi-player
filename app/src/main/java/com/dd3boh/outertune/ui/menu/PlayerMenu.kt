@@ -81,14 +81,15 @@ import androidx.compose.material.icons.rounded.PlaylistRemove
 import androidx.compose.foundation.Image
 import androidx.compose.ui.graphics.ColorFilter
 import com.dd3boh.outertune.R
-import com.dd3boh.outertune.constants.MAX_PLAYER_VOLUME
 import com.dd3boh.outertune.constants.ShowLyricsKey
 import com.dd3boh.outertune.constants.SyncMode
 import com.dd3boh.outertune.constants.YtmSyncModeKey
 import com.dd3boh.outertune.models.MediaMetadata
 import com.dd3boh.outertune.models.withArtistIds
 import com.dd3boh.outertune.playback.queues.YouTubeQueue
-import com.dd3boh.outertune.ui.component.BigSeekBar
+import com.dd3boh.outertune.ui.component.HifiVolumeControl
+import com.dd3boh.outertune.utils.RymLinks
+import com.dd3boh.outertune.ui.theme.RymBrandIcon
 import com.dd3boh.outertune.ui.component.BottomSheetState
 import com.dd3boh.outertune.ui.component.button.IconButton
 import com.dd3boh.outertune.ui.dialog.AddToPlaylistDialog
@@ -123,7 +124,6 @@ fun PlayerMenu(
     var showLyrics by rememberPreference(ShowLyricsKey, defaultValue = false)
 
     val playerConnection = LocalPlayerConnection.current ?: return
-    val playerVolume = playerConnection.service.playerVolume.collectAsState()
     val currentFormatState = remember(mediaMetadata.id) { database.format(mediaMetadata.id) }.collectAsState(initial = null)
     val currentFormat = currentFormatState.value
     val librarySong by remember(mediaMetadata.id) { database.song(mediaMetadata.id) }.collectAsState(initial = null)
@@ -190,32 +190,13 @@ fun PlayerMenu(
         )
     }
 
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-            .padding(top = 24.dp, bottom = 6.dp)
-    ) {
-        Icon(
-            imageVector = Icons.AutoMirrored.Rounded.VolumeUp,
-            contentDescription = null,
-            modifier = Modifier.size(28.dp)
-        )
-
-        BigSeekBar(
-            progressProvider = playerVolume::value,
-            onProgressChange = { playerConnection.service.playerVolume.value = it },
-            // Past 100% the gain is applied to the samples rather than through player.volume,
-            // which cannot exceed unity. Soft clipped, so pushing it hard compresses peaks
-            // instead of tearing them.
-            maxProgress = MAX_PLAYER_VOLUME,
-            modifier = Modifier.weight(1f)
-        )
-    }
+    HifiVolumeControl(
+        onVolumeSet = { playerConnection.service.playerVolume.value = 1f },
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 12.dp)
+    )
 
     GridMenu(
+        hifiStyle = true,
         contentPadding = PaddingValues(
             start = 8.dp,
             top = 8.dp,
@@ -223,7 +204,24 @@ fun PlayerMenu(
             bottom = 8.dp + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
         )
     ) {
-        rymMenuItems(context, mediaMetadata.artists.map { it.name }, mediaMetadata.album?.title, mediaMetadata.title, onDismiss = onDismiss)
+        // Keep these positions stable even when the current file lacks album metadata.
+        GridMenuItem(icon = { RymBrandIcon() }, title = R.string.hifi_rym_album, enabled = !mediaMetadata.album?.title.isNullOrBlank()) {
+            mediaMetadata.album?.title?.let { title ->
+                onDismiss()
+                RymLinks.open(context, title, mediaMetadata.artists.map { it.name }, album = true)
+            }
+        }
+        GridMenuItem(icon = { RymBrandIcon() }, title = R.string.hifi_rym_song, enabled = mediaMetadata.title.isNotBlank()) {
+            onDismiss()
+            RymLinks.open(context, mediaMetadata.title, mediaMetadata.artists.map { it.name }, album = false)
+        }
+        GridMenuItem(icon = R.drawable.album, title = R.string.view_album, enabled = mediaMetadata.album != null && !mediaMetadata.isLocal) {
+            mediaMetadata.album?.let { album ->
+                navController.navigate("album/${album.id}")
+                playerBottomSheetState.collapseSoft()
+                onDismiss()
+            }
+        }
         playerConnection.service.castSession?.let { session ->
             GridMenuItem(icon = Icons.AutoMirrored.Rounded.VolumeUp, title = R.string.hifi_output) {
                 onDismiss()
@@ -314,16 +312,6 @@ fun PlayerMenu(
                 } else {
                     showSelectArtistDialog = true
                 }
-            }
-        }
-        if (mediaMetadata.album != null && !mediaMetadata.isLocal) {
-            GridMenuItem(
-                icon = R.drawable.album,
-                title = R.string.view_album
-            ) {
-                navController.navigate("album/${mediaMetadata.album.id}")
-                playerBottomSheetState.collapseSoft()
-                onDismiss()
             }
         }
 

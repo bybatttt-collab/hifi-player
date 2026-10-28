@@ -67,6 +67,7 @@ fun LookAndFeelSettings(
             modifier = Modifier.fillMaxWidth()
         ) {
             com.dd3boh.outertune.ui.theme.HifiThemeSettings()
+            com.dd3boh.outertune.ui.screens.settings.fragments.HifiPlayerBackgroundPreference()
             ThemeAppFrag()
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -74,7 +75,7 @@ fun LookAndFeelSettings(
         ElevatedCard(
             modifier = Modifier.fillMaxWidth()
         ) {
-            ThemePlayerFrag()
+            ThemePlayerFrag(showBackgroundStyle = false)
             PlayerButtonsFrag()
             // The two buttons the phone shows beside previous, play and next. They are about how
             // the player looks from outside the app, so they stand with the player's own buttons

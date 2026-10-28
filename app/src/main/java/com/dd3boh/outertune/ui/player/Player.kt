@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberUpdatedState
 import com.dd3boh.outertune.ui.utils.LocalAppBackdrop
 import com.dd3boh.outertune.ui.utils.LocalLandscape
-import com.dd3boh.outertune.ui.utils.CoverBlur
 import com.kyant.backdrop.effects.vibrancy
 import com.kyant.backdrop.backdrops.LayerBackdrop
 import com.dd3boh.outertune.constants.PlayerButtonsStyle
@@ -36,12 +35,15 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.dd3boh.outertune.ui.component.rememberSleepTimerState
 import androidx.compose.material3.Icon
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import com.dd3boh.outertune.ui.component.SleepTimerDialog
-import androidx.compose.material.icons.rounded.Timer
+import androidx.compose.foundation.border
+import com.dd3boh.outertune.utils.RymLinks
+import com.dd3boh.outertune.ui.theme.hifiPlayerFont
+import com.dd3boh.outertune.ui.theme.HifiPlayerTextFont
+import com.dd3boh.outertune.ui.theme.RymIcon
+import com.dd3boh.outertune.ui.theme.RymBrandIcon
 import com.dd3boh.outertune.LocalDatabase
 import com.dd3boh.outertune.constants.SignalKind
 import com.dd3boh.outertune.utils.ActivityLog
@@ -63,7 +65,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -179,9 +180,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -198,26 +199,12 @@ import androidx.media3.common.Player.REPEAT_MODE_ONE
 import androidx.media3.common.Player.STATE_ENDED
 import androidx.media3.common.Player.STATE_READY
 import androidx.navigation.NavController
-import coil3.compose.AsyncImage
-import coil3.imageLoader
 import coil3.request.ImageRequest
-import coil3.request.allowHardware
-import coil3.request.transformations
-import coil3.toBitmap
 import com.dd3boh.outertune.LocalMenuState
 import com.dd3boh.outertune.LocalPlayerAwareWindowInsets
 import com.dd3boh.outertune.LocalPlayerConnection
 import com.dd3boh.outertune.R
-import com.dd3boh.outertune.constants.DEFAULT_PLAYER_BACKGROUND
-import com.dd3boh.outertune.constants.DarkMode
-import com.dd3boh.outertune.constants.DarkModeKey
 import com.dd3boh.outertune.constants.MiniPlayerHeight
-import com.dd3boh.outertune.constants.PlayerBackgroundStyle
-import com.dd3boh.outertune.constants.PlayerBackgroundStyleKey
-import com.dd3boh.outertune.constants.LivingColours
-import com.dd3boh.outertune.constants.LivingColoursKey
-import com.dd3boh.outertune.constants.LivingSmoothingKey
-import com.dd3boh.outertune.constants.LivingStrengthKey
 import com.dd3boh.outertune.constants.Unreleased
 import com.dd3boh.outertune.constants.PlayerHorizontalPadding
 import com.dd3boh.outertune.constants.QueuePeekHeight
@@ -229,7 +216,6 @@ import com.dd3boh.outertune.constants.SwipeToDismissPlayerKey
 import com.dd3boh.outertune.constants.GroupedPlayerControlsKey
 import com.dd3boh.outertune.constants.PlayerGlassIntensityKey
 import com.dd3boh.outertune.constants.PlayerLiquidGlassKey
-import com.dd3boh.outertune.extensions.isPowerSaver
 import com.dd3boh.outertune.extensions.metadata
 import com.dd3boh.outertune.extensions.supportsWideScreen
 import com.dd3boh.outertune.extensions.tabMode
@@ -240,16 +226,13 @@ import com.dd3boh.outertune.ui.component.BottomSheetState
 import com.dd3boh.outertune.ui.component.button.ResizableIconButton
 import com.dd3boh.outertune.ui.component.rememberBottomSheetState
 import com.dd3boh.outertune.ui.menu.PlayerMenu
-import com.dd3boh.outertune.ui.theme.extractGradientColors
 import com.dd3boh.outertune.ui.utils.SnapLayoutInfoProvider
 import com.dd3boh.outertune.ui.utils.readingDirection
-import com.dd3boh.outertune.utils.coilCoroutine
 import com.dd3boh.outertune.utils.makeTimeString
 import com.dd3boh.outertune.utils.rememberEnumPreference
 import com.dd3boh.outertune.utils.rememberPreference
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.withContext
 import kotlin.math.max
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
@@ -350,17 +333,11 @@ fun BottomSheetPlayer(
     val currentMediaIndex = if (previousInStrip != null) 1 else 0
 
 
-    val playerBackground by rememberEnumPreference(
-        key = PlayerBackgroundStyleKey,
-        defaultValue = DEFAULT_PLAYER_BACKGROUND
-    )
-
     val glassIntensity by rememberPreference(PlayerGlassIntensityKey, defaultValue = 1f)
-    val livingStrength by rememberPreference(LivingStrengthKey, defaultValue = LivingField.DEFAULT_STRENGTH)
-    val livingSmoothing by rememberPreference(LivingSmoothingKey, defaultValue = LivingField.DEFAULT_SMOOTHING)
-    val livingColours by rememberEnumPreference(LivingColoursKey, defaultValue = LivingColours.MAIN)
 
-    val liquidGlass by rememberPreference(PlayerLiquidGlassKey, defaultValue = false)
+    val playerFinish by rememberEnumPreference(HifiPlayerFinishKey, HifiPlayerFinish.CURRENT)
+    val liquidGlassSetting by rememberPreference(PlayerLiquidGlassKey, defaultValue = false)
+    val liquidGlass = liquidGlassSetting && playerFinish == HifiPlayerFinish.CURRENT
     val swipeToDismissPlayer by rememberPreference(SwipeToDismissPlayerKey, defaultValue = true)
     val groupedControls by rememberPreference(GroupedPlayerControlsKey, defaultValue = true)
     val playerBackdrop = rememberLayerBackdrop()
@@ -370,22 +347,11 @@ fun BottomSheetPlayer(
         defaultValue = SeekIncrement.OFF
     )
 
-    val darkTheme by rememberEnumPreference(DarkModeKey, defaultValue = DarkMode.AUTO)
-    val isSystemInDarkTheme = isSystemInDarkTheme()
-    val useDarkTheme = remember(darkTheme, isSystemInDarkTheme) {
-        if (darkTheme == DarkMode.AUTO) isSystemInDarkTheme else darkTheme == DarkMode.ON
-    }
-
-    val onBackgroundColor = when (playerBackground) {
-        PlayerBackgroundStyle.FOLLOW_THEME -> MaterialTheme.colorScheme.secondary
-        else ->
-            if (useDarkTheme)
-                MaterialTheme.colorScheme.onSurface
-            else {
-                val c = MaterialTheme.colorScheme.secondary
-                c.copy(alpha = 1f, red = c.red - 0.2f, green = c.green - 0.2f, blue = c.blue - 0.2f)
-            }
-    }
+    val appColors = MaterialTheme.colorScheme
+    val playerColors = remember(appColors, playerFinish) { hifiFinishColors(appColors, playerFinish) }
+    val onBackgroundColor = playerColors.onSurface
+    val playbackAccent = MaterialTheme.colorScheme.primary
+    val onPlaybackAccent = MaterialTheme.colorScheme.onPrimary
 
     var showLyrics by rememberPreference(ShowLyricsKey, defaultValue = false)
     val buttonsStyle by rememberEnumPreference(PlayerButtonsStyleKey, defaultValue = PlayerButtonsStyle.CLASSIC)
@@ -417,57 +383,6 @@ fun BottomSheetPlayer(
         mediaMetadata?.duration?.takeIf { it > 0 }?.let { it * 1000L } ?: duration
     } else {
         duration
-    }
-
-    var gradientColors by remember {
-        mutableStateOf<List<Color>>(emptyList())
-    }
-
-
-    /**
-     * Background style actually used, which is not always the one the user picked.
-     *
-     * BLUR draws the cover art stretched across the whole window with ContentScale.FillBounds,
-     * from a 100px source. On a phone that is about a 10x upscale and the blur hides it. On a
-     * 2560px wide tablet it is a 25x upscale, and FillBounds also squashes a square cover into a
-     * 16:10 box, so it reads as a blocky stretched mess rather than a background.
-     *
-     * On big screens the gradient is simply the better picture: it is built from the artwork's own
-     * colours, so it still feels like the album, and it cannot pixelate because there are no pixels
-     * to stretch. The preference is left alone, so a phone keeps whatever was chosen.
-     */
-    // LIVING is a prototype: a build that does not offer it does not draw it either, wherever the
-    // preference came from (a backup made on a build that does).
-    val chosenPlayerBackground =
-        if (playerBackground == PlayerBackgroundStyle.LIVING && !Unreleased.LIVING_BACKGROUND) DEFAULT_PLAYER_BACKGROUND
-        else playerBackground
-    val effectivePlayerBackground = if (chosenPlayerBackground == PlayerBackgroundStyle.BLUR && context.supportsWideScreen()) {
-        PlayerBackgroundStyle.GRADIENT
-    } else {
-        chosenPlayerBackground
-    }
-
-    // gradient colours
-    LaunchedEffect(mediaMetadata, effectivePlayerBackground) {
-        // Keyed on the EFFECTIVE style. Keying on the raw preference would mean a tablet that has
-        // BLUR selected never extracts any colours, and then renders a gradient of nothing.
-        if (effectivePlayerBackground != PlayerBackgroundStyle.GRADIENT || context.isPowerSaver()) {
-            return@LaunchedEffect
-        }
-
-        withContext(coilCoroutine) {
-            val result = context.imageLoader.execute(
-                ImageRequest.Builder(context)
-                    .data(mediaMetadata?.getThumbnailModel(100, 100))
-                    .allowHardware(false)
-                    .build()
-            )
-
-            val bitmap = result.image?.toBitmap()?.extractGradientColors()
-            bitmap?.let {
-                gradientColors = it
-            }
-        }
     }
 
     // Twice a second, and only while somebody can see it. Composition is not disposed when the
@@ -552,7 +467,7 @@ fun BottomSheetPlayer(
      * all, so there it is gone and the queue opens from a button among the controls as well as
      * from a swipe up. See [playerQueueLayout].
      */
-    val queueLayout = playerQueueLayout(
+    val baseQueueLayout = playerQueueLayout(
         windowHeight = state.expandedBound,
         bottomInset = bottomBarsInset,
         landscape = isLandscape,
@@ -561,6 +476,9 @@ fun BottomSheetPlayer(
         songLoaded = mediaMetadata != null,
         outputRow = false,
     )
+    val hardwarePortrait = playerFinish != HifiPlayerFinish.CURRENT && !isLandscape && !tabletTwoPane &&
+        mediaMetadata != null && !baseQueueLayout.compact
+    val queueLayout = baseQueueLayout.forHifiPortrait(bottomBarsInset, hardwarePortrait)
     val queueReserve = queueLayout.reserve
     val compactPlayer = queueLayout.compact
 
@@ -686,6 +604,23 @@ fun BottomSheetPlayer(
     }
 
 
+    DisposableEffect(currentView, state.isExpanded, playerFinish) {
+        val activity = context as? Activity
+        val controller = activity?.let { WindowCompat.getInsetsController(it.window, currentView) }
+        val oldStatus = controller?.isAppearanceLightStatusBars
+        val oldNavigation = controller?.isAppearanceLightNavigationBars
+        val silverExpanded = state.isExpanded && playerFinish == HifiPlayerFinish.SILVER
+        if (silverExpanded) {
+            controller?.isAppearanceLightStatusBars = true
+            controller?.isAppearanceLightNavigationBars = true
+        }
+        onDispose {
+            if (silverExpanded) {
+                oldStatus?.let { controller?.isAppearanceLightStatusBars = it }
+                oldNavigation?.let { controller?.isAppearanceLightNavigationBars = it }
+            }
+        }
+    }
     // On its side the mini player is a panel of its upright width under the second half of the
     // page, not a bar the width of the screen. Null upright, where the sheet is the whole width
     // as before.
@@ -719,113 +654,8 @@ fun BottomSheetPlayer(
                     // change, and the lens only ever sees pixels the player itself drew.
                     .layerBackdrop(playerBackdrop)
             ) {
-                // "Glass" look, requested in upstream #1282. The one-off
-                // pre_rel-0.10.1-b1-glass build differed from stock only in this background: it
-                // dropped the flat overlay wash, halved the gradient, put the blurred artwork at
-                // half alpha and used a single blur radius. Rather than ship a second app, all four
-                // are interpolated by `glassIntensity`, so 0f reproduces stock 0.10.1 exactly and
-                // 1f reproduces that build exactly.
-                // Rides the single Liquid glass switch. This half needs no RuntimeShader, so it
-                // still works below API 33 where the refraction cannot.
-                val glassT = if (liquidGlass) glassIntensity.coerceIn(0f, 1f) else 0f
-
-                val stockOverlayAlpha = if (useDarkTheme) 0.4f else 0.55f
-                val overlayColor = (if (useDarkTheme) Color.Black else Color.White)
-                    .copy(alpha = lerp(stockOverlayAlpha, 0f, glassT))
-                val artworkAlpha = lerp(1f, 0.5f, glassT)
-                val gradientAlpha = lerp(0.8f, 0.4f, glassT)
-                val blurRadius = lerp(if (useDarkTheme) 150f else 100f, 100f, glassT).dp
-                if (effectivePlayerBackground == PlayerBackgroundStyle.LIVING) {
-                    // Not inside the AnimatedContent below: it turns one cover's colours into the
-                    // next one's by itself, and a crossfade would restart its motion at every song.
-                    LivingBackground(
-                        cover = mediaMetadata?.getThumbnailModel(100, 100),
-                        tap = playerConnection.service.levelTap,
-                        playing = isPlaying,
-                        onScreen = !state.isCollapsed && !state.isDismissed,
-                        covered = queueHidesBackground(playerExpanded = state.isExpanded, queueSheetExpanded = queueSheetState.isExpanded),
-                        strength = livingStrength,
-                        smoothing = livingSmoothing,
-                        colours = livingColours,
-                        // its own, not a modifier's: that one costs a buffer the size of the
-                        // screen at every redraw
-                        alpha = artworkAlpha,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(overlayColor)
-                    )
-                }
-
-                AnimatedContent(
-                    targetState = mediaMetadata,
-                    transitionSpec = {
-                        fadeIn(tween(1000)).togetherWith(fadeOut(tween(1000)))
-                    }
-                ) { metadata ->
-                    if (effectivePlayerBackground == PlayerBackgroundStyle.BLUR) {
-                        Log.v(TAG, "PLR-2.2a")
-                        // Blurred once, on the thumbnail (CoverBlur), and no longer by the GPU on
-                        // every frame the window draws. Its spread is the GPU blur's sigma (Skia's
-                        // 0.57735 r + 0.5) as a share of the window it is stretched over.
-                        val window = LocalWindowInfo.current.containerSize
-                        val sigma = with(LocalDensity.current) { blurRadius.toPx() } * 0.57735f + 0.5f
-                        val blurred = remember(metadata, sigma, window) {
-                            ImageRequest.Builder(context)
-                                .data(metadata?.getThumbnailModel(100, 100))
-                                .size(100, 100)
-                                .transformations(
-                                    CoverBlur(sigma / window.width.coerceAtLeast(1), sigma / window.height.coerceAtLeast(1))
-                                )
-                                .build()
-                        }
-                        AsyncImage(
-                            model = blurred,
-                            contentDescription = null,
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .alpha(artworkAlpha)
-                        )
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(overlayColor)
-                        )
-                    }
-                }
-
-                AnimatedContent(
-                    targetState = gradientColors,
-                    transitionSpec = {
-                        fadeIn(tween(1000)).togetherWith(fadeOut(tween(1000)))
-                    }
-                ) { colors ->
-                    if (effectivePlayerBackground == PlayerBackgroundStyle.GRADIENT && colors.size >= 2) {
-                        Log.v(TAG, "PLR-2.2b")
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Brush.verticalGradient(colors), alpha = gradientAlpha)
-                        )
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(overlayColor)
-                        )
-                    }
-                }
-
-                if (playerBackground != PlayerBackgroundStyle.FOLLOW_THEME && showLyrics) {
-                    Log.v(TAG, "PLR-2.2c")
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(if (useDarkTheme) Color.Black.copy(alpha = 0.3f) else Color.White.copy(alpha = 0.5f))
-                    )
+                if (playerFinish != HifiPlayerFinish.CURRENT) {
+                    HifiPlayerFaceplate(playerFinish)
                 }
             }
         },
@@ -856,6 +686,8 @@ fun BottomSheetPlayer(
             )
         }
     ) {
+        MaterialTheme(colorScheme = playerColors) {
+        CompositionLocalProvider(LocalHifiPlayerFinish provides playerFinish) {
         Log.v(TAG, "PLR-3.1")
 
         val lol: @Composable BoxScope.() -> Unit = {
@@ -875,6 +707,7 @@ fun BottomSheetPlayer(
             val hPadding = when {
                 compactPlayer -> CompactPlayerGutter
                 landscapePlayer -> 24.dp
+                hardwarePortrait -> 24.dp
                 else -> PlayerHorizontalPadding
             }
             val titleSize = if (landscapePlayer) 25.sp else TextUnit.Unspecified
@@ -890,16 +723,13 @@ fun BottomSheetPlayer(
              * artwork's place, which is plenty of room without the controls giving any up.
              */
             val controlSizes = playerControlSizes(landscapePlayer = landscapePlayer, compact = compactPlayer)
-            val transportIconSize = controlSizes.transportIcon
-            val playButtonSize = controlSizes.playButton
+            val transportIconSize = if (playerFinish != HifiPlayerFinish.CURRENT && !compactPlayer) 48.dp else controlSizes.transportIcon
+            val playButtonSize = if (playerFinish != HifiPlayerFinish.CURRENT && !compactPlayer) {
+                if (landscapePlayer) 56.dp else 64.dp
+            } else controlSizes.playButton
+            val playButtonGap = if (playerFinish != HifiPlayerFinish.CURRENT) 4.dp else PlayButtonGap
 
-            // Sleep timer, lyrics and the menu one tap away on the player itself, not only inside
-            // the menu (yuuichi-s #54). The timer's fields are Compose state, so the buttons follow it.
-            val (sleepTimerOn, sleepTimerLeft) = rememberSleepTimerState(playerConnection)
-            var showSleepTimerDialog by remember { mutableStateOf(false) }
-            if (showSleepTimerDialog) {
-                SleepTimerDialog(playerConnection) { showSleepTimerDialog = false }
-            }
+            // RYM is one tap away here; the sleep timer remains in PlayerMenu.
 
             // Glass for the connected buttons whenever the player has it, grouped controls or not:
             // they are separate buttons either way.
@@ -930,28 +760,30 @@ fun BottomSheetPlayer(
                 haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
             }
 
-            // Classic: circles beside the title. Tertiary on the timer while it runs, and a
-            // tap then cancels it, as the menu's entry does. With the queue on a button it comes
-            // first, so like and the menu stay where they always were at the end of the row.
+            // Shared HiFi actions, also used by the separate portrait action row.
             val queueCircle: @Composable () -> Unit = {
                 PlayerCircleButton(
                     painter = rememberVectorPainter(Icons.AutoMirrored.Rounded.QueueMusic),
                     contentDescription = stringResource(R.string.queue),
                     container = MaterialTheme.colorScheme.primary,
-                    content = MaterialTheme.colorScheme.onPrimary,
+                    content = MaterialTheme.colorScheme.onSurface,
                     onClick = openQueue
                 )
             }
-            val timerCircle: @Composable () -> Unit = {
+            val openRymAlbum: () -> Unit = {
+                mediaMetadata?.album?.title?.takeIf { it.isNotBlank() }?.let { title ->
+                    RymLinks.open(context, title, mediaMetadata?.artists?.map { it.name }.orEmpty(), album = true)
+                }
+            }
+            val rymCircle: @Composable () -> Unit = {
                 PlayerCircleButton(
-                    painter = rememberVectorPainter(Icons.Rounded.Timer),
-                    contentDescription = stringResource(R.string.sleep_timer),
-                    container = if (sleepTimerOn) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.primary,
-                    content = if (sleepTimerOn) MaterialTheme.colorScheme.onTertiary else MaterialTheme.colorScheme.onPrimary,
-                    onClick = {
-                        if (sleepTimerOn) playerConnection.service.sleepTimer.clear()
-                        else showSleepTimerDialog = true
-                    }
+                    painter = rememberVectorPainter(RymIcon),
+                    iconContent = { RymBrandIcon() },
+                    contentDescription = stringResource(R.string.hifi_rym_album),
+                    container = MaterialTheme.colorScheme.surface,
+                    content = MaterialTheme.colorScheme.primary,
+                    enabled = !mediaMetadata?.album?.title.isNullOrBlank(),
+                    onClick = openRymAlbum,
                 )
             }
             val likeCircle: @Composable () -> Unit = {
@@ -959,7 +791,7 @@ fun BottomSheetPlayer(
                     painter = painterResource(if (currentSong?.song?.liked == true) R.drawable.favorite else R.drawable.favorite_border),
                     contentDescription = likeName(currentSong?.song?.liked == true),
                     container = MaterialTheme.colorScheme.primary,
-                    content = MaterialTheme.colorScheme.onPrimary,
+                    content = if (currentSong?.song?.liked == true) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                     onClick = playerConnection::toggleLike
                 )
             }
@@ -968,7 +800,7 @@ fun BottomSheetPlayer(
                     painter = rememberVectorPainter(Icons.Rounded.MoreVert),
                     contentDescription = stringResource(R.string.options),
                     container = MaterialTheme.colorScheme.primary,
-                    content = MaterialTheme.colorScheme.onPrimary,
+                    content = MaterialTheme.colorScheme.onSurface,
                     onClick = showPlayerMenu
                 )
             }
@@ -981,7 +813,7 @@ fun BottomSheetPlayer(
                     queueCircle()
                     Spacer(modifier = Modifier.width(7.dp))
                 }
-                timerCircle()
+                rymCircle()
                 Spacer(modifier = Modifier.width(7.dp))
                 likeCircle()
                 Spacer(modifier = Modifier.width(7.dp))
@@ -1003,7 +835,7 @@ fun BottomSheetPlayer(
                 ) {
                     if (left) {
                         queueCircle()
-                        timerCircle()
+                        rymCircle()
                     } else {
                         likeCircle()
                         menuCircle()
@@ -1050,31 +882,13 @@ fun BottomSheetPlayer(
 
             val actionButtons = if (buttonsStyle == PlayerButtonsStyle.CONNECTED) connectedButtons else classicButtons
 
-            /**
-             * Whether the buttons by the title sit beside it, sharing its line.
-             *
-             * Always in portrait. Phone landscape used to put them in a row above the title, and a
-             * long title then ran on right underneath share and like, touching them wherever the
-             * short landscape screen left no gap. Connected keeps its pair beside the title there
-             * too now, which also hands that row's height back to the controls. Classic keeps its
-             * row at the top of the two-pane column, lined up with the artwork, and narrow
-             * landscape keeps the buttons above the title.
-             *
-             * A tablet in landscape shows them nowhere, and keeps it that way unless the queue is
-             * on a button in Classic. Classic's queue button lives in its row of circles, and
-             * without that row the saved queues would be out of reach, so the row sits beside the
-             * title there too. Connected's queue button is in the row under the controls, which a
-             * tablet already shows.
-             *
-             * A small window puts Classic's circles beside the cover instead (see classicBesideCover):
-             * four circles beside the title left the title a few letters on a keypad phone, and a
-             * row of them above it took height from the cover. Connected's pair stays beside the
-             * title, with the queue in the row under the controls.
-             */
+            val buttonsBelowTitle = !isLandscape && !compactPlayer
+
+            // Compact and landscape players keep their space-saving action placement.
             val buttonsAboveTitle = isLandscape && !tabMode && !wideScreen
-            val buttonsBesideTitle = (!isLandscape && !classicBesideCover) ||
+            val buttonsBesideTitle = (!isLandscape && !classicBesideCover && !buttonsBelowTitle) ||
                 (landscapeTwoPane && buttonsStyle == PlayerButtonsStyle.CONNECTED) ||
-                (tabMode && queueAsButton && buttonsStyle == PlayerButtonsStyle.CLASSIC)
+                (isLandscape && tabMode && queueAsButton && buttonsStyle == PlayerButtonsStyle.CLASSIC)
 
             // Lyrics, the sleep timer and the menu under the transport controls, filled while the
             // thing they control is on. The timer shows what is left, so a running timer is visible
@@ -1132,20 +946,18 @@ fun BottomSheetPlayer(
                         },
                     )
                     PlayerActionSegment(
-                        painter = rememberVectorPainter(Icons.Rounded.Timer),
-                        contentDescription = stringResource(R.string.sleep_timer),
+                        painter = rememberVectorPainter(RymIcon),
+                        iconContent = { RymBrandIcon() },
+                        contentDescription = stringResource(R.string.hifi_rym_album),
+                        enabled = !mediaMetadata?.album?.title.isNullOrBlank(),
                         shape = connectedShape(first = false, last = false),
-                        container = if (sleepTimerOn) MaterialTheme.colorScheme.tertiary else inactive,
-                        filled = sleepTimerOn,
-                        content = if (sleepTimerOn) MaterialTheme.colorScheme.onTertiary else onBackgroundColor,
+                        container = inactive,
+                        filled = false,
+                        content = MaterialTheme.colorScheme.primary,
                         width = actionWidth,
-                        label = if (sleepTimerOn && sleepTimerLeft > 0) makeTimeString(sleepTimerLeft) else null,
                         backdrop = buttonBackdrop,
                         glassIntensity = glassIntensity,
-                        onClick = {
-                            if (sleepTimerOn) playerConnection.service.sleepTimer.clear()
-                            else showSleepTimerDialog = true
-                        },
+                        onClick = openRymAlbum,
                     )
                     PlayerActionSegment(
                         painter = rememberVectorPainter(Icons.Rounded.MoreVert),
@@ -1165,7 +977,7 @@ fun BottomSheetPlayer(
             val controlsContent: @Composable ColumnScope.(MediaMetadata) -> Unit = { mediaMetadata ->
                 Log.v(TAG, "PLR-3.xb")
                 val playPauseRoundness by animateDpAsState(
-                    targetValue = if (isPlaying) controlSizes.playingCorner else controlSizes.pausedCorner,
+                    targetValue = 8.dp,
                     animationSpec = tween(durationMillis = 100, easing = LinearEasing),
                     label = "playPauseRoundness"
                 )
@@ -1191,29 +1003,30 @@ fun BottomSheetPlayer(
                         .fillMaxWidth()
                         .padding(horizontal = hPadding)
                 ) {
-                    // The title and artists only ever get the width left of the buttons. They
-                    // scroll when they do not fit, and fade out at the end rather than stopping
-                    // mid-letter against the first button.
+                    // In portrait the title and artist have the full content width.
                     Column(modifier = Modifier.weight(1f)) {
-                        // The title scrolls, and fades, in the direction of its own letters. In
-                        // the app's direction a title written the other way began at its far
-                        // end: "…Julian Casablancas)" in the Arabic app. The column still puts
-                        // it on the app's side.
+                        // One fixed line each for title and artist; marquee does not resize
+                        // the compact control block when the selected song changes.
                         CompositionLocalProvider(
                             LocalLayoutDirection provides readingDirection(mediaMetadata.title, LocalLayoutDirection.current)
                         ) {
                             Text(
                                 text = mediaMetadata.title,
-                                style = MaterialTheme.typography.titleLarge,
+                                style = if (hardwarePortrait) MaterialTheme.typography.titleLarge.copy(
+                                    lineHeight = 24.sp,
+                                    platformStyle = PlatformTextStyle(includeFontPadding = false)
+                                ) else MaterialTheme.typography.titleLarge,
+                                fontFamily = hifiPlayerFont(mediaMetadata.title),
                                 fontSize = titleSize,
                                 color = onBackgroundColor,
                                 fontWeight = FontWeight.Bold,
+                                minLines = 1,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier
                                     .fadeWhenClipped()
                                     .basicMarquee(
-                                        iterations = 1,
+                                        iterations = if (hardwarePortrait) Int.MAX_VALUE else 1,
                                         initialDelayMillis = 3000
                                     )
                                     .clickable(enabled = mediaMetadata.album != null) {
@@ -1223,19 +1036,24 @@ fun BottomSheetPlayer(
                             )
                         }
 
-                        Row(modifier = Modifier.fadeWhenClipped()) {
+                        Row(modifier = Modifier.fadeWhenClipped().then(
+                            if (hardwarePortrait) Modifier.basicMarquee(iterations = Int.MAX_VALUE, initialDelayMillis = 3000) else Modifier
+                        )) {
                             mediaMetadata.artists.fastForEachIndexed { index, artist ->
                                 Text(
                                     text = artist.name,
-                                    style = MaterialTheme.typography.titleMedium,
+                                    style = if (hardwarePortrait) MaterialTheme.typography.titleMedium.copy(
+                                        lineHeight = 20.sp,
+                                        platformStyle = PlatformTextStyle(includeFontPadding = false)
+                                    ) else MaterialTheme.typography.titleMedium,
+                                    fontFamily = hifiPlayerFont(artist.name),
                                     fontSize = artistSize,
-                                    color = onBackgroundColor,
+                                    color = MaterialTheme.colorScheme.primary,
                                     maxLines = 1,
                                     modifier = Modifier
-                                        .basicMarquee(
-                                            iterations = 1,
-                                            initialDelayMillis = 5000
-                                        )
+                                        .then(if (hardwarePortrait) Modifier else Modifier.basicMarquee(
+                                            iterations = 1, initialDelayMillis = 5000
+                                        ))
                                         .clickable(enabled = artist.id != null) {
                                             mediaMetadata?.id?.let { ActivityLog.note(context, database, it, SignalKind.ARTIST_PAGE) }
                                             navController.navigate("artist/${artist.id}")
@@ -1248,7 +1066,10 @@ fun BottomSheetPlayer(
                                     // it, or it wraps and makes the artist line taller.
                                     Text(
                                         text = ", ",
-                                        style = MaterialTheme.typography.titleMedium,
+                                        style = if (hardwarePortrait) MaterialTheme.typography.titleMedium.copy(
+                                            lineHeight = 20.sp,
+                                            platformStyle = PlatformTextStyle(includeFontPadding = false)
+                                        ) else MaterialTheme.typography.titleMedium,
                                         fontSize = artistSize,
                                         color = onBackgroundColor,
                                         maxLines = 1
@@ -1260,6 +1081,22 @@ fun BottomSheetPlayer(
 
                     if (buttonsBesideTitle) {
                         actionButtons()
+                    }
+                }
+
+                if (buttonsBelowTitle) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = hPadding)
+                            .padding(top = 12.dp, bottom = 8.dp)
+                    ) {
+                        queueCircle()
+                        rymCircle()
+                        likeCircle()
+                        menuCircle()
                     }
                 }
 
@@ -1297,13 +1134,13 @@ fun BottomSheetPlayer(
                         thumb = {
                             SliderDefaults.Thumb(
                                 interactionSource = seekInteraction,
-                                thumbSize = DpSize(4.dp, 36.dp),
+                                thumbSize = DpSize(3.dp, 28.dp),
                             )
                         },
                         track = { sliderState ->
                             SliderDefaults.Track(
                                 sliderState = sliderState,
-                                modifier = Modifier.height(14.dp),
+                                modifier = Modifier.height(6.dp),
                                 thumbTrackGapSize = 5.dp,
                                 trackInsideCornerSize = 4.dp,
                             )
@@ -1346,6 +1183,7 @@ fun BottomSheetPlayer(
                         Text(
                             text = makeTimeString(sliderPosition ?: shownPosition),
                             style = MaterialTheme.typography.labelMedium,
+                            fontFamily = HifiPlayerTextFont,
                             color = onBackgroundColor,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
@@ -1354,13 +1192,14 @@ fun BottomSheetPlayer(
                         Text(
                             text = if (shownDuration != C.TIME_UNSET) makeTimeString(shownDuration) else "",
                             style = MaterialTheme.typography.labelMedium,
+                            fontFamily = HifiPlayerTextFont,
                             color = onBackgroundColor,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
                     }
 
-                    Spacer(Modifier.height(controlSizes.gapAboveTransport))
+                    Spacer(Modifier.height(if (hardwarePortrait) 16.dp else controlSizes.gapAboveTransport))
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -1387,12 +1226,13 @@ fun BottomSheetPlayer(
                     ) {
                         val shuffleModeEnabled by playerConnection.shuffleModeEnabled.collectAsState()
 
-                        Box(modifier = Modifier.weight(1f)) {
+                        Box(modifier = Modifier.weight(1f).hifiTransportWell(playerFinish)) {
                             ResizableIconButton(
                                 icon = if (shuffleModeEnabled) R.drawable.shuffle_on else R.drawable.shuffle_off,
                                 modifier = Modifier
                                     .size(transportIconSize)
-                                    .padding(4.dp)
+                                    .padding(if (playerFinish != HifiPlayerFinish.CURRENT) 10.dp else 0.dp)
+                                    .padding(if (playerFinish != HifiPlayerFinish.CURRENT) 0.dp else 4.dp)
                                     .align(Alignment.Center)
                                     .named(shuffleName(shuffleModeEnabled)),
                                 color = onBackgroundColor,
@@ -1404,12 +1244,13 @@ fun BottomSheetPlayer(
                             )
                         }
 
-                        Box(modifier = Modifier.weight(1f)) {
+                        Box(modifier = Modifier.weight(1f).hifiTransportWell(playerFinish)) {
                             ResizableIconButton(
                                 icon = Icons.Rounded.SkipPrevious,
                                 enabled = canSkipPrevious,
                                 modifier = Modifier
                                     .size(transportIconSize)
+                                    .padding(if (playerFinish != HifiPlayerFinish.CURRENT) 10.dp else 0.dp)
                                     .align(Alignment.Center)
                                     .named(stringResource(R.string.widget_previous)),
                                 color = onBackgroundColor,
@@ -1421,11 +1262,12 @@ fun BottomSheetPlayer(
                         }
 
                         if (seekIncrement != SeekIncrement.OFF) {
-                            Box(modifier = Modifier.weight(1f)) {
+                            Box(modifier = Modifier.weight(1f).hifiTransportWell(playerFinish)) {
                                 ResizableIconButton(
                                     icon = Icons.Rounded.FastRewind,
                                     modifier = Modifier
                                         .size(transportIconSize)
+                                    .padding(if (playerFinish != HifiPlayerFinish.CURRENT) 10.dp else 0.dp)
                                         .align(Alignment.Center)
                                         .named(seekBackName()),
                                     color = onBackgroundColor,
@@ -1437,14 +1279,15 @@ fun BottomSheetPlayer(
                             }
                         }
 
-                        Spacer(Modifier.width(PlayButtonGap))
+                        Spacer(Modifier.width(playButtonGap))
 
                         Box(
                             modifier = Modifier
                                 .size(playButtonSize)
                                 .animateContentSize()
                                 .clip(RoundedCornerShape(playPauseRoundness))
-                                .background(MaterialTheme.colorScheme.primary)
+                                .background(playbackAccent)
+                                .hifiHardwareButton(playerFinish)
                                 .focusRequester(playPauseFocus)
                                 .clickable {
                                     // One call. Loading the saved queue never prepares, and the
@@ -1458,21 +1301,22 @@ fun BottomSheetPlayer(
                             Image(
                                 imageVector = if (playbackState == STATE_ENDED) Icons.Rounded.Replay else if (isPlaying) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
                                 contentDescription = playPauseName(isPlaying && playbackState != STATE_ENDED),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
+                                colorFilter = ColorFilter.tint(onPlaybackAccent),
                                 modifier = Modifier
                                     .align(Alignment.Center)
-                                    .size(controlSizes.playIcon)
+                                    .size(if (playerFinish != HifiPlayerFinish.CURRENT) 30.dp else controlSizes.playIcon)
                             )
                         }
 
-                        Spacer(Modifier.width(PlayButtonGap))
+                        Spacer(Modifier.width(playButtonGap))
 
                         if (seekIncrement != SeekIncrement.OFF) {
-                            Box(modifier = Modifier.weight(1f)) {
+                            Box(modifier = Modifier.weight(1f).hifiTransportWell(playerFinish)) {
                                 ResizableIconButton(
                                     icon = Icons.Rounded.FastForward,
                                     modifier = Modifier
                                         .size(transportIconSize)
+                                    .padding(if (playerFinish != HifiPlayerFinish.CURRENT) 10.dp else 0.dp)
                                         .align(Alignment.Center)
                                         .named(seekForwardName()),
                                     color = onBackgroundColor,
@@ -1488,12 +1332,13 @@ fun BottomSheetPlayer(
 
 
 
-                        Box(modifier = Modifier.weight(1f)) {
+                        Box(modifier = Modifier.weight(1f).hifiTransportWell(playerFinish)) {
                             ResizableIconButton(
                                 icon = Icons.Rounded.SkipNext,
                                 enabled = canSkipNext,
                                 modifier = Modifier
                                     .size(transportIconSize)
+                                    .padding(if (playerFinish != HifiPlayerFinish.CURRENT) 10.dp else 0.dp)
                                     .align(Alignment.Center)
                                     .named(stringResource(R.string.widget_next)),
                                 color = onBackgroundColor,
@@ -1506,7 +1351,7 @@ fun BottomSheetPlayer(
                             )
                         }
 
-                        Box(modifier = Modifier.weight(1f)) {
+                        Box(modifier = Modifier.weight(1f).hifiTransportWell(playerFinish)) {
                             ResizableIconButton(
                                 icon = when (repeatMode) {
                                     REPEAT_MODE_OFF -> R.drawable.repeat_off
@@ -1516,7 +1361,8 @@ fun BottomSheetPlayer(
                                 },
                                 modifier = Modifier
                                     .size(transportIconSize)
-                                    .padding(4.dp)
+                                    .padding(if (playerFinish != HifiPlayerFinish.CURRENT) 10.dp else 0.dp)
+                                    .padding(if (playerFinish != HifiPlayerFinish.CURRENT) 0.dp else 4.dp)
                                     .align(Alignment.Center)
                                     .named(repeatName(repeatMode)),
                                 color = onBackgroundColor,
@@ -1530,7 +1376,7 @@ fun BottomSheetPlayer(
                     }
                 }
 
-                if (buttonsStyle == PlayerButtonsStyle.CONNECTED) quickActions()
+                if (buttonsStyle == PlayerButtonsStyle.CONNECTED && !buttonsBelowTitle) quickActions()
             }
 
 
@@ -1601,7 +1447,7 @@ fun BottomSheetPlayer(
                                 Thumbnail(
                                     sliderPositionProvider = { sliderPosition },
                                     modifier = Modifier
-                                        .width(maxWidth)
+                                        .width(LocalHifiArtworkViewportWidth.current ?: maxWidth)
                                         .animateContentSize(),
                                     showLyricsOnClick = true,
                                     customMediaMetadata = it,
@@ -1721,7 +1567,7 @@ fun BottomSheetPlayer(
                                 Thumbnail(
                                     smallWindow = compactPlayer,
                                     modifier = Modifier
-                                        .width(maxWidth)
+                                        .width(LocalHifiArtworkViewportWidth.current ?: maxWidth)
                                         .animateContentSize(),
                                     sliderPositionProvider = { sliderPosition },
                                     showLyricsOnClick = true,
@@ -1767,7 +1613,7 @@ fun BottomSheetPlayer(
                                     modifier = Modifier.fillMaxSize()
                                 ) {
                                     queueCircle()
-                                    timerCircle()
+                                    rymCircle()
                                     likeCircle()
                                     menuCircle()
                                 }
@@ -1795,7 +1641,7 @@ fun BottomSheetPlayer(
                             // A small player keeps this gap in queueReserve instead, outside the
                             // block, so the queue's grab strip over it never covers a control
                             // when the block has to shrink.
-                            if (!compactPlayer) Spacer(Modifier.height(24.dp))
+                            if (!compactPlayer) Spacer(Modifier.height(if (hardwarePortrait) 12.dp else 24.dp))
                         }
                         if (queueLayout.outputRoom > 0.dp) {
                             // Where the music is coming out, in the half of the queue's strip its
@@ -1906,6 +1752,8 @@ fun BottomSheetPlayer(
                     .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom + WindowInsetsSides.End))
                     .padding(end = 24.dp, bottom = 10.dp)
             )
+        }
+        }
         }
     }
 }
@@ -2153,25 +2001,31 @@ private class FadeWhenClippedNode(var length: Dp) : Modifier.Node(), LayoutModif
     }
 }
 
-/** The classic player button: a 36dp circle, sitting a little low to line up with the title. */
+/** Outlined HiFi action, with a 48dp touch target. */
 @Composable
 private fun PlayerCircleButton(
     painter: Painter,
     contentDescription: String?,
     container: Color,
     content: Color,
+    enabled: Boolean = true,
+    iconContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
 ) {
+    val finish = LocalHifiPlayerFinish.current
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .offset(y = 5.dp)
-            .size(36.dp)
+            .size(48.dp)
             .clip(CircleShape)
-            .background(container)
-            .clickable(onClick = onClick)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f), CircleShape)
+            .background(MaterialTheme.colorScheme.surface)
+            .hifiHardwareButton(finish)
+            .alpha(if (enabled) 1f else 0.4f)
+            .then(if (iconContent != null && contentDescription != null) Modifier.named(contentDescription) else Modifier)
+            .clickable(enabled = enabled, onClick = onClick)
     ) {
-        Icon(
+        if (iconContent != null) iconContent() else Icon(
             painter = painter,
             contentDescription = contentDescription,
             tint = content,
@@ -2189,6 +2043,8 @@ private fun PlayerActionSegment(
     container: Color,
     content: Color,
     onClick: () -> Unit,
+    iconContent: (@Composable () -> Unit)? = null,
+    enabled: Boolean = true,
     width: Dp = 44.dp,
     label: String? = null,
     backdrop: LayerBackdrop? = null,
@@ -2226,10 +2082,12 @@ private fun PlayerActionSegment(
                     )
                 else Modifier.background(container)
             )
-            .clickable(onClick = onClick)
+            .then(if (iconContent != null && contentDescription != null) Modifier.named(contentDescription) else Modifier)
+            .alpha(if (enabled) 1f else 0.4f)
+            .clickable(enabled = enabled, onClick = onClick)
             .padding(horizontal = 10.dp)
     ) {
-        Icon(
+        if (iconContent != null) iconContent() else Icon(
             painter = painter,
             contentDescription = contentDescription,
             tint = content,
@@ -2315,18 +2173,49 @@ private fun SwipeableArtwork(
             positionInLayout = { layoutSize, itemSize -> layoutSize / 2f - itemSize / 2f }
         )
     }
-    LazyHorizontalGrid(
-        state = gridState,
-        rows = GridCells.Fixed(1),
-        contentPadding = contentPadding,
-        flingBehavior = rememberSnapFlingBehavior(snap),
-        userScrollEnabled = scrollable,
-        modifier = modifier
-    ) {
-        items(items = mediaItems, key = { it.id }) { item(it) }
+    val finish = LocalHifiPlayerFinish.current
+    val showLyrics by rememberPreference(ShowLyricsKey, defaultValue = false)
+    val strip: @Composable (Modifier, PaddingValues) -> Unit = { gridModifier, padding ->
+        LazyHorizontalGrid(
+            state = gridState,
+            rows = GridCells.Fixed(1),
+            horizontalArrangement = Arrangement.spacedBy(
+                if (finish != HifiPlayerFinish.CURRENT && !showLyrics) 12.dp else 0.dp
+            ),
+            contentPadding = padding,
+            flingBehavior = rememberSnapFlingBehavior(snap),
+            userScrollEnabled = scrollable,
+            modifier = gridModifier
+        ) {
+            items(items = mediaItems, key = { it.id }) { item(it) }
+        }
+    }
+    if (finish != HifiPlayerFinish.CURRENT && !showLyrics) {
+        // One fixed window owns the mask and bezel. Only the artwork pages travel behind it.
+        val landscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+        BoxWithConstraints(
+            contentAlignment = if (landscape) Alignment.CenterStart else Alignment.Center,
+            modifier = modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top))
+                .padding(horizontal = if (landscape) 8.dp else 24.dp, vertical = if (landscape) 8.dp else 0.dp)
+        ) {
+            val side = minOf(maxWidth, maxHeight).coerceAtLeast(0.dp)
+            Box(
+                Modifier.size(side)
+                    .clip(RoundedCornerShape(6.dp))
+                    .background(Color(0xFF101214))
+                    .hifiArtworkBezel(finish)
+            ) {
+                CompositionLocalProvider(LocalHifiArtworkViewportWidth provides side) {
+                    strip(Modifier.fillMaxSize(), PaddingValues())
+                }
+            }
+        }
+    } else {
+        strip(modifier, contentPadding)
     }
 }
-
 /**
  * What a swipe on the artwork does: the next or the previous song. On a cold start the player is
  * still empty, so the restored queue goes into it first, as the previous button does.
